@@ -20,12 +20,16 @@ public class q2 {
 
         double media = (nota1+nota2+nota3+nota4)/4;
 
-        if(media >= 0 && media <= 5){
-            System.out.println("Esta reprovado, com media: "+media);
-        } else if (media >= 5.1 && media <= 6.9) {
-            System.out.println("Esta em exame, com media: "+media);
+        if(media>=0 && media <=10) {
+            if (media >= 0 && media <= 5) {
+                System.out.println("Esta reprovado, com media: " + media);
+            } else if (media >= 5.1 && media <= 6.9) {
+                System.out.println("Esta em exame, com media: " + media);
+            } else {
+                System.out.println("Esta aprovado, com media: " + media);
+            }
         }else {
-            System.out.println("Esta aprovado, com media: "+media);
+            System.out.println("Valor invalido, por favor confira as notas");
         }
 
     }
