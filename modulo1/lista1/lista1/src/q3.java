@@ -6,6 +6,7 @@ public class q3 {
         System.out.println("Valor total consumido: ");
         double consumo = sc.nextDouble();
         sc.nextLine();
+
         System.out.println("Valor pago pelo cliente: ");
         double pago = sc.nextDouble();
         sc.nextLine();

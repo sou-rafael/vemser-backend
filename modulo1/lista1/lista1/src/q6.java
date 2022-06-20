@@ -10,7 +10,7 @@ public class q6 {
         switch (idioma){
             case 1:
                 System.out.println("Digite a palavra em ingles e toda minuscula:");
-                String palavra = sc.nextLine();
+                String palavra = sc.nextLine().toLowerCase();
                 switch (palavra){
                     case "dog":
                         System.out.println("Cachorro");
@@ -42,7 +42,7 @@ public class q6 {
                 break;
             case 2:
                 System.out.println("Digite a palavra em portugues e toda minuscula:");
-                palavra = sc.nextLine();
+                palavra = sc.nextLine().toLowerCase();
                 switch (palavra){
                     case "cachorro":
                         System.out.println("Dog");

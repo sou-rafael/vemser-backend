@@ -12,6 +12,6 @@ public class q8 {
         sc.nextLine();
 
         area = base*altura;
-        System.out.println("Areea = "+area);
+        System.out.println("Area = "+area);
     }
 }
