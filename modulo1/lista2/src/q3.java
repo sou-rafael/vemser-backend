@@ -42,7 +42,7 @@ public class q3 {
 
         }
         mediaAltura = somaAltura/cont;
-        System.out.println("Quantidade de jogadores: "+cont);
+        System.out.println("Quantidade de jogadores: "+(cont-1));
         System.out.println("Altura do maior jogador eh"+maiorAltura);
         System.out.println("O jogador mais velho eh "+nomeMaisVelho+" com "+maiorIdade+" anos.");
         System.out.println("O jogador mais pesado eh "+nomeMaisPesado+" com "+maiorPeso+" kilos.");
