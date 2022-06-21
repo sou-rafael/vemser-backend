@@ -1,15 +1,15 @@
 import java.util.Scanner;
+import java.util.Random;
 public class q2 {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         int numAlvo, numTenta;
+        Random gerador = new Random();
 
-        System.out.println("Insira o numero alvo:");
-        numAlvo = sc.nextInt();
-        sc.nextLine();
+        numAlvo = gerador.nextInt(10);
 
         do {
-            System.out.println("Advinhe qual eh o numero alvo?");
+            System.out.println("Advinhe qual eh o numero que eu pensei.");
             numTenta = sc.nextInt();
             sc.nextLine();
             if(numAlvo < numTenta){
