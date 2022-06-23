@@ -65,24 +65,47 @@ public class Main {
         //--------------------------------------------
 //OPERAÇÕES EM CONTA CORRENTE
         //saque conta corrente
+        System.out.println("OP de Saque");
+        System.out.println("Saldo inicial contaC1 = "+contaC1.getSaldo());
         contaC1.sacar(1500);
+        System.out.println("Saldo dps do saque de 1500 na contaC1 = "+contaC1.getSaldo());
+        System.out.println("---------------");
+        System.out.println("Saldo inicial contaC2 = "+contaC2.getSaldo());
         contaC2.sacar(2600);
+        System.out.println("Saldo inicial contaC2 = "+contaC2.getSaldo());
+        System.out.println("---------------");
 
-        //depositar
+        //depositar em conta corrente
+        System.out.println("OP de Deposito");
+        System.out.println("Saldo inicial contaC2 = "+contaC1.getSaldo());
         contaC1.depositar(100);
+        System.out.println("Saldo dps do deposito de 100 contaC1 = "+contaC1.getSaldo());
+
+        System.out.println("---------------");
+        System.out.println("Saldo inicial contaC2 = "+contaC2.getSaldo());
         contaC2.depositar(500);
+        System.out.println("Saldo dps do deposito de 500 contaC2 = "+contaC2.getSaldo());
+        System.out.println("---------------");
+
+
 
         //saldo total
-        System.out.println("O saldoCC com cheque especial de contaC1 é: " + contaC1.retornarSaldoComChequeEspecial());
-        System.out.println("O saldoCC com cheque especial de contaC2 é: " + contaC2.retornarSaldoComChequeEspecial());
-
-
+        System.out.println("Saldo acrescido de cheque especial");
+        System.out.println("O saldoCC com cheque especial de contaC1 eh: " + contaC1.retornarSaldoComChequeEspecial());
+        System.out.println("O saldoCC com cheque especial de contaC2 eh: " + contaC2.retornarSaldoComChequeEspecial());
+        System.out.println("---------------");
+//
         //transferir valor entre contas
-        contaC1.transferir(contaC2, 700);
+
+        System.out.println("Transferencia de 700 entre contaC1 e contaC2 ");
+        System.out.println("Saldo atual contaC1 = "+contaC1.getSaldo());
+        System.out.println("Saldo atual contaC2 = "+contaC1.getSaldo());
+        System.out.println("---------------");
 
         //creditar taxa da conta poupanca
         contaP2.creditarTaxa();
         contaP2.imprimir();
+        System.out.println("---------------");
 
         //imprimir os dados da conta corrente
         contaC1.imprimir();
