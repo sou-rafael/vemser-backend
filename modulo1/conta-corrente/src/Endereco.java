@@ -1,12 +1,7 @@
 public class Endereco {
     int tipo = 0; // 1-residencial , 2-comercial
-    int numero = 0;
-    String logradouro="";
-    String complemento="";
-    String cep="";
-    String cidade="";
-    String estado="";
-    String pais="";
+    int numero;
+    String logradouro, complemento, cep, cidade, estado, pais;
 
     public void imprimirEndereco(){
         System.out.println("Logradouro: "+logradouro);
@@ -17,5 +12,17 @@ public class Endereco {
         System.out.println("Cidade: "+cidade+", Estado: "+estado+", Pais: "+pais);
 
     }
-
+    @Override
+    public String toString() {
+        return "Endereco{" +
+                "tipo=" + tipo +
+                ", logradouro='" + logradouro + '\'' +
+                ", numero=" + numero +
+                ", complemento='" + complemento + '\'' +
+                ", cep='" + cep + '\'' +
+                ", cidade='" + cidade + '\'' +
+                ", estado='" + estado + '\'' +
+                ", pais='" + pais + '\'' +
+                '}';
+    }
 }

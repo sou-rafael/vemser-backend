@@ -7,4 +7,8 @@ public class Contato {
         System.out.println("Descricao: "+descricao+"\nTelefone: "+telefone+"\nTipo: "+tipo);
 
     }
+    @Override
+    public String toString() {
+        return "Descricao='" + descricao +", telefone= " + telefone +", tipo=" + tipo;
+    }
 }

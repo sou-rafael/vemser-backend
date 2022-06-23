@@ -23,8 +23,11 @@ public class Cliente{
         return contatos;
     }
 
-    public void setContatos(Contato[] contatos) {
-        this.contatos = contatos;
+    public void setContatos(int posicao, String contato) {
+        if(posicao < this.contatos.length){
+            this.contatos[posicao] = contato;
+            this.contatos = contatos;
+        }
     }
 
     public Endereco[] getEnderecos() {

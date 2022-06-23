@@ -4,10 +4,14 @@ public class Cliente {
     Contato[] contatos = new Contato[2];
     Endereco[] enderecos = new Endereco[2];
 
+    public void imprimirCliente(){
+        System.out.println(this);
+        imprimirContatos();
+        imprimirEnderecos();
+    }
+
     public void imprimirContatos() {
         System.out.println("Listando os contatos");
-        contatos[0] = new Contato();
-        contatos[1] = new Contato();
         for (int i = 0; i < contatos.length; i++) {
             System.out.println(contatos[i]);
         }
@@ -19,9 +23,9 @@ public class Cliente {
             System.out.println(elem);
         }
     }
-
-    public void imprimirCliente(){
-        System.out.println("Nome: "+nome+"\nCPF: "+cpf);
-    }
+@Override
+    public String toString() {
+        return "Nome= "+nome+", CPF= "+ cpf;
+}
 
 }
