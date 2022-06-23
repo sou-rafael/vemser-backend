@@ -1,4 +1,4 @@
-public class ContaCorrente extends Conta {
+public class ContaCorrente extends Conta implements Impressao{
     private double chequeEspecial;
 
     public double getChequeEspecial() {
@@ -19,13 +19,12 @@ public class ContaCorrente extends Conta {
     }
 
     @Override
-    public String toString() {
-        return "ContaCorrente{" +
-                "cliente=" + super.getCliente() +
-                ", numeroConta='" + super.getNumeroConta() +
-                ", agencia=" + super.getAgencia() +
-                ", saldo=" + super.getSaldo() +
-                ", chequeEspecial=" + this.chequeEspecial +
-                '}';
+    public void imprimir() {
+        System.out.println("Cliente: ");
+        getCliente().imprimirCliente();
+        System.out.println("Numero da conta: "+getNumeroConta());
+        System.out.println("Agencia: "+getAgencia());
+        System.out.println("Saldo: "+getSaldo());
+        System.out.println("Saldo cheque especial: "+this.chequeEspecial);
     }
 }

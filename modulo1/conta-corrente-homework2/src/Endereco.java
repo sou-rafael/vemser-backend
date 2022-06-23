@@ -76,6 +76,20 @@ public class Endereco {
         System.out.println("Cidade: "+cidade+", Estado: "+estado+", Pais: "+pais);
 
     }
+//  Metodo construtor sem parametros e com eles
+    public Endereco(){
+    }
+    public Endereco(int tipo, String logradouro, int numero, String complemento, String cep, String cidade, String estado, String pais) {
+        this.tipo = tipo;
+        this.logradouro = logradouro;
+        this.numero = numero;
+        this.complemento = complemento;
+        this.cep = cep;
+        this.cidade = cidade;
+        this.estado = estado;
+        this.pais = pais;
+    }
+
     @Override
     public String toString() {
         return "Endereco{" +

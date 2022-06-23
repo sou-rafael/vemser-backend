@@ -31,6 +31,15 @@ public class Contato {
         System.out.println("Descricao: "+descricao+"\nTelefone: "+telefone+"\nTipo: "+tipo);
 
     }
+//    metodo construtor sem parametros e com eles
+    public Contato(){
+
+    }
+    public Contato(String descricao, String telefone, int tipo){
+        this.descricao = descricao;
+        this.telefone = telefone;
+        this.tipo = tipo;
+    }
     @Override
     public String toString() {
         return "Descricao='" + descricao +", telefone= " + telefone +", tipo=" + tipo;

@@ -1,7 +1,8 @@
-public class Cliente{
+public class Cliente {
     private String nome = "";
     private String cpf = "";
     private Contato[] contatos = new Contato[2];
+    private Endereco[] enderecos = new Endereco[2];
 
     public String getNome() {
         return nome;
@@ -23,12 +24,9 @@ public class Cliente{
         return contatos;
     }
 
-    public void setContatos(int posicao, String contato) {
-        if(posicao < this.contatos.length){
-            this.contatos[posicao] = contato;
-            this.contatos = contatos;
-        }
-    }
+    public void setContatos(Contato[] contatos) {
+        this.contatos = contatos;
+            }
 
     public Endereco[] getEnderecos() {
         return enderecos;
@@ -36,36 +34,28 @@ public class Cliente{
 
     public void setEnderecos(Endereco[] enderecos) {
         this.enderecos = enderecos;
-    }
+        }
 
-    private Endereco[] enderecos = new Endereco[2];
 
-//    metodo construtor
-    public Cliente(){
+//    falta metodo construtor
 
-    }
-    public void imprimirCliente(){
-        System.out.println(this);
-        imprimirContatos();
-        imprimirEnderecos();
-    }
 
-    public void imprimirContatos() {
-        System.out.println("Listando os contatos");
-        for (int i = 0; i < contatos.length; i++) {
-            System.out.println(contatos[i]);
+        public void imprimirCliente() {
+            System.out.printf("Nome: %s \n" + "Cpf: %s \n", this.nome, this.cpf);
+        }
+
+        public void imprimirContatos() {
+            for(int i = 0; i < contatos.length; i++) {
+                if (contatos != null) {
+                    contatos[i].imprimirContato();
+                }
+            }
+        }
+
+        public void imprimirEnderecos() {
+            for(int i = 0; i < enderecos.length; i++) {
+                if (enderecos != null)
+                    enderecos[i].imprimirEndereco();
+            }
         }
     }
-
-    public void imprimirEnderecos() {
-        System.out.println("Listando os enderecos");
-        for (Endereco elem: this.enderecos) {
-            System.out.println(elem);
-        }
-    }
-@Override
-    public String toString() {
-        return "Nome= "+nome+", CPF= "+ cpf;
-}
-
-}
