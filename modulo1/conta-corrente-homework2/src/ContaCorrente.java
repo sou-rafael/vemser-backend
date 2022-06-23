@@ -1,53 +1,31 @@
-public class ContaCorrente {
-    Cliente cliente;
-    String numeroConta = "";
-    int agencia = 0;
-    double saldo = 0;
-    double chequeEspecial = 0;
+public class ContaCorrente extends Conta {
+    private double chequeEspecial;
 
-    public void imprimirContaCorrente(){
-        System.out.println("Cliente: "+ cliente.nome);
-        System.out.println("Numero da conta: "+numeroConta);
-        System.out.println("Agencia: "+agencia);
-        System.out.println("Saldo: "+saldo);
+    public double getChequeEspecial() {
+        return chequeEspecial;
     }
 
-    public boolean sacar(double valor){
-        if(this.saldo > valor && valor > 0){
-            saldo -= valor;
-            return true;
-        }else return false;
+    public void setChequeEspecial(double chequeEspecial) {
+        this.chequeEspecial = chequeEspecial;
     }
-
-    public boolean depositar(double valor){
-        if(valor > 0) {
-            saldo += valor;
-            return true;
-        }
-        else return false;
-    }
-
     public double retornarSaldoComChequeEspecial(){
-        return this.saldo + this.chequeEspecial;
+
+        return super.getSaldo() + this.chequeEspecial;
     }
 
-    public boolean transferir(ContaCorrente outraCC, double valor){
-        // transferir da minhaCC para outraCC que for passada por parametro
-        if(this.saldo > 0 && valor > 0){
-            this.saldo -= valor;
-            outraCC.saldo += valor;
-            return true;
-        }else return false;
+    @Override
+    public boolean transferir(Conta conta, double valor) {
+        return false;
     }
 
     @Override
     public String toString() {
         return "ContaCorrente{" +
-                "cliente=" + cliente +
-                ", numeroConta='" + numeroConta + '\'' +
-                ", agencia=" + agencia +
-                ", saldo=" + saldo +
-                ", chequeEspecial=" + chequeEspecial +
+                "cliente=" + super.getCliente() +
+                ", numeroConta='" + super.getNumeroConta() +
+                ", agencia=" + super.getAgencia() +
+                ", saldo=" + super.getSaldo() +
+                ", chequeEspecial=" + this.chequeEspecial +
                 '}';
     }
 }

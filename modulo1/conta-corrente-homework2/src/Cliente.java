@@ -1,4 +1,4 @@
-public class Cliente {
+public class Cliente{
     private String nome = "";
     private String cpf = "";
     private Contato[] contatos = new Contato[2];
@@ -37,6 +37,10 @@ public class Cliente {
 
     private Endereco[] enderecos = new Endereco[2];
 
+//    metodo construtor
+    public Cliente(){
+
+    }
     public void imprimirCliente(){
         System.out.println(this);
         imprimirContatos();
