@@ -80,8 +80,9 @@ public class Main {
         //transferir valor entre contas
         contaC1.transferir(contaC2, 700);
 
-        //creditar taxa
-        //contaC2.creditarTaxa();
+        //creditar taxa da conta poupanca
+        contaP2.creditarTaxa();
+        contaP2.imprimir();
 
         //imprimir os dados da conta corrente
         contaC1.imprimir();
