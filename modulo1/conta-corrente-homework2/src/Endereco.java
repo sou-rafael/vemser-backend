@@ -77,8 +77,6 @@ public class Endereco {
 
     }
 //  Metodo construtor sem parametros e com eles
-    public Endereco(){
-    }
     public Endereco(int tipo, String logradouro, int numero, String complemento, String cep, String cidade, String estado, String pais) {
         this.tipo = tipo;
         this.logradouro = logradouro;
