@@ -1,6 +1,6 @@
 public class Cliente {
-    private String nome = "";
-    private String cpf = "";
+    private String nome;
+    private String cpf;
     private Contato[] contatos = new Contato[2];
     private Endereco[] enderecos = new Endereco[2];
 

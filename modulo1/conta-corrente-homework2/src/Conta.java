@@ -64,10 +64,8 @@ public abstract class Conta implements Movimentacao{
      @Override
     public boolean transferir(Conta conta, double valor){
         // transferir da minhaCC para outraCC que for passada por parametro
-        if(this.saldo > 0 && valor > 0){
-            this.saldo -= valor;
-            conta.setSaldo(getSaldo()+valor);
-            return true;
+        if(this.sacar(valor)){
+            return conta.depositar(valor);
         }else return false;
     }
 }

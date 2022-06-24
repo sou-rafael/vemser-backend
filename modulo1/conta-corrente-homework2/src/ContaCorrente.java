@@ -1,15 +1,14 @@
 public class ContaCorrente extends Conta implements Impressao{
     private double chequeEspecial;
 
-    public double getChequeEspecial() {
-        return chequeEspecial;
-    }
+//    public double getChequeEspecial() {
+//        return chequeEspecial;
+//    }
 
     public void setChequeEspecial(double chequeEspecial) {
         this.chequeEspecial = chequeEspecial;
     }
     public double retornarSaldoComChequeEspecial(){
-
         return super.getSaldo() + this.chequeEspecial;
     }
 
@@ -27,4 +26,6 @@ public class ContaCorrente extends Conta implements Impressao{
         System.out.println("Saldo: "+getSaldo());
         System.out.println("Saldo cheque especial: "+this.chequeEspecial);
     }
+
+//    implementar o sacar com override pq vou precisar faazer com q ele mude p usar o valor do cheque especial
 }

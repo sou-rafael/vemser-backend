@@ -11,9 +11,13 @@ public class Main {
         Contato[] contatoc1 = new Contato[] {cont1, cont2};
         cliente1.setContatos(contatoc1);
 
+        //Contato ex1 = newgetContato()[0];
+
         // inserindo enderecos
-        Endereco end1c1 = new Endereco(1, "rua 12", 3, "sem compl", "64000-000","Teresina", "Piaui", "Brasil");
-        Endereco end2c1 = new Endereco(2, "rua clara", 345, "sem compl", "64034-000","Parnaiba", "Piaui", "Brasil");
+        Endereco end1c1 = new Endereco(1, "rua 12", 3, "sem compl",
+                "64000-000","Teresina", "Piaui", "Brasil");
+        Endereco end2c1 = new Endereco(2, "rua clara", 345, "sem compl",
+                "64034-000","Parnaiba", "Piaui", "Brasil");
         Endereco[] endereco = new Endereco[] {end1c1,end2c1};
         cliente1.setEnderecos(endereco);
 
@@ -29,8 +33,10 @@ public class Main {
         cliente1.setContatos(contatoc2);
 
         // inserindo enderecos
-        Endereco end1c2 = new Endereco(1, "rua alta", 2578, "sem compl", "65069-796","Buriti", "Ceara", "Brasil");
-        Endereco end2c2 = new Endereco(2, "rua sem jeito", 4358, "sem compl", "64034-000","Floriano", "Piaui", "Brasil");
+        Endereco end1c2 = new Endereco(1, "rua alta", 2578, "sem compl",
+                "65069-796","Buriti", "Ceara", "Brasil");
+        Endereco end2c2 = new Endereco(2, "rua sem jeito", 4358, "sem compl",
+                "64034-000","Floriano", "Piaui", "Brasil");
         Endereco[] enderecoc2 = new Endereco[] {end1c2,end2c2};
         cliente1.setEnderecos(enderecoc2);
 //     ************************************************
