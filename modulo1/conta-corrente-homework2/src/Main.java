@@ -11,7 +11,7 @@ public class Main {
         Contato[] contatoc1 = new Contato[] {cont1, cont2};
         cliente1.setContatos(contatoc1);
 
-        //Contato ex1 = newgetContato()[0];
+        //Contato ex1 = newgetContato()[0]; ??
 
         // inserindo enderecos
         Endereco end1c1 = new Endereco(1, "rua 12", 3, "sem compl",

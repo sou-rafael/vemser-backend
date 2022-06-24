@@ -41,12 +41,12 @@ public class Cliente {
 
 
         public void imprimirCliente() {
-            System.out.printf("Nome: %s \n" + "Cpf: %s \n", this.nome, this.cpf);
+            System.out.println("Nome: "+this.nome+"\nCpf: "+this.cpf);
         }
 
         public void imprimirContatos() {
             for(int i = 0; i < contatos.length; i++) {
-                if (contatos != null) {
+                if (contatos[i] != null) {
                     contatos[i].imprimirContato();
                 }
             }
@@ -54,7 +54,7 @@ public class Cliente {
 
         public void imprimirEnderecos() {
             for(int i = 0; i < enderecos.length; i++) {
-                if (enderecos != null)
+                if (enderecos[i] != null)
                     enderecos[i].imprimirEndereco();
             }
         }

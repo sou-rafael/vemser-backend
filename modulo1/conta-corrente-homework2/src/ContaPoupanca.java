@@ -10,16 +10,16 @@ public class ContaPoupanca extends Conta implements Impressao{
     }
 
     public void creditarTaxa(){
-        super.setSaldo(super.getSaldo() * this.JUROS_MENSAL);
+        this.setSaldo(super.getSaldo() * this.JUROS_MENSAL);
     }
 
 @Override
 public void imprimir() {
         System.out.println("Dados da ContaPoupanca");
         System.out.println("Cliente: ");
-        getCliente().imprimirCliente();
-        System.out.println("Numero da conta: "+getNumeroConta());
-        System.out.println("Agencia: "+getAgencia());
-        System.out.println("Saldo: "+getSaldo());
+        this.getCliente().imprimirCliente();
+        System.out.println("Numero da conta: "+this.getNumeroConta());
+        System.out.println("Agencia: "+this.getAgencia());
+        System.out.println("Saldo: "+this.getSaldo());
     }
 }
