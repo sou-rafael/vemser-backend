@@ -4,9 +4,7 @@ public class Cliente {
     private String nome;
     private String cpf;
     ArrayList<Contato> contatos; // não precisa instanciar a ArrayList dentro da Cliente
-//    private Contato[] contatos = new Contato[2];
     ArrayList<Endereco> enderecos;
-//    private Endereco[] enderecos = new Endereco[2];
 
     public String getNome() {
         return nome;
@@ -40,8 +38,6 @@ public class Cliente {
         this.enderecos = enderecos;
     }
 
-//    falta metodo construtor
-
 
     public Cliente(String nome, String cpf, ArrayList<Contato> contatos, ArrayList<Endereco> enderecos) {
         this.nome = nome;
@@ -51,20 +47,22 @@ public class Cliente {
     }
 
     public void imprimirCliente() {
-            System.out.println("Nome: "+this.nome+"\nCpf: "+this.cpf);
-        }
+        System.out.println("Nome: " + this.nome + "\nCpf: " + this.cpf);
+    }
+
     public void imprimirContatos() {
-        for(int i = 0; i < contatos.size(); i++) {
-            if (contatos.get(i) != null) {
+        if (contatos != null) {
+            for (int i = 0; i < contatos.size(); i++) {
                 contatos.get(i).imprimirContato();
             }
         }
     }
 
     public void imprimirEnderecos() {
-        for(int i = 0; i < enderecos.size(); i++) {
-            if (enderecos.get(i) != null)
+        if (enderecos != null) {
+            for (int i = 0; i < enderecos.size(); i++) {
                 enderecos.get(i).imprimirEndereco();
+            }
         }
     }
 }
