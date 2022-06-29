@@ -3,9 +3,9 @@ import java.util.ArrayList;
 public class Cliente {
     private String nome;
     private String cpf;
-    ArrayList<Contato> contatos = new ArrayList<>();
+    ArrayList<Contato> contatos; // não precisa instanciar a ArrayList dentro da Cliente
 //    private Contato[] contatos = new Contato[2];
-    ArrayList<Endereco> enderecos = new ArrayList<>();
+    ArrayList<Endereco> enderecos;
 //    private Endereco[] enderecos = new Endereco[2];
 
     public String getNome() {
@@ -53,19 +53,18 @@ public class Cliente {
     public void imprimirCliente() {
             System.out.println("Nome: "+this.nome+"\nCpf: "+this.cpf);
         }
-
-        public void imprimirContatos() {
-            for(int i = 0; i < contatos.size(); i++) {
-                if (contatos.get(i) != null) {
-                    contatos.get(i).imprimirContato();
-                }
-            }
-        }
-
-        public void imprimirEnderecos() {
-            for(int i = 0; i < enderecos.size(); i++) {
-                if (enderecos.get(i) != null)
-                    enderecos.get(i).imprimirEndereco();
+    public void imprimirContatos() {
+        for(int i = 0; i < contatos.size(); i++) {
+            if (contatos.get(i) != null) {
+                contatos.get(i).imprimirContato();
             }
         }
     }
+
+    public void imprimirEnderecos() {
+        for(int i = 0; i < enderecos.size(); i++) {
+            if (enderecos.get(i) != null)
+                enderecos.get(i).imprimirEndereco();
+        }
+    }
+}

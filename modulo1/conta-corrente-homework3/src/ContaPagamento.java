@@ -15,9 +15,7 @@ public class ContaPagamento extends Conta implements Impressao {
     @Override
     public boolean transferir(Conta conta, double valor) {
         if(this.getSaldo()>valor && valor>0){
-            this.sacar(valor);
-            conta.depositar(valor);
-            return true;
+            return super.sacar(valor) && conta.depositar(valor);
         }
         return false;
     }

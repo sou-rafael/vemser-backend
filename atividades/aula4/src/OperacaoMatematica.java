@@ -1,3 +1,3 @@
 public interface OperacaoMatematica {
-    public int calcular(int a, int b);
+    int calcular(int a, int b);
 }
