@@ -140,7 +140,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "https://back-vemserdbc.herokuapp.com/contato?idPessoa=1",
+							"raw": "https://back-vemserdbc.herokuapp.com/contato/1",
 							"protocol": "https",
 							"host": [
 								"back-vemserdbc",
@@ -148,13 +148,8 @@
 								"com"
 							],
 							"path": [
-								"contato"
-							],
-							"query": [
-								{
-									"key": "idPessoa",
-									"value": "1"
-								}
+								"contato",
+								"1"
 							]
 						}
 					},
@@ -167,7 +162,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "[{\r\n        \"tipoContato\": \"RESIDENCIAL\",\r\n        \"numero\": \"99955876566\",\r\n        \"descricao\": \"whatsapp\"\r\n    }]",
+							"raw": "{\r\n        \"tipoContato\": \"COMERCIAL\",\r\n        \"numero\": \"22222222\",\r\n        \"descricao\": \"whatsapp\"\r\n    }",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -175,7 +170,7 @@
 							}
 						},
 						"url": {
-							"raw": "https://back-vemserdbc.herokuapp.com/contato?idPessoa",
+							"raw": "https://back-vemserdbc.herokuapp.com/contato/1",
 							"protocol": "https",
 							"host": [
 								"back-vemserdbc",
@@ -183,13 +178,8 @@
 								"com"
 							],
 							"path": [
-								"contato"
-							],
-							"query": [
-								{
-									"key": "idPessoa",
-									"value": null
-								}
+								"contato",
+								"1"
 							]
 						}
 					},
@@ -202,7 +192,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n        \"tipoContato\": \"VENDA\",\r\n        \"numero\": \"99955876566\",\r\n        \"descricao\": \"whatsapp\"\r\n}",
+							"raw": "{\r\n        \"tipoContato\": \"COMERCIAL\",\r\n        \"numero\": \"22222888222\",\r\n        \"descricao\": \"whatsapp\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -210,7 +200,7 @@
 							}
 						},
 						"url": {
-							"raw": "https://back-vemserdbc.herokuapp.com/contato?idContato=2",
+							"raw": "https://back-vemserdbc.herokuapp.com/contato/10",
 							"protocol": "https",
 							"host": [
 								"back-vemserdbc",
@@ -218,13 +208,8 @@
 								"com"
 							],
 							"path": [
-								"contato"
-							],
-							"query": [
-								{
-									"key": "idContato",
-									"value": "2"
-								}
+								"contato",
+								"10"
 							]
 						}
 					},
@@ -236,7 +221,7 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "https://back-vemserdbc.herokuapp.com/contato?idContato=2",
+							"raw": "https://back-vemserdbc.herokuapp.com/contato/3",
 							"protocol": "https",
 							"host": [
 								"back-vemserdbc",
@@ -244,13 +229,8 @@
 								"com"
 							],
 							"path": [
-								"contato"
-							],
-							"query": [
-								{
-									"key": "idContato",
-									"value": "2"
-								}
+								"contato",
+								"3"
 							]
 						}
 					},

@@ -7,6 +7,132 @@
 	},
 	"item": [
 		{
+			"name": "posts",
+			"item": [
+				{
+					"name": "Posts GET geral",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://jsonplaceholder.typicode.com/posts",
+							"protocol": "https",
+							"host": [
+								"jsonplaceholder",
+								"typicode",
+								"com"
+							],
+							"path": [
+								"posts"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Posts GET / id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://jsonplaceholder.typicode.com/posts/50",
+							"protocol": "https",
+							"host": [
+								"jsonplaceholder",
+								"typicode",
+								"com"
+							],
+							"path": [
+								"posts",
+								"50"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Posts CRIAR",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n        \"userId\": 5,\r\n        \"title\": \"cavalo-marinho\",\r\n        \"body\": \"quia et suscipit\\nsuscipit recusandae consequuntur expedita et cum\\nreprehenderit molestiae ut ut quas totam\\nnostrum rerum est autem sunt rem eveniet architecto\"\r\n    }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://jsonplaceholder.typicode.com/posts",
+							"protocol": "https",
+							"host": [
+								"jsonplaceholder",
+								"typicode",
+								"com"
+							],
+							"path": [
+								"posts"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Posts EDITAR",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n        \"userId\": 1,\r\n        \"title\": \"sunt aut facere repellat provident occaecati excepturi optio reprehenderit\",\r\n        \"body\": \"quia et suscipit\\nsuscipit recusandae consequuntur expedita et cum\\nreprehenderit molestiae ut ut quas totam\\nnostrum rerum est autem sunt rem eveniet architecto\"\r\n    }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://jsonplaceholder.typicode.com/posts/30",
+							"protocol": "https",
+							"host": [
+								"jsonplaceholder",
+								"typicode",
+								"com"
+							],
+							"path": [
+								"posts",
+								"30"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Posts DELETE",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "https://jsonplaceholder.typicode.com/posts/20",
+							"protocol": "https",
+							"host": [
+								"jsonplaceholder",
+								"typicode",
+								"com"
+							],
+							"path": [
+								"posts",
+								"20"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
 			"name": "comments",
 			"item": [
 				{
@@ -629,132 +755,6 @@
 							"path": [
 								"users",
 								"2"
-							]
-						}
-					},
-					"response": []
-				}
-			]
-		},
-		{
-			"name": "posts",
-			"item": [
-				{
-					"name": "Posts GET geral",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "https://jsonplaceholder.typicode.com/posts",
-							"protocol": "https",
-							"host": [
-								"jsonplaceholder",
-								"typicode",
-								"com"
-							],
-							"path": [
-								"posts"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Posts GET / id",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "https://jsonplaceholder.typicode.com/posts/50",
-							"protocol": "https",
-							"host": [
-								"jsonplaceholder",
-								"typicode",
-								"com"
-							],
-							"path": [
-								"posts",
-								"50"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Posts CRIAR",
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n        \"userId\": 5,\r\n        \"title\": \"cavalo-marinho\",\r\n        \"body\": \"quia et suscipit\\nsuscipit recusandae consequuntur expedita et cum\\nreprehenderit molestiae ut ut quas totam\\nnostrum rerum est autem sunt rem eveniet architecto\"\r\n    }",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "https://jsonplaceholder.typicode.com/posts",
-							"protocol": "https",
-							"host": [
-								"jsonplaceholder",
-								"typicode",
-								"com"
-							],
-							"path": [
-								"posts"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Posts EDITAR",
-					"request": {
-						"method": "PUT",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n        \"userId\": 1,\r\n        \"title\": \"sunt aut facere repellat provident occaecati excepturi optio reprehenderit\",\r\n        \"body\": \"quia et suscipit\\nsuscipit recusandae consequuntur expedita et cum\\nreprehenderit molestiae ut ut quas totam\\nnostrum rerum est autem sunt rem eveniet architecto\"\r\n    }",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "https://jsonplaceholder.typicode.com/posts/30",
-							"protocol": "https",
-							"host": [
-								"jsonplaceholder",
-								"typicode",
-								"com"
-							],
-							"path": [
-								"posts",
-								"30"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Posts DELETE",
-					"request": {
-						"method": "DELETE",
-						"header": [],
-						"url": {
-							"raw": "https://jsonplaceholder.typicode.com/posts/20",
-							"protocol": "https",
-							"host": [
-								"jsonplaceholder",
-								"typicode",
-								"com"
-							],
-							"path": [
-								"posts",
-								"20"
 							]
 						}
 					},
