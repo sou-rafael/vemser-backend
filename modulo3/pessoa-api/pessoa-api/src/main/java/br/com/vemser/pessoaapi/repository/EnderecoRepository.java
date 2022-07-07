@@ -15,19 +15,20 @@ public class EnderecoRepository {
     private static List<Endereco> listaEnderecos = new ArrayList<>();
     private AtomicInteger COUNTER = new AtomicInteger();
 
-    public EnderecoRepository(){
-        listaEnderecos.add(new Endereco(COUNTER.incrementAndGet(), 1, TipoEndereco.COMERCIAL, "rua qualquer",12, "", "64000111", "Teresina", "Piaui", "Brasil"));
-        listaEnderecos.add(new Endereco(COUNTER.incrementAndGet(), 1, TipoEndereco.RESIDENCIAL, "rua torta",354, "", "64000333", "Teresina", "Piaui", "Brasil"));
-        listaEnderecos.add(new Endereco(COUNTER.incrementAndGet(), 2, TipoEndereco.COMERCIAL, "avenida das normalistas",8461, "", "64002177", "Sao Luis", "Maranhao", "Brasil"));
-        listaEnderecos.add(new Endereco(COUNTER.incrementAndGet(), 2, TipoEndereco.RESIDENCIAL, "rua escura",11552, "", "64022121", "Sao Luis", "Maranhao", "Brasil"));
-        listaEnderecos.add(new Endereco(COUNTER.incrementAndGet(), 3, TipoEndereco.COMERCIAL, "rua clara",186, "", "54000219", "Joao Pessoa", "Paraiba", "Brasil"));
-        listaEnderecos.add(new Endereco(COUNTER.incrementAndGet(), 3, TipoEndereco.RESIDENCIAL, "avenida dos Ipes",978, "", "24500118", "Joao Pessoa", "Paraiba", "Brasil"));
+    public EnderecoRepository() {
+        listaEnderecos.add(new Endereco(COUNTER.incrementAndGet(), 1, TipoEndereco.COMERCIAL, "rua qualquer", 12, "", "64000111", "Teresina", "Piaui", "Brasil"));
+        listaEnderecos.add(new Endereco(COUNTER.incrementAndGet(), 1, TipoEndereco.RESIDENCIAL, "rua torta", 354, "", "64000333", "Teresina", "Piaui", "Brasil"));
+        listaEnderecos.add(new Endereco(COUNTER.incrementAndGet(), 2, TipoEndereco.COMERCIAL, "avenida das normalistas", 8461, "", "64002177", "Sao Luis", "Maranhao", "Brasil"));
+        listaEnderecos.add(new Endereco(COUNTER.incrementAndGet(), 2, TipoEndereco.RESIDENCIAL, "rua escura", 11552, "", "64022121", "Sao Luis", "Maranhao", "Brasil"));
+        listaEnderecos.add(new Endereco(COUNTER.incrementAndGet(), 3, TipoEndereco.COMERCIAL, "rua clara", 186, "", "54000219", "Joao Pessoa", "Paraiba", "Brasil"));
+        listaEnderecos.add(new Endereco(COUNTER.incrementAndGet(), 3, TipoEndereco.RESIDENCIAL, "avenida dos Ipes", 978, "", "24500118", "Joao Pessoa", "Paraiba", "Brasil"));
     }
 
     //GET /endereco -- listar todos
-    public List<Endereco> listar(){
+    public List<Endereco> listar() {
         return listaEnderecos;
     }
+
     //GET /endereco/{idEndereco} -- recupera o endereco especifico
     public List<Endereco> listarIdEndereco(Integer idEndereco) {
         return listaEnderecos.stream()
@@ -36,14 +37,14 @@ public class EnderecoRepository {
     }
 
     //GET /endereco/{idPessoa}/pessoa -- recupera endereços por pessoa
-    public List<Endereco> listarEnderecoPorIdPessoa(Integer idPessoa){
+    public List<Endereco> listarEnderecoPorIdPessoa(Integer idPessoa) {
         return listaEnderecos.stream()
                 .filter(endereco -> endereco.getIdPessoa().equals(idPessoa))
                 .collect(Collectors.toList());
     }
 
     //POST /endereco/{idPessoa} -- recebe a pessoa, o endereco e cria o endereco com id da pessoa
-    public Endereco criar(Integer idPessoa, Endereco endereco){
+    public Endereco criar(Integer idPessoa, Endereco endereco) {
         endereco.setIdEndereco(COUNTER.incrementAndGet());
         endereco.setIdPessoa(idPessoa);
         listaEnderecos.add(endereco);
@@ -55,7 +56,7 @@ public class EnderecoRepository {
         Endereco enderecoAtual = listaEnderecos.stream()
                 .filter(endereco -> endereco.getIdEndereco().equals(idEndereco))
                 .findFirst()
-                .orElseThrow(()->new Exception("Endereco nao encontrado"));
+                .orElseThrow(() -> new Exception("Endereco nao encontrado"));
         enderecoAtual.setIdPessoa(enderecoNovo.getIdPessoa());
         enderecoAtual.setTipo(enderecoNovo.getTipo());
         enderecoAtual.setLogradouro(enderecoNovo.getLogradouro());
@@ -68,12 +69,13 @@ public class EnderecoRepository {
 
         return enderecoAtual;
     }
+
     //DELETE “/endereco/{idEndereco}” -- remove o endereço pelo id
-    public void apagar(Integer idEndereco) throws Exception{
+    public void apagar(Integer idEndereco) throws Exception {
         Endereco enderecoApagar = listaEnderecos.stream()
                 .filter(endereco -> endereco.getIdEndereco().equals(idEndereco))
                 .findFirst()
-                .orElseThrow(()->new Exception("Endereco nao encontrado"));
+                .orElseThrow(() -> new Exception("Endereco nao encontrado"));
         listaEnderecos.remove(enderecoApagar);
     }
 }

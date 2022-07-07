@@ -21,8 +21,9 @@ public class ContatoController {
     public List<Contato> listarTodos() {
         return contatoService.listar();
     }
+
     @GetMapping("/{idPessoa}") // com variavel
-    public List<Contato> listarIdPessoa(@PathVariable("idPessoa")Integer idPessoa) {
+    public List<Contato> listarIdPessoa(@PathVariable("idPessoa") Integer idPessoa) {
         return contatoService.listarIdPessoa(idPessoa);
     }
     /*@GetMapping("/{idPessoa}") // com ?query
@@ -42,7 +43,7 @@ public class ContatoController {
     }
 
     @DeleteMapping("/{idContato}")
-    public void apagar(@PathVariable("idContato")Integer idContato) throws Exception{
+    public void apagar(@PathVariable("idContato") Integer idContato) throws Exception {
         contatoService.apagar(idContato);
     }
 }

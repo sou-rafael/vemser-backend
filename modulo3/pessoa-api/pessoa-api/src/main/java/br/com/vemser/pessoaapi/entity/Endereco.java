@@ -84,9 +84,13 @@ public class Endereco {
         this.pais = pais;
     }
 
-    public Integer getIdEndereco() {return idEndereco;}
+    public Integer getIdEndereco() {
+        return idEndereco;
+    }
 
-    public void setIdEndereco(Integer idEndereco) {this.idEndereco = idEndereco;}
+    public void setIdEndereco(Integer idEndereco) {
+        this.idEndereco = idEndereco;
+    }
 
     public Endereco(Integer idEndereco, Integer idPessoa, TipoEndereco tipo, String logradouro, Integer numero, String complemento, String cep, String cidade, String estado, String pais) {
         this.idEndereco = idEndereco;

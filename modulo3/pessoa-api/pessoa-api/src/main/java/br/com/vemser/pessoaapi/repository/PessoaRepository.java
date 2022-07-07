@@ -11,8 +11,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
+
 @Repository
 public class PessoaRepository {
+    public static List<Pessoa> getListaPessoas() {
+        return listaPessoas;
+    }
+
     private static List<Pessoa> listaPessoas = new ArrayList<Pessoa>();
     private AtomicInteger COUNTER = new AtomicInteger();
 
@@ -31,6 +36,7 @@ public class PessoaRepository {
         listaPessoas.add(pessoa);
         return pessoa;
     }
+
     //GET GERAL
     public List<Pessoa> list() {
         return listaPessoas;
@@ -38,32 +44,15 @@ public class PessoaRepository {
 
     //PUT
     public Pessoa update(Integer id, Pessoa pessoaAtualizar) throws Exception {
-        Pessoa pessoaRecuperada = listaPessoas.stream()
-                .filter(pessoa -> pessoa.getIdPessoa().equals(id))
-                .findFirst()
-                .orElseThrow(() -> new Exception("Pessoa não econtrada"));
-
-        pessoaRecuperada.setCpf(pessoaAtualizar.getCpf());
-        pessoaRecuperada.setNome(pessoaAtualizar.getNome());
-        pessoaRecuperada.setDataNascimento(pessoaAtualizar.getDataNascimento());
-        pessoaRecuperada.setIdPessoa(id);
-
-        return pessoaRecuperada;
+        return null;
     }
 
     //DELETE
     public void delete(Integer id) throws Exception {
-        Pessoa pessoaRecuperada = listaPessoas.stream()
-                .filter(pessoa -> pessoa.getIdPessoa().equals(id))
-                .findFirst()
-                .orElseThrow(() -> new Exception("Pessoa não econtrada"));
-        listaPessoas.remove(pessoaRecuperada);
     }
 
     //GET POR NOME
     public List<Pessoa> listByName(String nome) {
-        return listaPessoas.stream()
-                .filter(pessoa -> pessoa.getNome().toUpperCase().contains(nome.toUpperCase()))
-                .collect(Collectors.toList());
+        return null;
     }
 }

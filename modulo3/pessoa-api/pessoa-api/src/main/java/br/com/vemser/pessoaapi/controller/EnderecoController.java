@@ -2,7 +2,6 @@ package br.com.vemser.pessoaapi.controller;
 
 import br.com.vemser.pessoaapi.entity.Endereco;
 import br.com.vemser.pessoaapi.service.EnderecoService;
-import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,21 +13,23 @@ public class EnderecoController {
     @Autowired
     private EnderecoService enderecoService;
 
-//    CONSTRUTOR
+    //    CONSTRUTOR
     public EnderecoController(EnderecoService enderecoService) {
         this.enderecoService = enderecoService;
     }
 
     @GetMapping
-    public List<Endereco> listar(){return enderecoService.listar();}
+    public List<Endereco> listar() {
+        return enderecoService.listar();
+    }
 
     @GetMapping("/{idEndereco}")
-    public List<Endereco> listarIdEndereco(@PathVariable("idEndereco") Integer idEndereco){
+    public List<Endereco> listarIdEndereco(@PathVariable("idEndereco") Integer idEndereco) {
         return enderecoService.listarIdEndereco(idEndereco);
     }
 
     @GetMapping("/{idPessoa}/pessoa")
-    public List<Endereco> listarEnderecoPorIdPessoa(@PathVariable("idPessoa") Integer idPessoa){
+    public List<Endereco> listarEnderecoPorIdPessoa(@PathVariable("idPessoa") Integer idPessoa) {
         return enderecoService.listarEnderecoPorIdPessoa(idPessoa);
     }
 
@@ -43,7 +44,7 @@ public class EnderecoController {
     }
 
     @DeleteMapping("/{idEndereco}")
-    public void apagar(@PathVariable Integer idEndereco) throws Exception{
+    public void apagar(@PathVariable Integer idEndereco) throws Exception {
         enderecoService.apagar(idEndereco);
     }
 }
