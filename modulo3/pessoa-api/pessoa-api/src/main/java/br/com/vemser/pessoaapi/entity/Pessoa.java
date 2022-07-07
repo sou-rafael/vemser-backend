@@ -8,6 +8,9 @@ public class Pessoa {
     private LocalDate dataNascimento;
     private String cpf;
 
+    public Pessoa() {
+    }
+
     public Pessoa(Integer idPessoa, String nome, LocalDate dataNascimento, String cpf) {
         this.idPessoa = idPessoa;
         this.nome = nome;
@@ -47,4 +50,13 @@ public class Pessoa {
         this.cpf = cpf;
     }
 
+    @Override
+    public String toString() {
+        return "Pessoa{" +
+                "idPessoa=" + idPessoa +
+                ", nome='" + nome + '\'' +
+                ", dataNascimento=" + dataNascimento +
+                ", cpf='" + cpf + '\'' +
+                '}';
+    }
 }

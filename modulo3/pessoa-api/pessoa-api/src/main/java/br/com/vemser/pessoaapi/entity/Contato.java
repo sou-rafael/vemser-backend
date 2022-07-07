@@ -3,11 +3,14 @@ package br.com.vemser.pessoaapi.entity;
 public class Contato {
     private Integer idContato;
     private Integer idPessoa;
-    private String tipoContato;
+    private TipoContato tipoContato;
     private String numero;
     private String descricao;
 
-    public Contato(Integer idContato, Integer idPessoa, String tipoContato, String numero, String descricao) {
+    public Contato() {
+    }
+
+    public Contato(Integer idContato, Integer idPessoa, TipoContato tipoContato, String numero, String descricao) {
         this.idContato = idContato;
         this.idPessoa = idPessoa;
         this.tipoContato = tipoContato;
@@ -23,19 +26,11 @@ public class Contato {
         this.idContato = idContato;
     }
 
-    public Integer getIdPessoa() {
-        return idPessoa;
-    }
-
-    public void setIdPessoa(Integer idPessoa) {
-        this.idPessoa = idPessoa;
-    }
-
-    public String getTipoContato() {
+    public TipoContato getTipoContato() {
         return tipoContato;
     }
 
-    public void setTipoContato(String tipoContato) {
+    public void setTipoContato(TipoContato tipoContato) {
         this.tipoContato = tipoContato;
     }
 
@@ -53,5 +48,24 @@ public class Contato {
 
     public void setDescricao(String descricao) {
         this.descricao = descricao;
+    }
+
+    public Integer getIdPessoa() {
+        return idPessoa;
+    }
+
+    public void setIdPessoa(Integer idPessoa) {
+        this.idPessoa = idPessoa;
+    }
+
+    @Override
+    public String toString() {
+        return "Contato{" +
+                "idContato=" + idContato +
+                ", idPessoa=" + idPessoa +
+                ", tipoContato=" + tipoContato +
+                ", numero='" + numero + '\'' +
+                ", descricao='" + descricao + '\'' +
+                '}';
     }
 }

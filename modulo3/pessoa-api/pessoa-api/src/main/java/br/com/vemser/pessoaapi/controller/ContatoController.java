@@ -2,7 +2,7 @@ package br.com.vemser.pessoaapi.controller;
 
 import br.com.vemser.pessoaapi.entity.Contato;
 import br.com.vemser.pessoaapi.service.ContatoService;
-import br.com.vemser.pessoaapi.service.PessoaService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -10,12 +10,15 @@ import java.util.List;
 @RestController
 @RequestMapping("/contato")
 public class ContatoController {
+    @Autowired
     private ContatoService contatoService;
 
-    public ContatoController() {contatoService = new ContatoService();}
+    public ContatoController(ContatoService contatoService) {
+        this.contatoService = contatoService;
+    }
 
     @GetMapping
-    public List<Contato> listartodos() {
+    public List<Contato> listarTodos() {
         return contatoService.listar();
     }
     @GetMapping("/{idPessoa}") // com variavel
@@ -28,12 +31,13 @@ public class ContatoController {
     }*/
 
     @PostMapping
-    public Contato criar(@RequestBody Contato contato) {
+    public Contato criar(@RequestBody Contato contato) throws Exception {
         return contatoService.criar(contato);
     }
 
     @PutMapping("/{idContato}")
     public Contato editar(@PathVariable("idContato") Integer id, @RequestBody Contato contatoNovo) throws Exception {
+
         return contatoService.editar(id, contatoNovo);
     }
 

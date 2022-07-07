@@ -1,6 +1,8 @@
 package br.com.vemser.pessoaapi.controller;
 import br.com.vemser.pessoaapi.entity.Pessoa;
+import br.com.vemser.pessoaapi.properties.PropertieReader;
 import br.com.vemser.pessoaapi.service.PessoaService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -8,10 +10,12 @@ import java.util.List;
 @RestController
 @RequestMapping("/pessoa") // localhost:8080/pessoa
 public class PessoaController {
-
+    @Autowired
+    public PropertieReader propertieReader;
+    @Autowired
     private PessoaService pessoaService;
 
-    public PessoaController(){ pessoaService = new PessoaService();}
+//    public PessoaController(){ pessoaService = new PessoaService();}
 
     @GetMapping("/hello") // localhost:8080/pessoa/hello
     public String hello(){ return "Hello World!";}
@@ -19,11 +23,22 @@ public class PessoaController {
     @GetMapping("/hello2")
     public String hello2(){return "Hello World 2!";}
 
-
-    @PostMapping()
-    public Pessoa create(@RequestBody Pessoa pessoa){
-        return pessoaService.create(pessoa);
+    // ***********************************************************************************
+    @GetMapping("/{ambiente}")
+    public String getAmbiente(){
+        return propertieReader.getAmbiente();
     }
+//    **************************************************************************************
+
+    @PostMapping
+    public Pessoa create(@RequestBody Pessoa pessoa){
+        try {
+            return pessoaService.create(pessoa);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 
     @GetMapping // localhost:8080/pessoa
     public List<Pessoa> list(){
