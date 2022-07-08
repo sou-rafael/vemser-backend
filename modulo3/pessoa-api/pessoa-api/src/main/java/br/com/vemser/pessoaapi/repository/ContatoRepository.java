@@ -34,6 +34,7 @@ public class ContatoRepository {
         return listaContatos;
     }
 
+
     //GET por pessoa - receber idPessoa e listar todos os contatos da pessoa;
     public List<Contato> listarIdPessoa(Integer idPessoa) {
         return listaContatos.stream()

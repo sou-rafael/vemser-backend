@@ -53,10 +53,7 @@ public class EnderecoRepository {
 
     //PUT /endereco/{idEndereco} --  altera os dados do endereço.
     public Endereco editar(Integer idEndereco, Endereco enderecoNovo) throws Exception {
-        Endereco enderecoAtual = listaEnderecos.stream()
-                .filter(endereco -> endereco.getIdEndereco().equals(idEndereco))
-                .findFirst()
-                .orElseThrow(() -> new Exception("Endereco nao encontrado"));
+        Endereco enderecoAtual = new Endereco();
         enderecoAtual.setIdPessoa(enderecoNovo.getIdPessoa());
         enderecoAtual.setTipo(enderecoNovo.getTipo());
         enderecoAtual.setLogradouro(enderecoNovo.getLogradouro());
@@ -72,10 +69,5 @@ public class EnderecoRepository {
 
     //DELETE “/endereco/{idEndereco}” -- remove o endereço pelo id
     public void apagar(Integer idEndereco) throws Exception {
-        Endereco enderecoApagar = listaEnderecos.stream()
-                .filter(endereco -> endereco.getIdEndereco().equals(idEndereco))
-                .findFirst()
-                .orElseThrow(() -> new Exception("Endereco nao encontrado"));
-        listaEnderecos.remove(enderecoApagar);
     }
 }

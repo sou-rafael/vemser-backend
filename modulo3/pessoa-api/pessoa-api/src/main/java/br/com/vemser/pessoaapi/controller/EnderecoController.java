@@ -5,6 +5,7 @@ import br.com.vemser.pessoaapi.service.EnderecoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -13,10 +14,9 @@ public class EnderecoController {
     @Autowired
     private EnderecoService enderecoService;
 
-    //    CONSTRUTOR
-    public EnderecoController(EnderecoService enderecoService) {
-        this.enderecoService = enderecoService;
-    }
+//    public EnderecoController(EnderecoService enderecoService) {
+//        this.enderecoService = enderecoService;
+//    }
 
     @GetMapping
     public List<Endereco> listar() {
@@ -34,12 +34,12 @@ public class EnderecoController {
     }
 
     @PostMapping("/{idPessoa}")
-    public Endereco criar(@PathVariable("idPessoa") Integer idPessoa, @RequestBody Endereco endereco) throws Exception {
+    public Endereco criar(@PathVariable("idPessoa") Integer idPessoa,@Valid @RequestBody Endereco endereco) throws Exception {
         return enderecoService.criar(idPessoa, endereco);
     }
 
     @PutMapping("/{idEndereco}")
-    public Endereco editar(@PathVariable Integer idEndereco, @RequestBody Endereco enderecoNovo) throws Exception {
+    public Endereco editar(@PathVariable Integer idEndereco,@Valid @RequestBody Endereco enderecoNovo) throws Exception {
         return enderecoService.editar(idEndereco, enderecoNovo);
     }
 

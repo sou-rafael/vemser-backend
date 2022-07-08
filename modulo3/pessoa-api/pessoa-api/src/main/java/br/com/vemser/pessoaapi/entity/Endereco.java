@@ -1,16 +1,36 @@
 package br.com.vemser.pessoaapi.entity;
 
+import org.jetbrains.annotations.NotNull;
+
+import javax.validation.constraints.Max;
+import javax.validation.constraints.NotEmpty;
+
 public class Endereco {
+
     private Integer idEndereco;
     private Integer idPessoa;
+    @NotNull
     private TipoEndereco tipo;
+    @NotEmpty
+    @Max(250)
     private String logradouro;
+    @NotEmpty
     private Integer numero;
     private String complemento;
+    @NotEmpty
+    @Max(8)
     private String cep;
+    @NotEmpty
+    @Max(250)
     private String cidade;
+    @NotNull
     private String estado;
+    @NotNull
     private String pais;
+
+    public Endereco() {
+
+    }
 
     public Integer getIdPessoa() {
         return idPessoa;

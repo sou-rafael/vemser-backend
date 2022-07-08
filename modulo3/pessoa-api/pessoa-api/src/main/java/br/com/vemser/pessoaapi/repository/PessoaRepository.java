@@ -42,7 +42,7 @@ public class PessoaRepository {
         return listaPessoas;
     }
 
-    //PUT
+   /* //PUT
     public Pessoa update(Integer id, Pessoa pessoaAtualizar) throws Exception {
         return null;
     }
@@ -54,5 +54,5 @@ public class PessoaRepository {
     //GET POR NOME
     public List<Pessoa> listByName(String nome) {
         return null;
-    }
+    }*/
 }

@@ -1,10 +1,20 @@
 package br.com.vemser.pessoaapi.entity;
 
+import org.jetbrains.annotations.NotNull;
+
+import javax.validation.constraints.Max;
+import javax.validation.constraints.NotEmpty;
+
 public class Contato {
+
     private Integer idContato;
     private Integer idPessoa;
+    @NotNull
     private TipoContato tipoContato;
+    @NotEmpty
+    @Max(13)
     private String numero;
+    @NotEmpty
     private String descricao;
 
     public Contato() {

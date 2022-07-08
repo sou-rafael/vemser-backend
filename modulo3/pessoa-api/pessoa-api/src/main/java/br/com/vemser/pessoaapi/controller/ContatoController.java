@@ -2,20 +2,22 @@ package br.com.vemser.pessoaapi.controller;
 
 import br.com.vemser.pessoaapi.entity.Contato;
 import br.com.vemser.pessoaapi.service.ContatoService;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+import javax.validation.constraints.Min;
 import java.util.List;
 
 @RestController
 @RequestMapping("/contato")
+@Validated
 public class ContatoController {
     @Autowired
     private ContatoService contatoService;
 
-    public ContatoController(ContatoService contatoService) {
-        this.contatoService = contatoService;
-    }
 
     @GetMapping
     public List<Contato> listarTodos() {
@@ -26,18 +28,15 @@ public class ContatoController {
     public List<Contato> listarIdPessoa(@PathVariable("idPessoa") Integer idPessoa) {
         return contatoService.listarIdPessoa(idPessoa);
     }
-    /*@GetMapping("/{idPessoa}") // com ?query
-    public List<Contato> listarIdPessoa(@PathVariable("idPessoa")Integer idPessoa) {
-        return contatoService.listarIdPessoa(idPessoa);
-    }*/
 
+    // HW4===================================================================
     @PostMapping
-    public Contato criar(@RequestBody Contato contato) throws Exception {
+    public Contato criar(@Valid @RequestBody Contato contato) throws Exception {
         return contatoService.criar(contato);
     }
 
     @PutMapping("/{idContato}")
-    public Contato editar(@PathVariable("idContato") Integer id, @RequestBody Contato contatoNovo) throws Exception {
+    public Contato editar(@PathVariable("idContato") Integer id, @Valid @RequestBody Contato contatoNovo) throws Exception {
 
         return contatoService.editar(id, contatoNovo);
     }

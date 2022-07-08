@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class EnderecoService {
@@ -45,26 +46,26 @@ public class EnderecoService {
         } else throw new Exception("O endereco nao eh valido ou nao esta na lista.");
     }
 
+    public boolean endExiste(Integer id) {
+        boolean endExiste = enderecoRepository.listar().stream()
+                .anyMatch(end -> end.getIdEndereco().equals(id));
+        return endExiste;
+    }
+
     //PUT /endereco/{idEndereco} --  altera os dados do endereço.
     public Endereco editar(Integer idEndereco, Endereco enderecoNovo) throws Exception {
-//        ******* testar usando abstração
-//        boolean enderecoExiste = enderecoRepository.listar().stream()
-//                .anyMatch(end -> end.getIdEndereco().equals(idEndereco));
-        if (objetoExiste(idEndereco)) {
+        if (endExiste(idEndereco)) {
             return enderecoRepository.editar(idEndereco, enderecoNovo);
         } else throw new Exception("O endereco nao esta na lista");
     }
-    public boolean objetoExiste(Integer id) {
-        boolean objetoExiste = enderecoRepository.listar().stream()
-                .anyMatch(end -> end.getIdEndereco().equals(id));
-        return objetoExiste;
-    }
+
 
     //DELETE “/endereco/{idEndereco}” -- remove o endereço pelo id
     public void apagar(Integer idEndereco) throws Exception {
-        enderecoRepository.apagar(idEndereco);
+
+        if (endExiste(idEndereco)) {
+            enderecoRepository.apagar(idEndereco);
+        }
+        throw new Exception("O endereco nao existe.");
     }
-
-    //    testando abstração -- usando em editar
-
 }
