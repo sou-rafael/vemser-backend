@@ -4,6 +4,7 @@ import br.com.vemser.pessoaapi.entity.Contato;
 import br.com.vemser.pessoaapi.entity.Pessoa;
 import br.com.vemser.pessoaapi.exceptions.ObjNulo;
 import br.com.vemser.pessoaapi.repository.ContatoRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,6 +12,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@Slf4j
 public class ContatoService {
     @Autowired
     private ContatoRepository contatoRepository;
@@ -33,8 +35,12 @@ public class ContatoService {
 
     public Contato criar(Contato contato) throws Exception {
         if (pessoaExiste(contato)) {
+            log.info("Pessoa existe, criando o contato");
             return contatoRepository.criar(contato);
-        } else throw new Exception("A pessoa informada nao existe");
+        } else {
+            log.warn("Deu erro... nao reconheceu pessoa");
+            throw new Exception("A pessoa informada nao existe");
+        }
     }
 
     public Contato editar(Integer idContato, Contato contatoNovo) throws Exception {
@@ -55,10 +61,9 @@ public class ContatoService {
     }
 
     public void apagar(Integer idContato) throws Exception {
-        boolean contatoExiste = !contatoRepository.listar().stream()
-                .filter(contato -> contato.getIdContato().equals(idContato))
-                .collect(Collectors.toList()).isEmpty();
-        //aqui abaixo ja verifica se o contato existe, entao nao precisa desse acima?
+        boolean contatoExiste = (contatoRepository.listar().stream()
+                .filter(contato -> contato.getIdContato().equals(idContato)).count() > 0);
+
         Contato contato = contatoRepository.listarIdPessoa(idContato).stream().findFirst().orElseThrow();
         if (contatoExiste && pessoaExiste(contato)) {
             contatoRepository.apagar(idContato);
@@ -66,3 +71,8 @@ public class ContatoService {
         throw new Exception("O contato nao existe.");
     }
 }
+//    Contato contatoApagar = listaContatos.stream()
+//            .filter(contato -> contato.getIdContato().equals(idContato))
+//            .findFirst()
+//            .orElseThrow(() -> new Exception("Contato nao encontrado"));
+//        listaContatos.remove(contatoApagar);

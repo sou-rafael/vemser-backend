@@ -52,8 +52,10 @@ public class EnderecoRepository {
     }
 
     //PUT /endereco/{idEndereco} --  altera os dados do endereço.
-    public Endereco editar(Integer idEndereco, Endereco enderecoNovo) throws Exception {
+    public Endereco editar(Integer idEndereco, Endereco enderecoNovo) {
         Endereco enderecoAtual = new Endereco();
+
+        enderecoAtual.setIdEndereco(idEndereco);
         enderecoAtual.setIdPessoa(enderecoNovo.getIdPessoa());
         enderecoAtual.setTipo(enderecoNovo.getTipo());
         enderecoAtual.setLogradouro(enderecoNovo.getLogradouro());
@@ -68,6 +70,7 @@ public class EnderecoRepository {
     }
 
     //DELETE “/endereco/{idEndereco}” -- remove o endereço pelo id
-    public void apagar(Integer idEndereco) throws Exception {
+    public void apagar(Integer idEndereco) {
+        listaEnderecos.remove(idEndereco);
     }
 }

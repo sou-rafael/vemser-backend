@@ -37,9 +37,7 @@ public class ContatoRepository {
 
     //GET por pessoa - receber idPessoa e listar todos os contatos da pessoa;
     public List<Contato> listarIdPessoa(Integer idPessoa) {
-        return listaContatos.stream()
-                .filter(contato -> contato.getIdPessoa().equals(idPessoa))
-                .collect(Collectors.toList());
+        return null;
     }
 
     //POST com idPessoa
@@ -48,27 +46,15 @@ public class ContatoRepository {
         listaContatos.add(contato);
         return contato;
     }
-
     //PUT com idContato
     public Contato editar(Integer idContato, Contato contatoNovo) throws Exception {
-        Contato contatoAtual = listaContatos.stream()
-                .filter(contato -> contato.getIdContato().equals(idContato))
-                .findFirst()
-                .orElseThrow(() -> new Exception("Contato nao encontrado"));
-        contatoAtual.setIdPessoa(contatoNovo.getIdPessoa());
-        contatoAtual.setTipoContato(contatoNovo.getTipoContato());
-        contatoAtual.setNumero(contatoNovo.getNumero());
-        contatoAtual.setDescricao(contatoNovo.getDescricao());
 
-        return contatoAtual;
+
+        return null;
     }
-
+// TODO
     //DELETE - recebe idContato e remove da lista
     public void apagar(Integer idContato) throws Exception {
-        Contato contatoApagar = listaContatos.stream()
-                .filter(contato -> contato.getIdContato().equals(idContato))
-                .findFirst()
-                .orElseThrow(() -> new Exception("Contato nao encontrado"));
-        listaContatos.remove(contatoApagar);
+
     }
 }

@@ -2,6 +2,7 @@ package br.com.vemser.pessoaapi.service;
 
 import br.com.vemser.pessoaapi.entity.Contato;
 import br.com.vemser.pessoaapi.entity.Endereco;
+import br.com.vemser.pessoaapi.exceptions.RegraDeNegocioException;
 import br.com.vemser.pessoaapi.repository.EnderecoRepository;
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
@@ -15,8 +16,6 @@ import java.util.stream.Collectors;
 public class EnderecoService {
     @Autowired
     private EnderecoRepository enderecoRepository;
-
-    //verificar necessidade de construtor
 
     //GET /endereco -- listar todos
 
@@ -36,36 +35,35 @@ public class EnderecoService {
     }
 
     //POST /endereco/{idPessoa} -- recebe a pessoa, o endereco e cria o endereco com id da pessoa
-    public Endereco criar(Integer idPessoa, Endereco endereco) throws Exception {
+    public Endereco criar(Integer idPessoa, Endereco endereco) throws RegraDeNegocioException {
         boolean pessoaExiste = enderecoRepository.listar().stream()
                 .anyMatch(pessoa -> pessoa.getIdPessoa().equals(idPessoa));
         boolean logradouroEmBranco = StringUtils.isBlank(endereco.getLogradouro());
 
         if (pessoaExiste && !logradouroEmBranco) {
             return enderecoRepository.criar(idPessoa, endereco);
-        } else throw new Exception("O endereco nao eh valido ou nao esta na lista.");
+        } else throw new RegraDeNegocioException("O endereco nao eh valido ou nao esta na lista.");
     }
 
-    public boolean endExiste(Integer id) {
-        boolean endExiste = enderecoRepository.listar().stream()
-                .anyMatch(end -> end.getIdEndereco().equals(id));
-        return endExiste;
+    //todo -- ja está corrigido, mas verificar "Suspicious call to 'List.contains'"
+    public boolean endExiste(Integer idEndereco) {
+        return enderecoRepository.listar().contains(enderecoRepository.listarIdEndereco(idEndereco));
     }
 
     //PUT /endereco/{idEndereco} --  altera os dados do endereço.
-    public Endereco editar(Integer idEndereco, Endereco enderecoNovo) throws Exception {
+    public Endereco editar(Integer idEndereco, Endereco enderecoNovo) throws RegraDeNegocioException {
         if (endExiste(idEndereco)) {
             return enderecoRepository.editar(idEndereco, enderecoNovo);
-        } else throw new Exception("O endereco nao esta na lista");
+        } else throw new RegraDeNegocioException("O endereco nao esta na lista");
     }
 
-
+//todo
     //DELETE “/endereco/{idEndereco}” -- remove o endereço pelo id
-    public void apagar(Integer idEndereco) throws Exception {
+    public void apagar(Integer idEndereco) throws RegraDeNegocioException {
 
         if (endExiste(idEndereco)) {
             enderecoRepository.apagar(idEndereco);
         }
-        throw new Exception("O endereco nao existe.");
+        throw new RegraDeNegocioException("O endereco nao existe.");
     }
 }

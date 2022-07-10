@@ -1,7 +1,9 @@
 package br.com.vemser.pessoaapi.repository;
 
+import br.com.vemser.pessoaapi.dto.PessoaDTO;
 import br.com.vemser.pessoaapi.entity.Pessoa;
 import br.com.vemser.pessoaapi.service.PessoaService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -11,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
-
+@Slf4j
 @Repository
 public class PessoaRepository {
     public static List<Pessoa> getListaPessoas() {
@@ -38,7 +40,8 @@ public class PessoaRepository {
     }
 
     //GET GERAL
-    public List<Pessoa> list() {
+    public List<Pessoa> listar() {
+        log.info("Entrou na Repository");
         return listaPessoas;
     }
 

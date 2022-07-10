@@ -1,73 +1,82 @@
 package br.com.vemser.pessoaapi.service;
 
+import br.com.vemser.pessoaapi.dto.PessoaCreateDTO;
+import br.com.vemser.pessoaapi.dto.PessoaDTO;
 import br.com.vemser.pessoaapi.entity.Pessoa;
 import br.com.vemser.pessoaapi.exceptions.RegraDeNegocioException;
 import br.com.vemser.pessoaapi.repository.PessoaRepository;
-import org.apache.commons.lang3.ObjectUtils;
-import org.apache.commons.lang3.StringUtils;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@Slf4j
 public class PessoaService {
     @Autowired
     private PessoaRepository pessoaRepository;
-    //    public PessoaService(){
-//        pessoaRepository = new PessoaRepository();
-//    }
-    private Pessoa pessoa = new Pessoa();
+    private ObjectMapper objectMapper;
 
-    public Pessoa create(Pessoa pessoa){
-/*        //testes com obj pessoa
-        boolean pessoaVazio = ObjectUtils.isEmpty(pessoa);
-        boolean nomeEmBranco = StringUtils.isBlank(pessoa.getNome());
-        boolean cpfTem11Num = pessoa.getCpf().matches("/d{11}");
-        // validaçoes por anotaçoes
-
-        if (!pessoaVazio && !nomeEmBranco && cpfTem11Num) {
-            return pessoaRepository.create(pessoa);
-        }else{
-            throw new RegraDeNegocioException("Errou");
-        }*/
-        return pessoaRepository.create(pessoa);
+    //POST
+    public Pessoa create(PessoaDTO pessoaDTO) {
+        Pessoa pessoa = pessoaDTO.build();
+        pessoaRepository.create(pessoa);
+        return pessoa;
     }
 
-    public List<Pessoa> list() {
-        return pessoaRepository.list();
+    public List<Pessoa> list() throws RegraDeNegocioException {
+        // nao posso retornar o objectMapper -- NPE?
+        log.info("Passou na Service, mas esta antes de tudo");
+        List<Pessoa> lista = pessoaRepository.listar();
+        log.info("Passou na Service, PESQUISOU NA LISTA DO REPOSITORY");
+
+        return lista;
     }
 
-    //PUT
-    public Pessoa update(Integer id, Pessoa pessoaAtualizar) throws Exception {
-        Pessoa pessoaRecuperada = getPessoa(id);
+    //PUT todo
+    public Pessoa update(Integer id, PessoaDTO pessoaAtualizar) throws RegraDeNegocioException {
+        Pessoa pessoaRecPESSOA = getPessoa(id);
 
-        pessoaRecuperada.setCpf(pessoaAtualizar.getCpf());
-        pessoaRecuperada.setNome(pessoaAtualizar.getNome());
-        pessoaRecuperada.setDataNascimento(pessoaAtualizar.getDataNascimento());
-        pessoaRecuperada.setIdPessoa(id);
+        pessoaRecPESSOA.setCpf(pessoaAtualizar.getCpf());
+        pessoaRecPESSOA.setNome(pessoaAtualizar.getNome());
+        pessoaRecPESSOA.setDataNascimento(pessoaAtualizar.getDataNascimento());
+        pessoaRecPESSOA.setIdPessoa(id);
+        log.info("Service:dps de atualizada, pessoaRecPessoa = " + pessoaRecPESSOA);
 
-        return pessoaRecuperada;
+        //voltar para classe PessoaDTO para dar o retorno neste tipo?
+        return pessoaRecPESSOA;
     }
 
-    private Pessoa getPessoa(Integer id) throws Exception {
+    private Pessoa getPessoa(Integer id) throws RegraDeNegocioException {
         Pessoa pessoaRecuperada = pessoaRepository.getListaPessoas().stream()
                 .filter(pessoa -> pessoa.getIdPessoa().equals(id))
                 .findFirst()
-                .orElseThrow(() -> new Exception("Pessoa não econtrada"));
+                .orElseThrow(() -> new RegraDeNegocioException("Pessoa não econtrada"));
+
         return pessoaRecuperada;
     }
 
-    public void delete(Integer id) throws Exception {
+    // DELETE
+    public void delete(Integer id) throws RegraDeNegocioException {
         Pessoa pessoaRecuperada = getPessoa(id);
 
         pessoaRepository.getListaPessoas().remove(pessoaRecuperada);
     }
 
     public List<Pessoa> listByName(String nome) {
+//        passando a pesquisa direto como argumento no ObjectMapping
         return pessoaRepository.getListaPessoas().stream()
                 .filter(pessoa -> pessoa.getNome().toUpperCase().contains(nome.toUpperCase()))
                 .collect(Collectors.toList());
+    }
+
+    public boolean pessoaExiste(Integer idPessoa) throws RegraDeNegocioException {
+        Pessoa pessoaDaLista = getPessoa(idPessoa);
+        Pessoa pessoaEncontrada = objectMapper.convertValue(pessoaDaLista, Pessoa.class);
+        return pessoaRepository.listar().contains(pessoaEncontrada);
     }
 }
