@@ -4,6 +4,7 @@ import br.com.vemser.pessoaapi.entity.Contato;
 import br.com.vemser.pessoaapi.entity.Pessoa;
 import br.com.vemser.pessoaapi.entity.TipoContato;
 import br.com.vemser.pessoaapi.exceptions.RegraDeNegocioException;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
@@ -12,6 +13,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
 @Repository
+@Slf4j
 public class ContatoRepository {
     private static List<Contato> listaContatos = new ArrayList<>();
     private AtomicInteger COUNTER = new AtomicInteger();
@@ -35,27 +37,35 @@ public class ContatoRepository {
         return listaContatos;
     }
 
+    //POST com idPessoa
+    public Contato criar(Integer idPessoa, Contato contato) {
+        contato.setIdContato(COUNTER.incrementAndGet());
+        contato.setIdPessoa(idPessoa);
+        listaContatos.add(contato);
+        return contato;
+    }
 
-    //GET por pessoa - receber idPessoa e listar todos os contatos da pessoa;
+    public void apagar(Integer idContato) throws RegraDeNegocioException {
+        Contato contatoApagar = listar().stream()
+                .filter(contato -> contato.getIdContato().equals(idContato))
+                .findFirst().get();
+        log.info("Contato para apagar = "+contatoApagar);
+
+        listaContatos.remove(contatoApagar);
+    }
+
+/*
+    //  GET por pessoa - receber idPessoa e listar todos os contatos da pessoa;
+
     public List<Contato> listarIdPessoa(Integer idPessoa) {
         return null;
     }
 
-    //POST com idPessoa
-    public Contato criar(Contato contato) {
-        contato.setIdContato(COUNTER.incrementAndGet());
-        listaContatos.add(contato);
-        return contato;
-    }
-    //PUT com idContato
-    public Contato editar(Integer idContato, Contato contatoNovo) throws Exception {
+    //  PUT com idContato
 
+    public Contato editar(Integer idContato, Contato contatoNovo) throws Exception {
 
         return null;
     }
-// TODO
-    //DELETE - recebe idContato e remove da lista
-    public void apagar(Integer idContato) throws RegraDeNegocioException {
-
-    }
+*/
 }

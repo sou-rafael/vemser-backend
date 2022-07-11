@@ -19,10 +19,10 @@ public class PessoaDTO extends PessoaCreateDTO {
     private Integer idPessoa;
 
     public Pessoa build() {
-        Pessoa pessoa = new Pessoa();
-        pessoa.setNome(super.getNome());
-        pessoa.setCpf(super.getCpf());
-        pessoa.setDataNascimento(super.getDataNascimento());
+        Pessoa pessoa = new Pessoa()
+                .setNome(super.getNome())
+                .setCpf(super.getCpf())
+                .setDataNascimento(super.getDataNascimento());
 
         return pessoa;
     }

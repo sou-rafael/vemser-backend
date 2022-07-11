@@ -1,6 +1,7 @@
 package br.com.vemser.pessoaapi.entity;
 
 import lombok.*;
+import lombok.experimental.Accessors;
 import org.jetbrains.annotations.NotNull;
 
 import javax.validation.constraints.NotEmpty;
@@ -13,6 +14,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
+@Accessors(chain = true)
 public class Pessoa {
     @NotNull
     private Integer idPessoa;
