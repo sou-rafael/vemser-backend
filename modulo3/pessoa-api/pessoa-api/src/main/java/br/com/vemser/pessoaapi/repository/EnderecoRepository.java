@@ -1,8 +1,12 @@
 package br.com.vemser.pessoaapi.repository;
 
+import br.com.vemser.pessoaapi.dto.EnderecoCreateDTO;
 import br.com.vemser.pessoaapi.entity.Contato;
 import br.com.vemser.pessoaapi.entity.Endereco;
 import br.com.vemser.pessoaapi.entity.TipoEndereco;
+import br.com.vemser.pessoaapi.service.EnderecoService;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
@@ -11,9 +15,11 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
 @Repository
+@Slf4j
 public class EnderecoRepository {
     private static List<Endereco> listaEnderecos = new ArrayList<>();
     private AtomicInteger COUNTER = new AtomicInteger();
+    private EnderecoService enderecoService = new EnderecoService();
 
     public EnderecoRepository() {
         listaEnderecos.add(new Endereco(COUNTER.incrementAndGet(), 1, TipoEndereco.COMERCIAL, "rua qualquer", 12, "", "64000111", "Teresina", "Piaui", "Brasil"));
@@ -44,7 +50,8 @@ public class EnderecoRepository {
     }
 
     //POST /endereco/{idPessoa} -- recebe a pessoa, o endereco e cria o endereco com id da pessoa
-    public Endereco criar(Integer idPessoa, Endereco endereco) {
+    public Endereco criar(Integer idPessoa, EnderecoCreateDTO enderecoOrig) {
+        Endereco endereco = enderecoService.covertToEndereco(enderecoOrig);
         endereco.setIdEndereco(COUNTER.incrementAndGet());
         endereco.setIdPessoa(idPessoa);
         listaEnderecos.add(endereco);
@@ -52,7 +59,8 @@ public class EnderecoRepository {
     }
 
     //PUT /endereco/{idEndereco} --  altera os dados do endereço.
-    public Endereco editar(Integer idEndereco, Endereco enderecoNovo) {
+    public Endereco editar(Integer idEndereco, EnderecoCreateDTO enderecoNovoOrig) {
+        Endereco enderecoNovo = enderecoService.covertToEndereco(enderecoNovoOrig);
         Endereco enderecoAtual = new Endereco();
 
         enderecoAtual.setIdEndereco(idEndereco);
@@ -71,6 +79,10 @@ public class EnderecoRepository {
 
     //DELETE “/endereco/{idEndereco}” -- remove o endereço pelo id
     public void apagar(Integer idEndereco) {
-        listaEnderecos.remove(idEndereco);
+        Endereco endRemover = listaEnderecos.stream()
+                .filter(endereco -> endereco.getIdEndereco().equals(idEndereco))
+                .findFirst().get();
+        listaEnderecos.remove(endRemover);
+        log.info("Apagou");
     }
 }

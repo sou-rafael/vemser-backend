@@ -1,14 +1,14 @@
 package br.com.vemser.pessoaapi.controller;
 
+import br.com.vemser.pessoaapi.dto.ContatoDTO;
 import br.com.vemser.pessoaapi.entity.Contato;
+import br.com.vemser.pessoaapi.exceptions.RegraDeNegocioException;
 import br.com.vemser.pessoaapi.service.ContatoService;
-import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import javax.validation.constraints.Min;
 import java.util.List;
 
 @RestController
@@ -31,18 +31,18 @@ public class ContatoController {
 
     // HW4===================================================================
     @PostMapping
-    public Contato criar(@Valid @RequestBody Contato contato) throws Exception {
+    public Contato criar(@Valid @RequestBody ContatoDTO contato) throws RegraDeNegocioException {
         return contatoService.criar(contato);
     }
 
     @PutMapping("/{idContato}")
-    public Contato editar(@PathVariable("idContato") Integer id, @Valid @RequestBody Contato contatoNovo) throws Exception {
+    public Contato editar(@PathVariable("idContato") Integer id, @Valid @RequestBody ContatoDTO contatoNovo) throws RegraDeNegocioException {
 
         return contatoService.editar(id, contatoNovo);
     }
 
     @DeleteMapping("/{idContato}")
-    public void apagar(@PathVariable("idContato") Integer idContato) throws Exception {
+    public void apagar(@PathVariable("idContato") Integer idContato) throws RegraDeNegocioException {
         contatoService.apagar(idContato);
     }
 }

@@ -1,5 +1,6 @@
 package br.com.vemser.pessoaapi.entity;
 
+import lombok.experimental.Accessors;
 import org.jetbrains.annotations.NotNull;
 
 import javax.validation.constraints.Max;
@@ -12,6 +13,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
+//@Accessors(chain = true)
 public class Contato {
 
     private Integer idContato;

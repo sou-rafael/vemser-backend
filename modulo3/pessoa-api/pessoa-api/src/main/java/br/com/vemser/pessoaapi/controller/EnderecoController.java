@@ -1,5 +1,7 @@
 package br.com.vemser.pessoaapi.controller;
 
+import br.com.vemser.pessoaapi.dto.EnderecoCreateDTO;
+import br.com.vemser.pessoaapi.dto.EnderecoDTO;
 import br.com.vemser.pessoaapi.entity.Endereco;
 import br.com.vemser.pessoaapi.exceptions.RegraDeNegocioException;
 import br.com.vemser.pessoaapi.service.EnderecoService;
@@ -24,27 +26,27 @@ public class EnderecoController {
 //    }
 
     @GetMapping
-    public List<Endereco> listar() {
+    public List<EnderecoDTO> listar() {
         return enderecoService.listar();
     }
 
     @GetMapping("/{idEndereco}")
-    public List<Endereco> listarIdEndereco(@PathVariable("idEndereco") Integer idEndereco) {
+    public List<EnderecoDTO> listarIdEndereco(@PathVariable("idEndereco") Integer idEndereco) throws RegraDeNegocioException {
         return enderecoService.listarIdEndereco(idEndereco);
     }
 
     @GetMapping("/{idPessoa}/pessoa")
-    public List<Endereco> listarEnderecoPorIdPessoa(@PathVariable("idPessoa") Integer idPessoa) {
+    public List<EnderecoDTO> listarEnderecoPorIdPessoa(@PathVariable("idPessoa") Integer idPessoa) throws RegraDeNegocioException {
         return enderecoService.listarEnderecoPorIdPessoa(idPessoa);
     }
 
     @PostMapping("/{idPessoa}")
-    public Endereco criar(@PathVariable("idPessoa") Integer idPessoa,@Valid @RequestBody Endereco endereco) throws RegraDeNegocioException {
+    public EnderecoDTO criar(@Valid @PathVariable("idPessoa") Integer idPessoa,@Valid @RequestBody EnderecoCreateDTO endereco) throws RegraDeNegocioException {
         return enderecoService.criar(idPessoa, endereco);
     }
 
     @PutMapping("/{idEndereco}")
-    public Endereco editar(@PathVariable("idEndereco") Integer idEndereco,@Valid @RequestBody Endereco enderecoNovo) throws RegraDeNegocioException {
+    public EnderecoDTO editar(@PathVariable("idEndereco") Integer idEndereco,@Valid @RequestBody EnderecoCreateDTO enderecoNovo) throws RegraDeNegocioException {
         return enderecoService.editar(idEndereco, enderecoNovo);
     }
 

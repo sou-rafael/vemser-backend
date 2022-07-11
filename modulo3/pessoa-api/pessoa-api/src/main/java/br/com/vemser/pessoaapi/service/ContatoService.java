@@ -1,8 +1,10 @@
 package br.com.vemser.pessoaapi.service;
 
+import br.com.vemser.pessoaapi.dto.ContatoDTO;
 import br.com.vemser.pessoaapi.entity.Contato;
 import br.com.vemser.pessoaapi.entity.Pessoa;
 import br.com.vemser.pessoaapi.exceptions.ObjNulo;
+import br.com.vemser.pessoaapi.exceptions.RegraDeNegocioException;
 import br.com.vemser.pessoaapi.repository.ContatoRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,21 +31,23 @@ public class ContatoService {
 
 
     //testar se pessoa existe criei um metodo para fazer o teste no POST e PUT
-    private boolean pessoaExiste(Contato contato) {
+    private boolean pessoaExiste(ContatoDTO contato) {
         return contatoRepository.listarIdPessoa(contato.getIdPessoa()).isEmpty();
     }
 
-    public Contato criar(Contato contato) throws Exception {
+    public Contato criar(ContatoDTO contato) throws RegraDeNegocioException {
         if (pessoaExiste(contato)) {
             log.info("Pessoa existe, criando o contato");
-            return contatoRepository.criar(contato);
+
+            Contato contatoConv = contato.build();
+            return contatoRepository.criar(contatoConv);
         } else {
             log.warn("Deu erro... nao reconheceu pessoa");
-            throw new Exception("A pessoa informada nao existe");
+            throw new RegraDeNegocioException("A pessoa informada nao existe");
         }
     }
 
-    public Contato editar(Integer idContato, Contato contatoNovo) throws Exception {
+    public Contato editar(Integer idContato, ContatoDTO contatoNovo) throws RegraDeNegocioException {
         boolean idContatoExiste = contatoRepository.listar().stream()
                 .anyMatch(contato -> contato.getIdContato().equals(idContato));
 
@@ -51,24 +55,24 @@ public class ContatoService {
             Contato contatoAtual = contatoRepository.listar().stream()
                     .filter(contato -> contato.getIdContato().equals(idContato))
                     .findFirst()
-                    .orElseThrow(() -> new Exception("Contato nao encontrado"));
+                    .orElseThrow(() -> new RegraDeNegocioException("Contato nao encontrado"));
+
             contatoAtual.setIdPessoa(contatoNovo.getIdPessoa());
             contatoAtual.setTipoContato(contatoNovo.getTipoContato());
             contatoAtual.setNumero(contatoNovo.getNumero());
             contatoAtual.setDescricao(contatoNovo.getDescricao());
             return contatoAtual;
-        } else throw new Exception("Pessoa ou contato inexistentes");
+        } else throw new RegraDeNegocioException("Pessoa ou contato inexistentes");
     }
 
-    public void apagar(Integer idContato) throws Exception {
+    public void apagar(Integer idContato) throws RegraDeNegocioException {
         boolean contatoExiste = (contatoRepository.listar().stream()
                 .filter(contato -> contato.getIdContato().equals(idContato)).count() > 0);
 
-        Contato contato = contatoRepository.listarIdPessoa(idContato).stream().findFirst().orElseThrow();
-        if (contatoExiste && pessoaExiste(contato)) {
+        if (contatoExiste) {
             contatoRepository.apagar(idContato);
         }
-        throw new Exception("O contato nao existe.");
+        throw new RegraDeNegocioException("O contato nao existe.");
     }
 }
 //    Contato contatoApagar = listaContatos.stream()

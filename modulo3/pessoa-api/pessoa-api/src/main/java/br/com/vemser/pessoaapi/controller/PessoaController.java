@@ -50,12 +50,12 @@ public class PessoaController {
     }
 
 
-    @GetMapping // localhost:8080/pessoa
+    @GetMapping
     public List<Pessoa> list() throws RegraDeNegocioException {
         return pessoaService.list();
     }
 
-    @PutMapping("/{idPessoa}") // localhost:8080/pessoa/1000
+    @PutMapping("/{idPessoa}")
     public Pessoa update(@PathVariable("idPessoa") Integer id,
                          @Valid @RequestBody PessoaDTO pessoaAtualizar) throws RegraDeNegocioException {
         return pessoaService.update(id, pessoaAtualizar);

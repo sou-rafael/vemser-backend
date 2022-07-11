@@ -3,6 +3,7 @@ package br.com.vemser.pessoaapi.repository;
 import br.com.vemser.pessoaapi.entity.Contato;
 import br.com.vemser.pessoaapi.entity.Pessoa;
 import br.com.vemser.pessoaapi.entity.TipoContato;
+import br.com.vemser.pessoaapi.exceptions.RegraDeNegocioException;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
@@ -54,7 +55,7 @@ public class ContatoRepository {
     }
 // TODO
     //DELETE - recebe idContato e remove da lista
-    public void apagar(Integer idContato) throws Exception {
+    public void apagar(Integer idContato) throws RegraDeNegocioException {
 
     }
 }

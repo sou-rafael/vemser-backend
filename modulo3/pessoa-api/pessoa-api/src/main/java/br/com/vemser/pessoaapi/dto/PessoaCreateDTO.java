@@ -2,6 +2,7 @@ package br.com.vemser.pessoaapi.dto;
 
 import br.com.vemser.pessoaapi.entity.Pessoa;
 import lombok.*;
+import lombok.experimental.Accessors;
 import org.jetbrains.annotations.NotNull;
 
 import javax.validation.constraints.NotBlank;

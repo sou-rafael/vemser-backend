@@ -1,10 +1,10 @@
-package br.com.vemser.pessoaapi.entity;
+package br.com.vemser.pessoaapi.dto;
 
+import br.com.vemser.pessoaapi.entity.TipoEndereco;
 import lombok.*;
 import lombok.experimental.Accessors;
 import org.jetbrains.annotations.NotNull;
 
-import javax.validation.constraints.Max;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
@@ -12,12 +12,9 @@ import javax.validation.constraints.Size;
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor
 @ToString
-
-public class Endereco {
-
-    private Integer idEndereco;
+@Accessors(chain = true)
+public class EnderecoCreateDTO {
     private Integer idPessoa;
     @NotNull
     private TipoEndereco tipo;
@@ -39,4 +36,3 @@ public class Endereco {
     @NotBlank
     private String pais;
 }
-
