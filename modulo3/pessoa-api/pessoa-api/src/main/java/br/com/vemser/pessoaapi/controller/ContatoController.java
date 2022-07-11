@@ -25,12 +25,11 @@ public class ContatoController {
         return contatoService.listar();
     }
 
-    @GetMapping("/{idPessoa}") // com variavel
+    @GetMapping("/{idPessoa}")
     public List<ContatoDTO> listarIdPessoa(@PathVariable("idPessoa") Integer idPessoa) throws RegraDeNegocioException {
         return contatoService.listarIdPessoa(idPessoa);
     }
 
-    // HW4===================================================================
     @PostMapping("/{idPessoa}")
     public ContatoDTO criar(@PathVariable("idPessoa") Integer idPessoa, @Valid @RequestBody ContatoCreateDTO contato) throws RegraDeNegocioException {
         return contatoService.criar(idPessoa, contato);

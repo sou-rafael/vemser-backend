@@ -46,13 +46,9 @@ public class EnderecoService {
                 .anyMatch(endereco -> endereco.getIdPessoa().equals(idPessoa));
     }
 
-    //GET /endereco -- listar todos
-
     public List<EnderecoDTO> listar() {
         return enderecoRepository.listar().stream().map(this::convertToEnderecoDTO).collect(Collectors.toList());
     }
-
-    //GET /endereco/{idEndereco} -- recupera o endereco especifico
 
     public List<EnderecoDTO> listarIdEndereco(Integer idEndereco) throws RegraDeNegocioException {
         if (endExiste(idEndereco)) {
@@ -60,7 +56,6 @@ public class EnderecoService {
         }
         throw new RegraDeNegocioException("Endereco solicitado nao exite");
     }
-    //GET /endereco/{idPessoa}/pessoa -- recupera endereços por pessoa
 
     public List<EnderecoDTO> listarEnderecoPorIdPessoa(Integer idPessoa) throws RegraDeNegocioException {
 
@@ -72,25 +67,20 @@ public class EnderecoService {
         throw new RegraDeNegocioException("A pessoa solicitada nao existe");
     }
 
-    //POST /endereco/{idPessoa} -- recebe a pessoa, o endereco e cria o endereco com id da pessoa
     public EnderecoDTO criar(Integer idPessoa, EnderecoCreateDTO endereco) throws RegraDeNegocioException {
         boolean pessoaExiste = enderecoRepository.listar().stream()
                 .anyMatch(pessoa -> pessoa.getIdPessoa().equals(idPessoa));
-//        boolean logradouroEmBranco = StringUtils.isBlank(endereco.getLogradouro()); -- isso agora é validado no LomBok
         if (pessoaExiste) {
             return convertToEnderecoDTO(enderecoRepository.criar(idPessoa, endereco));
         } else throw new RegraDeNegocioException("O endereco nao eh valido ou nao esta na lista.");
     }
 
-    //PUT /endereco/{idEndereco} --  altera os dados do endereço.
     public EnderecoDTO editar(Integer idEndereco, EnderecoCreateDTO enderecoNovo) throws RegraDeNegocioException {
-        if (endExiste(idEndereco)){
+        if (endExiste(idEndereco)) {
             return convertToEnderecoDTO(enderecoRepository.editar(idEndereco, enderecoNovo));
         } else throw new RegraDeNegocioException("O endereco nao esta na lista");
     }
 
-    //TODO
-    //DELETE “/endereco/{idEndereco}” -- remove o endereço pelo id
     public void apagar(Integer idEndereco) throws RegraDeNegocioException {
         if (endExiste(idEndereco)) {
             log.info("Passou pelo if(endExiste)");

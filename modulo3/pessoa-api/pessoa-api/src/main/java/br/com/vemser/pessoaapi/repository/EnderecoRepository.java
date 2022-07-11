@@ -30,26 +30,22 @@ public class EnderecoRepository {
         listaEnderecos.add(new Endereco(COUNTER.incrementAndGet(), 3, TipoEndereco.RESIDENCIAL, "avenida dos Ipes", 978, "", "24500118", "Joao Pessoa", "Paraiba", "Brasil"));
     }
 
-    //GET /endereco -- listar todos
     public List<Endereco> listar() {
         return listaEnderecos;
     }
 
-    //GET /endereco/{idEndereco} -- recupera o endereco especifico
     public List<Endereco> listarIdEndereco(Integer idEndereco) {
         return listaEnderecos.stream()
                 .filter(endereco -> endereco.getIdEndereco().equals(idEndereco))
                 .collect(Collectors.toList());
     }
 
-    //GET /endereco/{idPessoa}/pessoa -- recupera endereços por pessoa
     public List<Endereco> listarEnderecoPorIdPessoa(Integer idPessoa) {
         return listaEnderecos.stream()
                 .filter(endereco -> endereco.getIdPessoa().equals(idPessoa))
                 .collect(Collectors.toList());
     }
 
-    //POST /endereco/{idPessoa} -- recebe a pessoa, o endereco e cria o endereco com id da pessoa
     public Endereco criar(Integer idPessoa, EnderecoCreateDTO enderecoOrig) {
         Endereco endereco = enderecoService.covertToEndereco(enderecoOrig);
         endereco.setIdEndereco(COUNTER.incrementAndGet());
@@ -58,7 +54,6 @@ public class EnderecoRepository {
         return endereco;
     }
 
-    //PUT /endereco/{idEndereco} --  altera os dados do endereço.
     public Endereco editar(Integer idEndereco, EnderecoCreateDTO enderecoNovoOrig) {
         Endereco enderecoNovo = enderecoService.covertToEndereco(enderecoNovoOrig);
         Endereco enderecoAtual = new Endereco();
@@ -77,7 +72,6 @@ public class EnderecoRepository {
         return enderecoAtual;
     }
 
-    //DELETE “/endereco/{idEndereco}” -- remove o endereço pelo id
     public void apagar(Integer idEndereco) {
         Endereco endRemover = listaEnderecos.stream()
                 .filter(endereco -> endereco.getIdEndereco().equals(idEndereco))

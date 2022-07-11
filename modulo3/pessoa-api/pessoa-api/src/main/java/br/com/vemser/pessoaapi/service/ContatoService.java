@@ -59,7 +59,7 @@ public class ContatoService {
             return this.listar().stream()
                     .filter(contatoDTO -> contatoDTO.getIdPessoa().equals(idPessoa))
                     .collect(Collectors.toList());
-        }throw new RegraDeNegocioException("Pessoa solicitada nao existe");
+        }else throw new RegraDeNegocioException("Pessoa solicitada nao existe");
     }
 
 
@@ -71,7 +71,7 @@ public class ContatoService {
             Contato contatoCriado = contatoRepository.criar(idPessoa ,contatoCriar);
             ContatoDTO confirm = convertToContatoDTO(contatoCriado);
             return confirm;
-        }throw new RegraDeNegocioException("Pessoa solicitada nao existe");
+        }else throw new RegraDeNegocioException("Pessoa solicitada nao existe");
     }
 
     public ContatoDTO editar(Integer idContato, ContatoCreateDTO contatoNovo) throws RegraDeNegocioException {
@@ -80,12 +80,9 @@ public class ContatoService {
 
             Contato contatoAtual = new Contato();
             contatoAtual = convertToContato(contatoNovo);
+            log.info("ContatoAtual antes de receber os sets = "+contatoAtual);
 
             contatoAtual.setIdContato(idContato);
-            contatoAtual.setIdPessoa(contatoNovo.getIdPessoa());
-            contatoAtual.setTipoContato(contatoNovo.getTipoContato());
-            contatoAtual.setNumero(contatoNovo.getNumero());
-            contatoAtual.setDescricao(contatoNovo.getDescricao());
 
             ContatoDTO contatoAtualDTO = new ContatoDTO();
             contatoAtualDTO = convertToContatoDTO(contatoAtual);

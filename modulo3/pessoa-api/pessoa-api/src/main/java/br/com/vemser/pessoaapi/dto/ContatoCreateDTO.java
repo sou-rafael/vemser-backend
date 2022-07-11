@@ -14,6 +14,7 @@ import javax.validation.constraints.Size;
 @NoArgsConstructor
 @ToString
 public class ContatoCreateDTO {
+    @NotNull
     private Integer idPessoa;
     @NotNull
     private TipoContato tipoContato;
@@ -22,17 +23,6 @@ public class ContatoCreateDTO {
     private String numero;
     @NotEmpty
     private String descricao;
-
-//    public Contato build() {
-//
-//        Contato contato = new Contato()
-//                .setIdPessoa(this.idPessoa)
-//                .setTipoContato(this.tipoContato)
-//                .setNumero(this.numero)
-//                .setDescricao(this.descricao);
-//        return contato;
-//    }
-
 
 }
 

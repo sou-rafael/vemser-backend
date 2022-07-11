@@ -17,6 +17,7 @@ import lombok.*;
 public class Contato {
 
     private Integer idContato;
+    @NotNull
     private Integer idPessoa;
     @NotNull
     private TipoContato tipoContato;
