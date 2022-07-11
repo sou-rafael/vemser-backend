@@ -5,10 +5,7 @@ import lombok.*;
 import lombok.experimental.Accessors;
 import org.jetbrains.annotations.NotNull;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.Past;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
 import java.time.LocalDate;
 
 @Getter
@@ -25,6 +22,9 @@ public class PessoaCreateDTO {
     private LocalDate dataNascimento;
     @Size(min = 11, max = 11)
     private String cpf;
+
+    @Email
+    private String email;
 
 
 }
