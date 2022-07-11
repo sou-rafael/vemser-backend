@@ -17,14 +17,4 @@ import java.time.LocalDate;
 public class PessoaDTO extends PessoaCreateDTO {
     @NotNull
     private Integer idPessoa;
-
-    public Pessoa build() {
-        Pessoa pessoa = new Pessoa()
-                .setNome(super.getNome())
-                .setCpf(super.getCpf())
-                .setDataNascimento(super.getDataNascimento());
-
-        return pessoa;
-    }
-
 }

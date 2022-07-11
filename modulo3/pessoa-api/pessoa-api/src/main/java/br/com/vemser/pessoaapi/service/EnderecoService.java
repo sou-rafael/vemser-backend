@@ -6,6 +6,7 @@ import br.com.vemser.pessoaapi.entity.Contato;
 import br.com.vemser.pessoaapi.entity.Endereco;
 import br.com.vemser.pessoaapi.exceptions.RegraDeNegocioException;
 import br.com.vemser.pessoaapi.repository.EnderecoRepository;
+import br.com.vemser.pessoaapi.repository.PessoaRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -21,6 +22,9 @@ import java.util.stream.Collectors;
 public class EnderecoService {
     @Autowired
     private EnderecoRepository enderecoRepository;
+
+    @Autowired
+    private PessoaRepository pessoaRepository;
 
     private ObjectMapper objectMapper = new ObjectMapper();
 
@@ -42,9 +46,10 @@ public class EnderecoService {
     }
 
     public boolean pessoaExiste(Integer idPessoa) {
-        return enderecoRepository.listar().stream()
-                .anyMatch(endereco -> endereco.getIdPessoa().equals(idPessoa));
+        return pessoaRepository.listar().stream()
+                .anyMatch(pessoa -> pessoa.getIdPessoa().equals(idPessoa));
     }
+    // TODO verificar em pessoaRepo -- FEITO!
 
     public List<EnderecoDTO> listar() {
         return enderecoRepository.listar().stream().map(this::convertToEnderecoDTO).collect(Collectors.toList());

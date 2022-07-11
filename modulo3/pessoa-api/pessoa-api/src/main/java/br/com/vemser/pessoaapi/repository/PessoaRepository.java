@@ -1,6 +1,7 @@
 package br.com.vemser.pessoaapi.repository;
 
 import br.com.vemser.pessoaapi.dto.PessoaDTO;
+import br.com.vemser.pessoaapi.entity.Contato;
 import br.com.vemser.pessoaapi.entity.Pessoa;
 import br.com.vemser.pessoaapi.service.PessoaService;
 import lombok.extern.slf4j.Slf4j;
@@ -32,26 +33,25 @@ public class PessoaRepository {
         listaPessoas.add(new Pessoa(COUNTER.incrementAndGet() /*5*/, "Ana", LocalDate.parse("01/07/1990", formatter), "12345678917"));
     }
 
-    //POST
+    public List<Pessoa> listar() {
+        log.info("Entrou na Repository");
+        return listaPessoas;
+    }
     public Pessoa create(Pessoa pessoa) {
         pessoa.setIdPessoa(COUNTER.incrementAndGet());
         listaPessoas.add(pessoa);
         return pessoa;
     }
 
-    //GET GERAL
-    public List<Pessoa> listar() {
-        log.info("Entrou na Repository");
-        return listaPessoas;
+    public void delete(Integer id){
+        Pessoa pessoaApagar = listar().stream()
+                .filter(pessoa -> pessoa.getIdPessoa().equals(id))
+                .findFirst().get();
+        listaPessoas.remove(pessoaApagar);
     }
-
    /* //PUT
     public Pessoa update(Integer id, Pessoa pessoaAtualizar) throws Exception {
         return null;
-    }
-
-    //DELETE
-    public void delete(Integer id) throws Exception {
     }
 
     //GET POR NOME

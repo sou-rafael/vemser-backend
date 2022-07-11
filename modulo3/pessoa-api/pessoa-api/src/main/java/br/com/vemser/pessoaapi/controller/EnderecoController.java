@@ -21,10 +21,6 @@ public class EnderecoController {
     @Autowired
     private EnderecoService enderecoService;
 
-//    public EnderecoController(EnderecoService enderecoService) {
-//        this.enderecoService = enderecoService;
-//    }
-
     @GetMapping
     public List<EnderecoDTO> listar() {
         return enderecoService.listar();
@@ -41,12 +37,12 @@ public class EnderecoController {
     }
 
     @PostMapping("/{idPessoa}")
-    public EnderecoDTO criar(@Valid @PathVariable("idPessoa") Integer idPessoa,@Valid @RequestBody EnderecoCreateDTO endereco) throws RegraDeNegocioException {
+    public EnderecoDTO criar(@Valid @PathVariable("idPessoa") Integer idPessoa, @Valid @RequestBody EnderecoCreateDTO endereco) throws RegraDeNegocioException {
         return enderecoService.criar(idPessoa, endereco);
     }
 
     @PutMapping("/{idEndereco}")
-    public EnderecoDTO editar(@PathVariable("idEndereco") Integer idEndereco,@Valid @RequestBody EnderecoCreateDTO enderecoNovo) throws RegraDeNegocioException {
+    public EnderecoDTO editar(@PathVariable("idEndereco") Integer idEndereco, @Valid @RequestBody EnderecoCreateDTO enderecoNovo) throws RegraDeNegocioException {
         return enderecoService.editar(idEndereco, enderecoNovo);
     }
 

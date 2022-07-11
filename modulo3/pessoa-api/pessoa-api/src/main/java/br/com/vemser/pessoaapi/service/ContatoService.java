@@ -7,6 +7,7 @@ import br.com.vemser.pessoaapi.entity.Pessoa;
 import br.com.vemser.pessoaapi.exceptions.ObjNulo;
 import br.com.vemser.pessoaapi.exceptions.RegraDeNegocioException;
 import br.com.vemser.pessoaapi.repository.ContatoRepository;
+import br.com.vemser.pessoaapi.repository.PessoaRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,10 @@ import java.util.stream.Collectors;
 public class ContatoService {
     @Autowired
     private ContatoRepository contatoRepository;
+
+    @Autowired
+    private PessoaRepository pessoaRepository;
+
     private ObjectMapper objectMapper = new ObjectMapper();
 
     //    METODOS DE VALIDAÇÃO
@@ -29,9 +34,9 @@ public class ContatoService {
     }
 
     public boolean pessoaExiste(Integer idPessoa) {
-        return contatoRepository.listar().stream()
-                .anyMatch(contato -> contato.getIdPessoa().equals(idPessoa));
-    }
+        return pessoaRepository.listar().stream()
+                .anyMatch(pessoa -> pessoa.getIdPessoa().equals(idPessoa));
+    } // TODO verificar na repo da pessoa -- FEITO!
 
     //    MÉTODOS DE CONVERSAO
     public Contato convertToContato(ContatoCreateDTO contato) {
@@ -45,7 +50,7 @@ public class ContatoService {
     }
 
 
-    public List<ContatoDTO> listar() throws RegraDeNegocioException{
+    public List<ContatoDTO> listar() throws RegraDeNegocioException {
 
         List<ContatoDTO> lista = contatoRepository.listar()
                 .stream().map(this::convertToContatoDTO)
@@ -55,23 +60,25 @@ public class ContatoService {
     }
 
     public List<ContatoDTO> listarIdPessoa(Integer idPessoa) throws RegraDeNegocioException {
-        if(pessoaExiste(idPessoa)) {
+        if (pessoaExiste(idPessoa)) {
             return this.listar().stream()
                     .filter(contatoDTO -> contatoDTO.getIdPessoa().equals(idPessoa))
                     .collect(Collectors.toList());
-        }else throw new RegraDeNegocioException("Pessoa solicitada nao existe");
+        } else throw new RegraDeNegocioException("Pessoa solicitada nao existe");
     }
 
 
     public ContatoDTO criar(Integer idPessoa, ContatoCreateDTO contato) throws RegraDeNegocioException {
-        if(pessoaExiste(idPessoa)){
+        if (pessoaExiste(idPessoa)) {
 
             Contato contatoCriar = convertToContato(contato);
 
-            Contato contatoCriado = contatoRepository.criar(idPessoa ,contatoCriar);
+            Contato contatoCriado = contatoRepository.criar(idPessoa, contatoCriar);
             ContatoDTO confirm = convertToContatoDTO(contatoCriado);
             return confirm;
-        }else throw new RegraDeNegocioException("Pessoa solicitada nao existe");
+        } else {
+            throw new RegraDeNegocioException("Pessoa solicitada nao existe");
+        }
     }
 
     public ContatoDTO editar(Integer idContato, ContatoCreateDTO contatoNovo) throws RegraDeNegocioException {
@@ -80,7 +87,7 @@ public class ContatoService {
 
             Contato contatoAtual = new Contato();
             contatoAtual = convertToContato(contatoNovo);
-            log.info("ContatoAtual antes de receber os sets = "+contatoAtual);
+            log.info("ContatoAtual antes de receber os sets = " + contatoAtual);
 
             contatoAtual.setIdContato(idContato);
 
@@ -89,7 +96,9 @@ public class ContatoService {
 
             return contatoAtualDTO;
 
-        } throw new RegraDeNegocioException("Pessoa ou contato inexistentes");
+        } else {
+            throw new RegraDeNegocioException("Pessoa ou contato inexistentes");
+        }
     }
 
     public void apagar(Integer idContato) throws RegraDeNegocioException {
@@ -98,6 +107,8 @@ public class ContatoService {
             log.info("Passou pelo if");
             contatoRepository.apagar(idContato);
             log.info("Foi ao repository e voltou");
-        }else throw new RegraDeNegocioException("O contato solicitado nao foi encontrado.");
+        } else {
+            throw new RegraDeNegocioException("O contato solicitado nao foi encontrado.");
+        }
     }
 }

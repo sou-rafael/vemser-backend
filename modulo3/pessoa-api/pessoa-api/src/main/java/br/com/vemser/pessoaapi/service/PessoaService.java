@@ -1,7 +1,10 @@
 package br.com.vemser.pessoaapi.service;
 
+import br.com.vemser.pessoaapi.dto.ContatoCreateDTO;
+import br.com.vemser.pessoaapi.dto.ContatoDTO;
 import br.com.vemser.pessoaapi.dto.PessoaCreateDTO;
 import br.com.vemser.pessoaapi.dto.PessoaDTO;
+import br.com.vemser.pessoaapi.entity.Contato;
 import br.com.vemser.pessoaapi.entity.Pessoa;
 import br.com.vemser.pessoaapi.exceptions.RegraDeNegocioException;
 import br.com.vemser.pessoaapi.repository.PessoaRepository;
@@ -21,62 +24,75 @@ public class PessoaService {
     private PessoaRepository pessoaRepository;
     private ObjectMapper objectMapper;
 
-    //POST
-    public Pessoa create(PessoaDTO pessoaDTO) {
-        Pessoa pessoa = pessoaDTO.build();
-        pessoaRepository.create(pessoa);
-        return pessoa;
+    //    METODO DE VALIDAÇAO
+    public boolean pessoaExiste(Integer idPessoa) {
+        return pessoaRepository.listar().stream()
+                .anyMatch(pessoa -> pessoa.getIdPessoa().equals(idPessoa));
     }
 
-    public List<Pessoa> list() throws RegraDeNegocioException {
-        // nao posso retornar o objectMapper -- NPE?
-        log.info("Passou na Service, mas esta antes de tudo");
-        List<Pessoa> lista = pessoaRepository.listar();
-        log.info("Passou na Service, PESQUISOU NA LISTA DO REPOSITORY");
+    //  METODOS DE CONVERSAO
+    public Pessoa convertToPessoa(PessoaCreateDTO pessoa) {
+        Pessoa pessoaConvertido = objectMapper.convertValue(pessoa, Pessoa.class);
+        return pessoaConvertido;
+    }
+
+    public PessoaDTO convertToPessoaDTO(Pessoa pessoa) {
+        PessoaDTO pessoaConvertido = objectMapper.convertValue(pessoa, PessoaDTO.class);
+        return pessoaConvertido;
+    }
+
+    public List<PessoaDTO> list() throws RegraDeNegocioException {
+
+        List<PessoaDTO> lista = pessoaRepository.listar()
+                .stream().map(this::convertToPessoaDTO)
+                .collect(Collectors.toList());
 
         return lista;
     }
 
-    //PUT todo
-    public Pessoa update(Integer id, PessoaDTO pessoaAtualizar) throws RegraDeNegocioException {
-        Pessoa pessoaRecPESSOA = getPessoa(id);
+    public List<PessoaDTO> listByName(String nome) throws RegraDeNegocioException {
+        List<Pessoa> listaPessoa = pessoaRepository.getListaPessoas().stream()
+                .filter(pessoa -> pessoa.getNome().toUpperCase().contains(nome.toUpperCase()))
+                .collect(Collectors.toList());
+        List<PessoaDTO> listaPessoaDTO = listaPessoa.stream()
+                .map(this::convertToPessoaDTO)
+                .collect(Collectors.toList());
 
+        return listaPessoaDTO;
+    }
+
+    private PessoaDTO getPessoa(Integer id) throws RegraDeNegocioException {
+        Pessoa pessoaRecuperada = pessoaRepository.getListaPessoas().stream()
+                .filter(pessoa -> pessoa.getIdPessoa().equals(id))
+                .findFirst()
+                .orElseThrow(() -> new RegraDeNegocioException("Pessoa não econtrada"));
+
+        return convertToPessoaDTO(pessoaRecuperada);
+    }
+    public PessoaDTO create(PessoaCreateDTO pessoa) throws RegraDeNegocioException {
+        Pessoa pessoaCriar = convertToPessoa(pessoa);
+
+        Pessoa pessoaCriado = pessoaRepository.create(pessoaCriar);
+        PessoaDTO confirm = convertToPessoaDTO(pessoaCriado);
+        return confirm;
+    }
+
+    public PessoaDTO update(Integer id, PessoaCreateDTO pessoaAtualizar) throws RegraDeNegocioException {
+        Pessoa pessoaRecPESSOA = convertToPessoa(pessoaAtualizar);
         pessoaRecPESSOA.setCpf(pessoaAtualizar.getCpf());
         pessoaRecPESSOA.setNome(pessoaAtualizar.getNome());
         pessoaRecPESSOA.setDataNascimento(pessoaAtualizar.getDataNascimento());
         pessoaRecPESSOA.setIdPessoa(id);
         log.info("Service:dps de atualizada, pessoaRecPessoa = " + pessoaRecPESSOA);
 
-        //voltar para classe PessoaDTO para dar o retorno neste tipo?
-        return pessoaRecPESSOA;
+        return convertToPessoaDTO(pessoaRecPESSOA);
     }
 
-    private Pessoa getPessoa(Integer id) throws RegraDeNegocioException {
-        Pessoa pessoaRecuperada = pessoaRepository.getListaPessoas().stream()
-                .filter(pessoa -> pessoa.getIdPessoa().equals(id))
-                .findFirst()
-                .orElseThrow(() -> new RegraDeNegocioException("Pessoa não econtrada"));
-
-        return pessoaRecuperada;
-    }
-
-    // DELETE
     public void delete(Integer id) throws RegraDeNegocioException {
-        Pessoa pessoaRecuperada = getPessoa(id);
-
-        pessoaRepository.getListaPessoas().remove(pessoaRecuperada);
-    }
-
-    public List<Pessoa> listByName(String nome) {
-//        passando a pesquisa direto como argumento no ObjectMapping
-        return pessoaRepository.getListaPessoas().stream()
-                .filter(pessoa -> pessoa.getNome().toUpperCase().contains(nome.toUpperCase()))
-                .collect(Collectors.toList());
-    }
-
-    public boolean pessoaExiste(Integer idPessoa) throws RegraDeNegocioException {
-        Pessoa pessoaDaLista = getPessoa(idPessoa);
-        Pessoa pessoaEncontrada = objectMapper.convertValue(pessoaDaLista, Pessoa.class);
-        return pessoaRepository.listar().contains(pessoaEncontrada);
+        if (pessoaExiste(id)) {
+            pessoaRepository.delete(id);
+        } else {
+            throw new RegraDeNegocioException("O contato solicitado nao foi encontrado.");
+        }
     }
 }

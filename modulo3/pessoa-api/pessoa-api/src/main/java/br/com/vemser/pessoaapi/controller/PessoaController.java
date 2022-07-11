@@ -25,7 +25,7 @@ public class PessoaController {
     @Autowired
     private PessoaService pessoaService;
 
-
+    //    ******************** exemplos da aula *********************************************
     @GetMapping("/hello") // localhost:8080/pessoa/hello
     public String hello() {
         return "Hello World!";
@@ -36,39 +36,36 @@ public class PessoaController {
         return "Hello World 2!";
     }
 
-    // ***********************************************************************************
     @GetMapping("/{ambiente}")
     public String getAmbiente() {
         return propertieReader.getAmbiente();
     }
-//    **************************************************************************************
-
-    @PostMapping
-    public Pessoa create (@RequestBody PessoaDTO pessoa){
-        Pessoa p = pessoaService.create(pessoa);
-        return p;
-    }
-
+//  **************************************************************************************
 
     @GetMapping
-    public List<Pessoa> list() throws RegraDeNegocioException {
+    public List<PessoaDTO> list() throws RegraDeNegocioException {
         return pessoaService.list();
     }
 
+    @GetMapping("/byname") // localhost:8080/pessoa/byname?nome=Rafa
+    public List<PessoaDTO> listByName(@RequestParam("nome") String nome) throws RegraDeNegocioException {
+        return pessoaService.listByName(nome);
+    }
+
+
     @PutMapping("/{idPessoa}")
-    public Pessoa update(@PathVariable("idPessoa") Integer id,
-                         @Valid @RequestBody PessoaDTO pessoaAtualizar) throws RegraDeNegocioException {
+    public PessoaDTO update(@PathVariable("idPessoa") Integer id,
+                            @Valid @RequestBody PessoaCreateDTO pessoaAtualizar) throws RegraDeNegocioException {
         return pessoaService.update(id, pessoaAtualizar);
+    }
+
+    @PostMapping
+    public PessoaDTO create(@RequestBody PessoaCreateDTO pessoa) throws RegraDeNegocioException {
+        return pessoaService.create(pessoa);
     }
 
     @DeleteMapping("/{idPessoa}")
     public void delete(@PathVariable("idPessoa") Integer id) throws RegraDeNegocioException {
         pessoaService.delete(id);
     }
-
-    @GetMapping("/byname") // localhost:8080/pessoa/byname?nome=Rafa
-    public List<Pessoa> listByName(@RequestParam("nome") String nome) {
-        return pessoaService.listByName(nome);
-    }
-
 }
