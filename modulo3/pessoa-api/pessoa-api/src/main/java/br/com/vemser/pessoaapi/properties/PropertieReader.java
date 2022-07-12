@@ -11,4 +11,11 @@ public class PropertieReader {
 
     @Value("${ambiente}")
     private String ambiente;
+
+    @Value("${spring.mail.username}")
+    private String email;
+
+    public String getEmail() {
+        return email;
+    }
 }

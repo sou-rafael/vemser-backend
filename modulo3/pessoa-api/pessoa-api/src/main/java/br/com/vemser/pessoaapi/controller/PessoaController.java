@@ -36,6 +36,9 @@ public class PessoaController {
         return "Hello World 2!";
     }
 
+    @GetMapping("/checkEmail")
+    public String checkEmail() { return propertieReader.getEmail(); }
+
     @GetMapping("/{ambiente}")
     public String getAmbiente() {
         return propertieReader.getAmbiente();

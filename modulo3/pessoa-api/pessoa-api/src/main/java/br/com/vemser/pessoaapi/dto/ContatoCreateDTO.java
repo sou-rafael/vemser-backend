@@ -14,7 +14,6 @@ import javax.validation.constraints.Size;
 @NoArgsConstructor
 @ToString
 public class ContatoCreateDTO {
-    @NotNull
     private Integer idPessoa;
     @NotNull
     private TipoContato tipoContato;

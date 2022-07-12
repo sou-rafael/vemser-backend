@@ -52,7 +52,9 @@ public class EnderecoService {
     // TODO verificar em pessoaRepo -- FEITO!
 
     public List<EnderecoDTO> listar() {
-        return enderecoRepository.listar().stream().map(this::convertToEnderecoDTO).collect(Collectors.toList());
+        return enderecoRepository.listar().stream()
+                .map(this::convertToEnderecoDTO)
+                .collect(Collectors.toList());
     }
 
     public List<EnderecoDTO> listarIdEndereco(Integer idEndereco) throws RegraDeNegocioException {

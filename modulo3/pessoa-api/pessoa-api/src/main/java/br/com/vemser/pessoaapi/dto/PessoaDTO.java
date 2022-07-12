@@ -15,6 +15,5 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @ToString
 public class PessoaDTO extends PessoaCreateDTO {
-    @NotNull
     private Integer idPessoa;
 }

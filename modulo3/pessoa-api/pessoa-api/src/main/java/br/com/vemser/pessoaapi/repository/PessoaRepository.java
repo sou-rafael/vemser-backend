@@ -17,24 +17,20 @@ import java.util.stream.Collectors;
 @Slf4j
 @Repository
 public class PessoaRepository {
-    public static List<Pessoa> getListaPessoas() {
-        return listaPessoas;
-    }
-
-    private static List<Pessoa> listaPessoas = new ArrayList<Pessoa>();
+    private static List<Pessoa> listaPessoas = new ArrayList<>();
     private AtomicInteger COUNTER = new AtomicInteger();
 
     public PessoaRepository() {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy"); //18/10/2020
-        listaPessoas.add(new Pessoa(COUNTER.incrementAndGet() /*1*/, "Maicon Gerardi", LocalDate.parse("10/10/1990", formatter), "12345678910"));
-        listaPessoas.add(new Pessoa(COUNTER.incrementAndGet() /*2*/, "Charles Pereira", LocalDate.parse("08/05/1985", formatter), "12345678911"));
-        listaPessoas.add(new Pessoa(COUNTER.incrementAndGet() /*3*/, "Marina Oliveira", LocalDate.parse("30/03/1970", formatter), "12345678912"));
-        listaPessoas.add(new Pessoa(COUNTER.incrementAndGet() /*4*/, "Rafael Lazzari", LocalDate.parse("01/07/1990", formatter), "12345678916"));
-        listaPessoas.add(new Pessoa(COUNTER.incrementAndGet() /*5*/, "Ana", LocalDate.parse("01/07/1990", formatter), "12345678917"));
+//        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy"); //18/10/2020
+        listaPessoas.add(new Pessoa(COUNTER.incrementAndGet() /*1*/, "Maicon Gerardi", "10/10/1990", "12345678910", "primeiro@fasfa.com.br"));
+        listaPessoas.add(new Pessoa(COUNTER.incrementAndGet() /*2*/, "Charles Pereira", "08/05/1985", "12345678911","segundo@email.com.br"));
+        listaPessoas.add(new Pessoa(COUNTER.incrementAndGet() /*3*/, "Marina Oliveira","30/03/1970", "12345678912","terceiro@email.com.br"));
+        listaPessoas.add(new Pessoa(COUNTER.incrementAndGet() /*4*/, "Rafael Lazzari","01/07/1990", "12345678916","quarto@email.com.br"));
+        listaPessoas.add(new Pessoa(COUNTER.incrementAndGet() /*5*/, "Ana","01/07/1990", "12345678917","quinto@email.com.br"));
     }
 
     public List<Pessoa> listar() {
-        log.info("Entrou na Repository");
+        log.info("Entrou na Repository= "+listaPessoas);
         return listaPessoas;
     }
     public Pessoa create(Pessoa pessoa) {
@@ -47,6 +43,7 @@ public class PessoaRepository {
         Pessoa pessoaApagar = listar().stream()
                 .filter(pessoa -> pessoa.getIdPessoa().equals(id))
                 .findFirst().get();
+
         listaPessoas.remove(pessoaApagar);
     }
    /* //PUT
