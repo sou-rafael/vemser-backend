@@ -193,7 +193,7 @@ public class EmailService {
         }
 
     }
-
+//todo Ajustes nos templates
     public String geContentFromTemplate(EnderecoDTO enderecoDTO, String tipoMensagem) throws IOException, TemplateException {
         Map<String, Object> dados = new HashMap<>();
         String nome = encontrarPessoaPeloEndereco(enderecoDTO).getNome();
