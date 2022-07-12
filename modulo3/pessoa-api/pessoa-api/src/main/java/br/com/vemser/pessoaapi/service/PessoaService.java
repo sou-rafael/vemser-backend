@@ -28,8 +28,8 @@ public class PessoaService {
     private ObjectMapper objectMapper = new ObjectMapper();
     @Autowired
     private MailSender mailSender;
-    private SimpleMailMessage templateMessage;
-
+    private SimpleMailMessage templateMessage = new SimpleMailMessage();
+    @Autowired
     public PropertieReader propertieReader;
     @Autowired
     public EmailService emailService;
@@ -83,14 +83,6 @@ public class PessoaService {
     }
 
     public PessoaDTO create(PessoaCreateDTO pessoa) throws RegraDeNegocioException {
-        Pessoa pessoaCriar = convertToPessoa(pessoa);
-
-        Pessoa pessoaCriado = pessoaRepository.create(pessoaCriar);
-        PessoaDTO confirm = convertToPessoaDTO(pessoaCriado);
-        return confirm;
-    }
-
-    public PessoaDTO createWithEmail(PessoaCreateDTO pessoa) throws RegraDeNegocioException {
         Pessoa pessoaCriar = convertToPessoa(pessoa);
         Pessoa pessoaCriado = pessoaRepository.create(pessoaCriar);
         PessoaDTO confirm = convertToPessoaDTO(pessoaCriado);

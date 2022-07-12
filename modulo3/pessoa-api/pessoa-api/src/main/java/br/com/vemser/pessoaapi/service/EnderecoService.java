@@ -5,6 +5,7 @@ import br.com.vemser.pessoaapi.dto.EnderecoDTO;
 import br.com.vemser.pessoaapi.entity.Contato;
 import br.com.vemser.pessoaapi.entity.Endereco;
 import br.com.vemser.pessoaapi.exceptions.RegraDeNegocioException;
+import br.com.vemser.pessoaapi.properties.PropertieReader;
 import br.com.vemser.pessoaapi.repository.EnderecoRepository;
 import br.com.vemser.pessoaapi.repository.PessoaRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -12,6 +13,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.MailSender;
+import org.springframework.mail.SimpleMailMessage;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -27,6 +30,14 @@ public class EnderecoService {
     private PessoaRepository pessoaRepository;
 
     private ObjectMapper objectMapper = new ObjectMapper();
+
+    @Autowired
+    private MailSender mailSender;
+    private SimpleMailMessage templateMessage = new SimpleMailMessage();
+    @Autowired
+    public PropertieReader propertieReader;
+    @Autowired
+    public EmailService emailService;
 
     //    metodos de conversão
     public Endereco covertToEndereco(EnderecoCreateDTO enderecoCreateDTO) {
@@ -78,19 +89,28 @@ public class EnderecoService {
         boolean pessoaExiste = enderecoRepository.listar().stream()
                 .anyMatch(pessoa -> pessoa.getIdPessoa().equals(idPessoa));
         if (pessoaExiste) {
-            return convertToEnderecoDTO(enderecoRepository.criar(idPessoa, endereco));
+
+            EnderecoDTO enderecoDTO = convertToEnderecoDTO(enderecoRepository.criar(idPessoa, endereco));
+            emailService.sendEnderecoCriado(enderecoDTO);
+            return enderecoDTO;
         } else throw new RegraDeNegocioException("O endereco nao eh valido ou nao esta na lista.");
     }
 
     public EnderecoDTO editar(Integer idEndereco, EnderecoCreateDTO enderecoNovo) throws RegraDeNegocioException {
         if (endExiste(idEndereco)) {
-            return convertToEnderecoDTO(enderecoRepository.editar(idEndereco, enderecoNovo));
+            EnderecoDTO enderecoDTO = convertToEnderecoDTO(enderecoRepository.editar(idEndereco, enderecoNovo));
+            emailService.sendEnderecoAlterado(enderecoDTO);
+            return enderecoDTO;
         } else throw new RegraDeNegocioException("O endereco nao esta na lista");
     }
 
     public void apagar(Integer idEndereco) throws RegraDeNegocioException {
         if (endExiste(idEndereco)) {
-            log.info("Passou pelo if(endExiste)");
+            Endereco endRemover = enderecoRepository.listar().stream()
+                    .filter(endereco -> endereco.getIdEndereco().equals(idEndereco))
+                    .findFirst().get();
+            EnderecoDTO enderecoDTO = convertToEnderecoDTO(endRemover);
+            emailService.sendEnderecoDeletado(enderecoDTO);
             enderecoRepository.apagar(idEndereco);
         }
     }

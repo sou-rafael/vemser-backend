@@ -1,9 +1,12 @@
 package br.com.vemser.pessoaapi.service;
 
+import br.com.vemser.pessoaapi.dto.EnderecoDTO;
 import br.com.vemser.pessoaapi.dto.PessoaDTO;
 import br.com.vemser.pessoaapi.entity.Pessoa;
+import br.com.vemser.pessoaapi.repository.PessoaRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.Accessors;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -14,7 +17,10 @@ import org.springframework.stereotype.Component;
 public class EmailService {
     @Value("${spring.mail.username}")
     private String meuEmail;
+    @Autowired
     private JavaMailSender emailSender;
+    @Autowired
+    private PessoaRepository pessoaRepository;
 
     public void sendPessoaCriada(PessoaDTO pessoa) {
         SimpleMailMessage mensagem = new SimpleMailMessage();
@@ -65,6 +71,67 @@ public class EmailService {
         );
         emailSender.send(mensagem);
     }
+//******************** ENDERECO ***********************************
+public void sendEnderecoCriado(EnderecoDTO endereco) {
+    SimpleMailMessage mensagem = new SimpleMailMessage();
+    // pegar a pessoa dona do endereco pelo idPessoa
+    Pessoa pessoa = pessoaRepository.listar().stream()
+            .filter(pp-> pp.getIdPessoa().equals(endereco.getIdPessoa()))
+            .findFirst().get();
 
+    mensagem.setFrom(meuEmail);
+    mensagem.setTo(pessoa.getEmail());
+    mensagem.setSubject("Seja muito bem-vindo!");
+    mensagem.setText(
+            "Olá " + pessoa.getNome() + ",\n"
+                    + "Um novo endereço foi inserido no seu perfil:\n"
+                    + endereco.toString()
+                    + "\nQualquer dúvida é só contatar o suporte pelo email "
+                    + meuEmail
+                    + "\nAtt,\nSistema."
+    );
+    emailSender.send(mensagem);
+}
+
+    public void sendEnderecoAlterado(EnderecoDTO endereco) {
+        SimpleMailMessage mensagem = new SimpleMailMessage();
+        // pegar a pessoa dona do endereco pelo idPessoa
+        Pessoa pessoa = pessoaRepository.listar().stream()
+                .filter(pp-> pp.getIdPessoa().equals(endereco.getIdPessoa()))
+                .findFirst().get();
+
+        mensagem.setFrom(meuEmail);
+        mensagem.setTo(pessoa.getEmail());
+        mensagem.setSubject("Seja muito bem-vindo!");
+        mensagem.setText(
+                "Olá " + pessoa.getNome() + ",\n"
+                        + "Um novo endereço foi inserido no seu perfil:\n"
+                        + endereco.toString()
+                        + "\nQualquer dúvida é só contatar o suporte pelo email "
+                        + meuEmail
+                        + "\nAtt,\nSistema."
+        );
+        emailSender.send(mensagem);
+    }
+    public void sendEnderecoDeletado(EnderecoDTO endereco) {
+        SimpleMailMessage mensagem = new SimpleMailMessage();
+        // pegar a pessoa dona do endereco pelo idPessoa
+        Pessoa pessoa = pessoaRepository.listar().stream()
+                .filter(pp-> pp.getIdPessoa().equals(endereco.getIdPessoa()))
+                .findFirst().get();
+
+        mensagem.setFrom(meuEmail);
+        mensagem.setTo(pessoa.getEmail());
+        mensagem.setSubject("Seja muito bem-vindo!");
+        mensagem.setText(
+                "Olá " + pessoa.getNome() + ",\n"
+                        + "Este endereço foi excluido do seu perfil:\n"
+                        + endereco.toString()
+                        + "\nQualquer dúvida é só contatar o suporte pelo email "
+                        + meuEmail
+                        + "\nAtt,\nSistema."
+        );
+        emailSender.send(mensagem);
+    }
 
 }
