@@ -102,6 +102,14 @@ public class EmailService {
         );
         emailSender.send(mensagem);
     }
+    public String templateEnderecoCriado(EnderecoDTO enderecoDTO) throws IOException, TemplateException {
+        Map<String, Object> dados = new HashMap<>();
+        dados.put("Endereco", enderecoDTO.toString());
+
+        Template template = fmConfiguration.getTemplate("templateBasico.ftl");
+        String html = FreeMarkerTemplateUtils.processTemplateIntoString(template, dados);
+        return html;
+    }
 
     public void sendEnderecoAlterado(EnderecoDTO endereco) {
         SimpleMailMessage mensagem = new SimpleMailMessage();
@@ -146,14 +154,6 @@ public class EmailService {
     }
 
     //    ***************** template *********************
-    public String geContentFromTemplate() throws IOException, TemplateException {
-        Map<String, Object> dados = new HashMap<>();
-        dados.put("nome", "MeuNome");
-        dados.put("email", "aaa@aaa");
 
-        Template template = fmConfiguration.getTemplate("email-template.ftl");
-        String html = FreeMarkerTemplateUtils.processTemplateIntoString(template, dados);
-        return html;
-    }
 
 }
