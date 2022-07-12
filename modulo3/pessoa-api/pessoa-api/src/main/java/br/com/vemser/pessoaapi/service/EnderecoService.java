@@ -33,6 +33,7 @@ public class EnderecoService {
 
     @Autowired
     private MailSender mailSender;
+
     private SimpleMailMessage templateMessage = new SimpleMailMessage();
     @Autowired
     public PropertieReader propertieReader;
