@@ -3,6 +3,7 @@ package br.com.vemser.pessoaapi.repository;
 import br.com.vemser.pessoaapi.dto.PessoaDTO;
 import br.com.vemser.pessoaapi.entity.Contato;
 import br.com.vemser.pessoaapi.entity.Pessoa;
+import br.com.vemser.pessoaapi.exceptions.RegraDeNegocioException;
 import br.com.vemser.pessoaapi.service.PessoaService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +31,6 @@ public class PessoaRepository {
     }
 
     public List<Pessoa> listar() {
-        log.info("Entrou na Repository= "+listaPessoas);
         return listaPessoas;
     }
     public Pessoa create(Pessoa pessoa) {
@@ -46,11 +46,11 @@ public class PessoaRepository {
 
         listaPessoas.remove(pessoaApagar);
     }
-   /* //PUT
-    public Pessoa update(Integer id, Pessoa pessoaAtualizar) throws Exception {
-        return null;
+    public void update(Integer id, Pessoa pessoaAtualizar) throws RegraDeNegocioException {
+        listaPessoas.add(id-1, pessoaAtualizar);
+        log.info("Na repository, pessoa atualizada");
     }
-
+/*
     //GET POR NOME
     public List<Pessoa> listByName(String nome) {
         return null;

@@ -1,6 +1,7 @@
 package br.com.vemser.pessoaapi.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 import lombok.experimental.Accessors;
 import org.jetbrains.annotations.NotNull;
@@ -20,8 +21,10 @@ import java.time.LocalDate;
 public class Pessoa {
     private Integer idPessoa;
     @NotEmpty(message = "nao pode ficar vazio")
+    @Schema(description = "Nome da Pessoa")
+    //@Getter(AccessLevel.NONE)
     private String nome;
-    @Past
+//    @Past
     @NotNull
     private String dataNascimento;
     @Size(min=11, max=11)
@@ -29,3 +32,6 @@ public class Pessoa {
     private String email;
 
 }
+
+//@Getter(AccessLevel.NONE)
+// USAR PARA RETIRAR DETERMINADO ATRIBUTO DOS GETTERS (neste caso para o nome não seria gerado getNome)

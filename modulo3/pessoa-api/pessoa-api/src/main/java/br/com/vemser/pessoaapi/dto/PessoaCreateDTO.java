@@ -2,6 +2,7 @@ package br.com.vemser.pessoaapi.dto;
 
 import br.com.vemser.pessoaapi.entity.Pessoa;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 import lombok.experimental.Accessors;
 import org.jetbrains.annotations.NotNull;
@@ -18,8 +19,9 @@ import java.time.LocalDate;
 public class PessoaCreateDTO {
     @NotBlank
     @NotEmpty(message = "nao pode ficar vazio")
+    @Schema(description = "Nome da Pessoa")
     private String nome;
-    @Past
+//    @Past
     @NotNull
     private String dataNascimento;
     @Size(min = 11, max = 11)

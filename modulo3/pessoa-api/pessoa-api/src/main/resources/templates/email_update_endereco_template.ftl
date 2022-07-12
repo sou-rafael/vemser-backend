@@ -1,7 +1,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Java Mail</title>
+    <title>Remoção de endereço</title>
 </head>
 
 <body>
@@ -15,17 +15,20 @@
                         style="background-color: #d3be6c; font-family: Arial, Helvetica, sans-serif; font-size: 13px; color: #000000; padding: 0px 15px 10px 15px;">
 
                         <div style="font-size: 48px; color:blue;">
-                            <b>Java Mail</b>
+                            <b>Endereço Atualizado</b>
                         </div>
 
                         <div style="font-size: 24px; color: #555100;">
-                            <br> Sending Email using Spring Boot with <b>FreeMarker
-                            template !!!</b> <br>
+                            <div>
+                            Olá ${nome},
+                            Seus dados foram atualizados no nosso sistema.
+                            Qualquer duvida é só contatar o suporte pelo e-mail ${email} .
+                            Att,
+                            Sistema.
+                            </div>
                         </div>
                         <div>
-                            <br>"Sharing the knowledge is biggest learning" <br> <br>
-                            <br> <br> <b>${nome} - ${email}</b>
-                            <br>
+                            <br>Qualquer duvida é só contatar nosso suporte tecnico pelo email ${email} <br>
                         </div>
                     </td>
                 </tr>

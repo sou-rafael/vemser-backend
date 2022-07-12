@@ -100,6 +100,8 @@ public class PessoaService {
         pessoaRecPESSOA.setIdPessoa(id);
         log.info("Service:dps de atualizada, pessoaRecPessoa = " + pessoaRecPESSOA);
 
+        pessoaRepository.update(id, pessoaRecPESSOA);
+
 //        ----------- ENVIAR EMAIL -----------------------
         PessoaDTO pessoaDTO = convertToPessoaDTO(pessoaRecPESSOA);
         emailService.sendPessoaAlterada(pessoaDTO);
