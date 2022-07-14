@@ -42,30 +42,4 @@ public class DadosCompletosDTO {
     private Sexo sexo;
     private String tituloEleitor;
 
-    public DadosCompletosDTO(Integer idPessoa, String nome, String dataNascimento, String cpf, String email, Integer idEndereco, TipoEndereco tipo, String logradouro, Integer numeroEnd, String complemento, String cep, String cidade, String estado, String pais, Integer idContato, TipoContato tipoContato, String numeroCont, String descricao, String cnh, String nomeMae, String nomePai, String rg, Sexo sexo, String tituloEleitor) {
-        this.idPessoa = idPessoa;
-        this.nome = nome;
-        this.dataNascimento = dataNascimento;
-        this.cpf = cpf;
-        this.email = email;
-        this.idEndereco = idEndereco;
-        this.tipo = tipo;
-        this.logradouro = logradouro;
-        this.numeroEnd = numeroEnd;
-        this.complemento = complemento;
-        this.cep = cep;
-        this.cidade = cidade;
-        this.estado = estado;
-        this.pais = pais;
-        this.idContato = idContato;
-        this.tipoContato = tipoContato;
-        this.numeroCont = numeroCont;
-        this.descricao = descricao;
-        this.cnh = cnh;
-        this.nomeMae = nomeMae;
-        this.nomePai = nomePai;
-        this.rg = rg;
-        this.sexo = sexo;
-        this.tituloEleitor = tituloEleitor;
-    }
 }
