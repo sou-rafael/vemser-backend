@@ -13,17 +13,12 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-//@Accessors(chain = true)
 public class Contato {
 
     private Integer idContato;
     private Integer idPessoa;
-//    @NotNull
     private TipoContato tipoContato;
-//    @NotEmpty
-//    @Size(min = 1, max = 13)
     private String numero;
-//    @NotEmpty
     private String descricao;
 
 }

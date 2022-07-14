@@ -12,7 +12,6 @@ import java.util.List;
 @FeignClient(value="dados-pessoais-api", url="https://dados-pessoais-vemserdbc.herokuapp.com")
 @Headers("Content-Type: application/json")
 public interface DadosPessoaisClient {
-
     @RequestLine("GET /dados-pessoais")
     List<DadosPessoaisDTO> getAll();
 

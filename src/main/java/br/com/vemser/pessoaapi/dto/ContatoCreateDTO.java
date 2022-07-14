@@ -22,8 +22,10 @@ public class ContatoCreateDTO {
     private TipoContato tipoContato;
     @NotEmpty
     @Size(min = 1, max = 13)
+    @Schema(description = "numero do Contato")
     private String numero;
     @NotEmpty
+    @Schema(description = "descrição do Contato")
     private String descricao;
 
 }

@@ -77,6 +77,7 @@ public class EnderecoController {
     public EnderecoDTO criar(@Valid @PathVariable("idPessoa") Integer idPessoa, @Valid @RequestBody EnderecoCreateDTO endereco) throws RegraDeNegocioException {
         return enderecoService.criar(idPessoa, endereco);
     }
+
     //*********************************************************************************************************************************
     @Operation(summary = "Editar endereço específico e envia um email de confirmação", description = "Atualiza determinado endereço especificado e envia um email de confirmação.")
     @ApiResponses(

@@ -20,13 +20,8 @@ import java.time.LocalDate;
 @ToString
 public class Pessoa {
     private Integer idPessoa;
-//    @NotEmpty(message = "nao pode ficar vazio")
-    //@Getter(AccessLevel.NONE)
     private String nome;
-//    @Past
-//    @NotNull
     private String dataNascimento;
-//    @Size(min=11, max=11)
     private String cpf;
     private String email;
 

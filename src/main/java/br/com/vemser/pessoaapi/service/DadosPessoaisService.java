@@ -2,12 +2,15 @@ package br.com.vemser.pessoaapi.service;
 
 import br.com.vemser.pessoaapi.client.DadosPessoaisClient;
 import br.com.vemser.pessoaapi.dto.DadosPessoaisDTO;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 @Service
+
 public class DadosPessoaisService implements DadosPessoaisClient {
+
     private final DadosPessoaisClient dadosPessoaisClient;
 
     public DadosPessoaisService(DadosPessoaisClient dadosPessoaisClient) {

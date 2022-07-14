@@ -37,9 +37,9 @@ public class EnderecoService {
 
     private SimpleMailMessage templateMessage = new SimpleMailMessage();
     @Autowired
-    public PropertieReader propertieReader;
+    private PropertieReader propertieReader;
     @Autowired
-    public EmailService emailService;
+    private EmailService emailService;
 
     //    metodos de conversão
     public Endereco covertToEndereco(EnderecoCreateDTO enderecoCreateDTO) {
@@ -62,7 +62,6 @@ public class EnderecoService {
         return pessoaRepository.listar().stream()
                 .anyMatch(pessoa -> pessoa.getIdPessoa().equals(idPessoa));
     }
-    // TODO verificar em pessoaRepo -- FEITO!
 
     public List<EnderecoDTO> listar() {
         return enderecoRepository.listar().stream()
