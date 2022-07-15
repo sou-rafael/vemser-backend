@@ -21,12 +21,14 @@ public class PessoaCreateDTO {
     @NotEmpty(message = "nao pode ficar vazio")
     @Schema(description = "Nome da Pessoa")
     private String nome;
-//    @Past
+    @Past
     @NotNull
+    @Schema(description = "data de nascimento da Pessoa")
     private String dataNascimento;
     @Size(min = 11, max = 11)
+    @Schema(description = "cpf da Pessoa")
     private String cpf;
-
+    @Schema(description = "e-mail da Pessoa")
     private String email;
 
 

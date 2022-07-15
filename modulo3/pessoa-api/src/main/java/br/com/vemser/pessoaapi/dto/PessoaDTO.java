@@ -1,6 +1,7 @@
 package br.com.vemser.pessoaapi.dto;
 
 import br.com.vemser.pessoaapi.entity.Pessoa;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 import org.jetbrains.annotations.NotNull;
 
@@ -15,5 +16,6 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @ToString
 public class PessoaDTO extends PessoaCreateDTO {
+    @Schema(description = "id da Pessoa")
     private Integer idPessoa;
 }
