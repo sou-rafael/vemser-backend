@@ -16,7 +16,6 @@ public class PessoaCreateDTO {
     @NotEmpty(message = "nao pode ficar vazio")
     @Schema(description = "Nome da PessoaEntity")
     private String nome;
-    @Past
     @NotNull
     @Schema(description = "data de nascimento da PessoaEntity")
     private String dataNascimento;
