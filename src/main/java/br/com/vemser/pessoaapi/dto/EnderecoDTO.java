@@ -11,7 +11,7 @@ import lombok.ToString;
 @NoArgsConstructor
 @ToString
 public class EnderecoDTO extends EnderecoCreateDTO {
-    @Schema(description = "id do Endereço da Pessoa")
+    @Schema(description = "id do Endereço da PessoaEntity")
     private Integer idEndereco;
 
 }

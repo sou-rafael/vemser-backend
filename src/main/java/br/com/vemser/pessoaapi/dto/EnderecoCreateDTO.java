@@ -1,6 +1,6 @@
 package br.com.vemser.pessoaapi.dto;
 
-import br.com.vemser.pessoaapi.entity.TipoEndereco;
+import br.com.vemser.pessoaapi.enums.TipoEndereco;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 import lombok.experimental.Accessors;
@@ -16,7 +16,7 @@ import javax.validation.constraints.Size;
 @ToString
 @Accessors(chain = true)
 public class EnderecoCreateDTO {
-    @Schema(description = "id da Pessoa que possui o Endereço")
+    @Schema(description = "id da PessoaEntity que possui o Endereço")
     private Integer idPessoa;
     @NotNull
     @Schema(description = "tipo do Endereço")

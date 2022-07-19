@@ -1,124 +1,74 @@
 package br.com.vemser.pessoaapi.service;
 
-import br.com.vemser.pessoaapi.dto.ContatoCreateDTO;
-import br.com.vemser.pessoaapi.dto.ContatoDTO;
+
 import br.com.vemser.pessoaapi.dto.PessoaCreateDTO;
 import br.com.vemser.pessoaapi.dto.PessoaDTO;
-import br.com.vemser.pessoaapi.entity.Contato;
-import br.com.vemser.pessoaapi.entity.Pessoa;
+import br.com.vemser.pessoaapi.entity.PessoaEntity;
 import br.com.vemser.pessoaapi.exceptions.RegraDeNegocioException;
-import br.com.vemser.pessoaapi.properties.PropertieReader;
 import br.com.vemser.pessoaapi.repository.PessoaRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mail.MailSender;
-import org.springframework.mail.SimpleMailMessage;
 import org.springframework.stereotype.Service;
 
-import javax.validation.Valid;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-@Slf4j
 public class PessoaService {
     @Autowired
     private PessoaRepository pessoaRepository;
-    private ObjectMapper objectMapper = new ObjectMapper();
+
     @Autowired
-    private MailSender mailSender;
-    private SimpleMailMessage templateMessage = new SimpleMailMessage();
-    @Autowired
-    public PropertieReader propertieReader;
-    @Autowired
-    public EmailService emailService;
+    private ObjectMapper objectMapper;
 
-    //    METODO DE VALIDAÇAO
-    public boolean pessoaExiste(Integer idPessoa) {
-        return pessoaRepository.listar().stream()
-                .anyMatch(pessoa -> pessoa.getIdPessoa().equals(idPessoa));
+    public PessoaDTO create(PessoaCreateDTO pessoaCreateDTO) throws RegraDeNegocioException {
+        PessoaEntity pessoaEntity = convertToPessoaEntity(pessoaCreateDTO);
+        return convertToPessoaDTO(pessoaRepository.save(pessoaEntity));
     }
 
-    //  METODOS DE CONVERSAO
-    public Pessoa convertToPessoa(PessoaCreateDTO pessoa) {
-        Pessoa convertido = objectMapper.convertValue(pessoa, Pessoa.class);
-        return convertido;
-    }
-
-    public PessoaDTO convertToPessoaDTO(Pessoa pessoa) {
-        PessoaDTO convertido = objectMapper.convertValue(pessoa, PessoaDTO.class);
-        return convertido;
-    }
-
-    public List<PessoaDTO> list() throws RegraDeNegocioException {
-//        log.info();
-
-        List<PessoaDTO> lista = pessoaRepository.listar()
-                .stream()
-                .map(pessoa -> convertToPessoaDTO(pessoa))
-                .collect(Collectors.toList());
-
-        return lista;
-    }
-
-    public List<PessoaDTO> listByName(String nome) throws RegraDeNegocioException {
-        List<Pessoa> listaPessoa = pessoaRepository.listar().stream()
-                .filter(pessoa -> pessoa.getNome().toUpperCase().contains(nome.toUpperCase()))
-                .collect(Collectors.toList());
-        List<PessoaDTO> listaPessoaDTO = listaPessoa.stream()
+    public List<PessoaDTO> list() {
+        return pessoaRepository.findAll().stream()
                 .map(this::convertToPessoaDTO)
                 .collect(Collectors.toList());
-
-        return listaPessoaDTO;
     }
 
-    private PessoaDTO getPessoa(Integer id) throws RegraDeNegocioException {
-        Pessoa pessoaRecuperada = pessoaRepository.listar().stream()
-                .filter(pessoa -> pessoa.getIdPessoa().equals(id))
-                .findFirst()
-                .orElseThrow(() -> new RegraDeNegocioException("Pessoa não econtrada"));
-
-        return convertToPessoaDTO(pessoaRecuperada);
+    public List<PessoaDTO> listByName(String nome) {
+        return pessoaRepository.findAll().stream()
+                .filter(p -> p.getNome().toUpperCase().contains(nome.toUpperCase()))
+                .map(this::convertToPessoaDTO)
+                .collect(Collectors.toList());
     }
 
-    public PessoaDTO create(PessoaCreateDTO pessoa) throws RegraDeNegocioException {
-        Pessoa pessoaCriar = convertToPessoa(pessoa);
-        Pessoa pessoaCriado = pessoaRepository.create(pessoaCriar);
-        PessoaDTO confirm = convertToPessoaDTO(pessoaCriado);
-//      ----------- ENVIAR EMAIL -----------------------
-        emailService.sendPessoaCriada(confirm);
-        return confirm;
+    public PessoaDTO update(Integer idPessoa, PessoaCreateDTO pessoaCreateDTO) throws RegraDeNegocioException {
+        PessoaEntity pessoaEntityRecuperada = buscarPessoaPorId(idPessoa);
+        pessoaEntityRecuperada.setNome(pessoaCreateDTO.getNome());
+        pessoaEntityRecuperada.setCpf(pessoaCreateDTO.getCpf());
+        pessoaEntityRecuperada.setEmail(pessoaCreateDTO.getEmail());
+        pessoaEntityRecuperada.setDataNascimento(pessoaCreateDTO.getDataNascimento());
+
+        return convertToPessoaDTO(pessoaRepository.save(pessoaEntityRecuperada));
     }
 
-    public PessoaDTO update(Integer id, PessoaCreateDTO pessoaAtualizar) throws RegraDeNegocioException {
-        Pessoa pessoaRecPESSOA = convertToPessoa(pessoaAtualizar);
-        pessoaRecPESSOA.setCpf(pessoaAtualizar.getCpf());
-        pessoaRecPESSOA.setNome(pessoaAtualizar.getNome());
-        pessoaRecPESSOA.setDataNascimento(pessoaAtualizar.getDataNascimento());
-        pessoaRecPESSOA.setEmail(pessoaAtualizar.getEmail());
-        pessoaRecPESSOA.setIdPessoa(id);
-        log.info("Service:dps de atualizada, pessoaRecPessoa = " + pessoaRecPESSOA);
+    public void delete(Integer idPessoa) throws RegraDeNegocioException {
+        PessoaEntity pessoaEntity = buscarPessoaPorId(idPessoa);
+        pessoaRepository.delete(pessoaEntity);
+    }
 
-        pessoaRepository.update(id, pessoaRecPESSOA);
 
-//        ----------- ENVIAR EMAIL -----------------------
-        PessoaDTO pessoaDTO = convertToPessoaDTO(pessoaRecPESSOA);
-        emailService.sendPessoaAlterada(pessoaDTO);
+    //    METODOS DE CONVERSAO
+    public PessoaEntity convertToPessoaEntity(PessoaCreateDTO pessoaCreateDTO) {
+        PessoaEntity pessoaEntity = objectMapper.convertValue(pessoaCreateDTO, PessoaEntity.class);
+        return pessoaEntity;
+    }
 
+    public PessoaDTO convertToPessoaDTO(PessoaEntity pessoaEntity) {
+        PessoaDTO pessoaDTO = objectMapper.convertValue(pessoaEntity, PessoaDTO.class);
         return pessoaDTO;
     }
 
-    public void delete(Integer id) throws RegraDeNegocioException {
-        if (pessoaExiste(id)) {
-            Pessoa pessoaApagar = pessoaRepository.listar().stream()
-                    .filter(pessoa -> pessoa.getIdPessoa().equals(id))
-                    .findFirst().get();
-            PessoaDTO pessoaApagarDTO = convertToPessoaDTO(pessoaApagar);
-            emailService.sendPessoaExcluida(pessoaApagarDTO);
-            pessoaRepository.delete(id);
-        } else {
-            throw new RegraDeNegocioException("A pessoa solicitada nao foi encontrada.");
-        }
+    //    METODO DE BUSCAR PELO ID
+    public PessoaEntity buscarPessoaPorId(Integer id) throws RegraDeNegocioException {
+        return pessoaRepository.findById(id)
+                .orElseThrow(() -> new RegraDeNegocioException("Pessoa nao encontrada."));
     }
 }

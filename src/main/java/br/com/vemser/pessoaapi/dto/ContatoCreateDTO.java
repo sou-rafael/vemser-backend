@@ -1,10 +1,8 @@
 package br.com.vemser.pessoaapi.dto;
 
-import br.com.vemser.pessoaapi.entity.Contato;
-import br.com.vemser.pessoaapi.entity.TipoContato;
+import br.com.vemser.pessoaapi.enums.TipoContato;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
-import lombok.experimental.Accessors;
 import org.jetbrains.annotations.NotNull;
 
 import javax.validation.constraints.NotEmpty;
@@ -15,17 +13,17 @@ import javax.validation.constraints.Size;
 @NoArgsConstructor
 @ToString
 public class ContatoCreateDTO {
-    @Schema(description = "id da Pessoa responsavel pelo Contato")
+    @Schema(description = "id da PessoaEntity responsavel pelo ContatoEntity")
     private Integer idPessoa;
     @NotNull
-    @Schema(description = "tipo do Contato")
+    @Schema(description = "tipo do ContatoEntity")
     private TipoContato tipoContato;
     @NotEmpty
     @Size(min = 1, max = 13)
-    @Schema(description = "numero do Contato")
+    @Schema(description = "numero do ContatoEntity")
     private String numero;
     @NotEmpty
-    @Schema(description = "descrição do Contato")
+    @Schema(description = "descrição do ContatoEntity")
     private String descricao;
 
 }

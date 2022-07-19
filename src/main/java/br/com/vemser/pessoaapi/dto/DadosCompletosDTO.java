@@ -1,8 +1,8 @@
 package br.com.vemser.pessoaapi.dto;
 
-import br.com.vemser.pessoaapi.entity.Sexo;
-import br.com.vemser.pessoaapi.entity.TipoContato;
-import br.com.vemser.pessoaapi.entity.TipoEndereco;
+import br.com.vemser.pessoaapi.enums.Sexo;
+import br.com.vemser.pessoaapi.enums.TipoContato;
+import br.com.vemser.pessoaapi.enums.TipoEndereco;
 import lombok.*;
 
 @Getter

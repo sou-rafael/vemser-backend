@@ -2,7 +2,6 @@ package br.com.vemser.pessoaapi.controller;
 
 import br.com.vemser.pessoaapi.dto.EnderecoCreateDTO;
 import br.com.vemser.pessoaapi.dto.EnderecoDTO;
-import br.com.vemser.pessoaapi.entity.Endereco;
 import br.com.vemser.pessoaapi.exceptions.RegraDeNegocioException;
 import br.com.vemser.pessoaapi.service.EnderecoService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -33,8 +32,8 @@ public class EnderecoController {
             }
     )
     @GetMapping
-    public List<EnderecoDTO> listar() {
-        return enderecoService.listar();
+    public List<EnderecoDTO> list() {
+        return enderecoService.list();
     }
 
     //*********************************************************************************************************************************
@@ -47,22 +46,22 @@ public class EnderecoController {
             }
     )
     @GetMapping("/{idEndereco}")
-    public List<EnderecoDTO> listarIdEndereco(@PathVariable("idEndereco") Integer idEndereco) throws RegraDeNegocioException {
-        return enderecoService.listarIdEndereco(idEndereco);
+    public List<EnderecoDTO> listIdEndereco(@PathVariable("idEndereco") Integer idEndereco) throws RegraDeNegocioException {
+        return enderecoService.listEnderecoPorId(idEndereco);
     }
 
-    @Operation(summary = "Listar os endereços filtrando por pessoa", description = "Lista todos os endereços cadastrados por pessoa informada.")
-    @ApiResponses(
-            value = {
-                    @ApiResponse(responseCode = "200", description = "Listagem com sucesso."),
-                    @ApiResponse(responseCode = "400", description = "Erro de Cliente, verificar os argumentos."),
-                    @ApiResponse(responseCode = "500", description = "Erro de Servidor, foi gerada uma Exception.")
-            }
-    )
-    @GetMapping("/{idPessoa}/pessoa")
-    public List<EnderecoDTO> listarEnderecoPorIdPessoa(@PathVariable("idPessoa") Integer idPessoa) throws RegraDeNegocioException {
-        return enderecoService.listarEnderecoPorIdPessoa(idPessoa);
-    }
+//    @Operation(summary = "Listar os endereços filtrando por pessoa", description = "Lista todos os endereços cadastrados por pessoa informada.")
+//    @ApiResponses(
+//            value = {
+//                    @ApiResponse(responseCode = "200", description = "Listagem com sucesso."),
+//                    @ApiResponse(responseCode = "400", description = "Erro de Cliente, verificar os argumentos."),
+//                    @ApiResponse(responseCode = "500", description = "Erro de Servidor, foi gerada uma Exception.")
+//            }
+//    )
+//    @GetMapping("/{idPessoa}/pessoa")
+//    public List<EnderecoDTO> listEnderecoPorIdPessoa(@PathVariable("idPessoa") Integer idPessoa) throws RegraDeNegocioException {
+//        return enderecoService.listEnderecoPorIdPessoa(idPessoa);
+//    }
 
     //*********************************************************************************************************************************
     @Operation(summary = "Criar um novo endereço e envia um email de confirmação", description = "Cria um novo endereço, atribui a uma pessoa especificada e envia um email de confirmação.")
@@ -75,7 +74,7 @@ public class EnderecoController {
     )
     @PostMapping("/{idPessoa}")
     public EnderecoDTO criar(@Valid @PathVariable("idPessoa") Integer idPessoa, @Valid @RequestBody EnderecoCreateDTO endereco) throws RegraDeNegocioException {
-        return enderecoService.criar(idPessoa, endereco);
+        return enderecoService.create(idPessoa, endereco);
     }
 
     //*********************************************************************************************************************************
@@ -89,7 +88,7 @@ public class EnderecoController {
     )
     @PutMapping("/{idEndereco}")
     public EnderecoDTO editar(@PathVariable("idEndereco") Integer idEndereco, @Valid @RequestBody EnderecoCreateDTO enderecoNovo) throws RegraDeNegocioException {
-        return enderecoService.editar(idEndereco, enderecoNovo);
+        return enderecoService.update(idEndereco, enderecoNovo);
     }
 
     //*********************************************************************************************************************************
@@ -103,6 +102,6 @@ public class EnderecoController {
     )
     @DeleteMapping("/{idEndereco}")
     public void apagar(@PathVariable("idEndereco") Integer idEndereco) throws RegraDeNegocioException {
-        enderecoService.apagar(idEndereco);
+        enderecoService.delete(idEndereco);
     }
 }

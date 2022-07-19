@@ -1,6 +1,6 @@
 package br.com.vemser.pessoaapi.dto;
 
-import br.com.vemser.pessoaapi.entity.Sexo;
+import br.com.vemser.pessoaapi.enums.Sexo;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 

@@ -2,7 +2,6 @@ package br.com.vemser.pessoaapi.controller;
 
 import br.com.vemser.pessoaapi.dto.PessoaCreateDTO;
 import br.com.vemser.pessoaapi.dto.PessoaDTO;
-import br.com.vemser.pessoaapi.entity.Pessoa;
 import br.com.vemser.pessoaapi.exceptions.RegraDeNegocioException;
 import br.com.vemser.pessoaapi.properties.PropertieReader;
 import br.com.vemser.pessoaapi.service.PessoaService;
@@ -11,7 +10,6 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,27 +26,7 @@ public class PessoaController {
     @Autowired
     private PessoaService pessoaService;
 
-//    ******************** exemplos da aula *********************************************
- /*
-    @GetMapping("/hello") // localhost:8080/pessoa/hello
-    public String hello() {
-        return "Hello World!";
-    }
 
-    @GetMapping("/hello2")
-    public String hello2() {
-        return "Hello World 2!";
-    }
-
-    @GetMapping("/checkEmail")
-    public String checkEmail() { return propertieReader.getEmail(); }
-
-    @GetMapping("/{ambiente}")
-    public String getAmbiente() {
-        return propertieReader.getAmbiente();
-    }
-    */
-//  **************************************************************************************
     @Operation(summary = "Listar pessoa", description = "Lista todas as pessoas")
     @ApiResponses(
             value = {
@@ -69,7 +47,7 @@ public class PessoaController {
             }
     )
     @GetMapping("/byname") // localhost:8080/pessoa/byname?nome=Rafa
-    public List<PessoaDTO> listByName(@RequestParam("nome") String nome) throws RegraDeNegocioException {
+    public List<PessoaDTO> listByName(@RequestParam("nome")String nome) throws RegraDeNegocioException {
         return pessoaService.listByName(nome);
     }
     //*********************************************************************************************************************************
@@ -90,7 +68,7 @@ public class PessoaController {
     @Operation(summary = "Cria uma nova pessoa e envia um email de confirmação", description = "Insere uma nova pessoa e envia um email de confirmação")
     @ApiResponses(
             value = {
-                    @ApiResponse(responseCode = "200", description = "Pessoa criada com sucesso."),
+                    @ApiResponse(responseCode = "200", description = "PessoaEntity criada com sucesso."),
                     @ApiResponse(responseCode = "400", description = "Erro de Cliente, verificar os argumentos."),
                     @ApiResponse(responseCode = "500", description = "Erro de Servidor, foi gerada uma Exception."),
             }
@@ -103,7 +81,7 @@ public class PessoaController {
     @Operation(summary = "Apagar uma pessoa e envia um email de confirmação", description = "Apaga uma pessoa especificada por id e envia um email de confirmação")
     @ApiResponses(
             value = {
-                    @ApiResponse(responseCode = "200", description = "Pessoa apagada com sucesso."),
+                    @ApiResponse(responseCode = "200", description = "PessoaEntity apagada com sucesso."),
                     @ApiResponse(responseCode = "500", description = "Erro de Servidor, foi gerada uma Exception."),
             }
     )

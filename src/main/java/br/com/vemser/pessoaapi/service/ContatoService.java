@@ -2,14 +2,10 @@ package br.com.vemser.pessoaapi.service;
 
 import br.com.vemser.pessoaapi.dto.ContatoCreateDTO;
 import br.com.vemser.pessoaapi.dto.ContatoDTO;
-import br.com.vemser.pessoaapi.entity.Contato;
-import br.com.vemser.pessoaapi.entity.Pessoa;
-import br.com.vemser.pessoaapi.exceptions.ObjNulo;
+import br.com.vemser.pessoaapi.entity.ContatoEntity;
 import br.com.vemser.pessoaapi.exceptions.RegraDeNegocioException;
 import br.com.vemser.pessoaapi.repository.ContatoRepository;
-import br.com.vemser.pessoaapi.repository.PessoaRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,98 +13,85 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-@Slf4j
 public class ContatoService {
     @Autowired
     private ContatoRepository contatoRepository;
 
     @Autowired
-    private PessoaRepository pessoaRepository;
+    private ObjectMapper objectMapper;
 
-    private ObjectMapper objectMapper = new ObjectMapper();
-
-    //    METODOS DE VALIDAÇÃO
-    public boolean contatoExiste(Integer idContato) {
-        return contatoRepository.listar().stream()
-                .anyMatch(contato -> contato.getIdContato().equals(idContato));
+    public ContatoDTO create(Integer idPessoa, ContatoCreateDTO contatoCreateDTO) throws RegraDeNegocioException {
+        ContatoEntity contatoEntity = convertToContatoEntity(contatoCreateDTO);
+        return convertToContatoDTO(contatoRepository.save(contatoEntity));
     }
 
-    public boolean pessoaExiste(Integer idPessoa) {
-        return pessoaRepository.listar().stream()
-                .anyMatch(pessoa -> pessoa.getIdPessoa().equals(idPessoa));
-    } // TODO verificar na repo da pessoa -- FEITO!
-
-    //    MÉTODOS DE CONVERSAO
-    public Contato convertToContato(ContatoCreateDTO contato) {
-        Contato contatoConvertido = objectMapper.convertValue(contato, Contato.class);
-        return contatoConvertido;
-    }
-
-    public ContatoDTO convertToContatoDTO(Contato contato) {
-        ContatoDTO contatoConvertido = objectMapper.convertValue(contato, ContatoDTO.class);
-        return contatoConvertido;
+    public List<ContatoDTO> list() {
+        return contatoRepository.findAll().stream()
+                .map(this::convertToContatoDTO)
+                .collect(Collectors.toList());
     }
 
 
-    public List<ContatoDTO> listar() throws RegraDeNegocioException {
+    public List<ContatoDTO> listContatoPorId(Integer idCont) throws RegraDeNegocioException {
+        return contatoRepository.findAll().stream()
+                .filter(e -> e.getIdContato().equals(idCont))
+                .map(this::convertToContatoDTO)
+                .collect(Collectors.toList());
+    }
 
-        List<ContatoDTO> lista = contatoRepository.listar()
-                .stream().map(this::convertToContatoDTO)
+    //TODO verificar se esta funcionando
+    public List<ContatoDTO> listContatoPorIdPessoa(Integer idPessoa) throws RegraDeNegocioException {
+        List<ContatoDTO> lista = contatoRepository.findAll().stream()
+                .filter(contatoEntity -> contatoEntity.getIdPessoa().equals(idPessoa))
+                .map(this::convertToContatoDTO)
                 .collect(Collectors.toList());
 
         return lista;
     }
 
-    public List<ContatoDTO> listarIdPessoa(Integer idPessoa) throws RegraDeNegocioException {
-        if (pessoaExiste(idPessoa)) {
-            return this.listar().stream()
-                    .filter(contatoDTO -> contatoDTO.getIdPessoa().equals(idPessoa))
-                    .collect(Collectors.toList());
-        } else throw new RegraDeNegocioException("Pessoa solicitada nao existe");
+    public ContatoDTO update(Integer idContato, ContatoCreateDTO contatoCreateDTO) throws RegraDeNegocioException {
+        try {
+            ContatoEntity contatoEntityRecuperada = buscarContatoPorId(idContato);
+            if (contatoCreateDTO.getIdPessoa() != null)
+                contatoEntityRecuperada.setIdPessoa(contatoCreateDTO.getIdPessoa());
+            if (contatoCreateDTO.getTipoContato() != null)
+                contatoEntityRecuperada.setTipoContato(contatoCreateDTO.getTipoContato());
+            if (contatoCreateDTO.getNumero() != null)
+                contatoEntityRecuperada.setNumero(contatoCreateDTO.getNumero());
+            if (contatoCreateDTO.getDescricao() != null)
+                contatoEntityRecuperada.setDescricao(contatoCreateDTO.getDescricao());
+
+            return convertToContatoDTO(contatoRepository.save(contatoEntityRecuperada));
+        } catch (RegraDeNegocioException r) {
+            throw new RegraDeNegocioException("Contato invalido");
+        }
+
     }
 
-
-    public ContatoDTO criar(Integer idPessoa, ContatoCreateDTO contato) throws RegraDeNegocioException {
-        if (pessoaExiste(idPessoa)) {
-
-            Contato contatoCriar = convertToContato(contato);
-
-            Contato contatoCriado = contatoRepository.criar(idPessoa, contatoCriar);
-            ContatoDTO confirm = convertToContatoDTO(contatoCriado);
-            return confirm;
-        } else {
-            throw new RegraDeNegocioException("Pessoa solicitada nao existe");
+    public void delete(Integer idContato) throws RegraDeNegocioException {
+        try {
+            ContatoEntity contatoEntity = buscarContatoPorId(idContato);
+            contatoRepository.delete(contatoEntity);
+        } catch (RegraDeNegocioException re) {
+            throw new RegraDeNegocioException("Contato invalido");
         }
     }
 
-    public ContatoDTO editar(Integer idContato, ContatoCreateDTO contatoNovo) throws RegraDeNegocioException {
 
-        if (contatoExiste(idContato) && pessoaExiste(contatoNovo.getIdPessoa())) {
-
-            Contato contatoAtual = new Contato();
-            contatoAtual = convertToContato(contatoNovo);
-            log.info("ContatoAtual antes de receber os sets = " + contatoAtual);
-
-            contatoAtual.setIdContato(idContato);
-
-            ContatoDTO contatoAtualDTO = new ContatoDTO();
-            contatoAtualDTO = convertToContatoDTO(contatoAtual);
-
-            return contatoAtualDTO;
-
-        } else {
-            throw new RegraDeNegocioException("Pessoa ou contato inexistentes");
-        }
+    //    METODOS DE CONVERSAO
+    public ContatoEntity convertToContatoEntity(ContatoCreateDTO contatoCreateDTO) {
+        ContatoEntity contatoEntity = objectMapper.convertValue(contatoCreateDTO, ContatoEntity.class);
+        return contatoEntity;
     }
 
-    public void apagar(Integer idContato) throws RegraDeNegocioException {
+    public ContatoDTO convertToContatoDTO(ContatoEntity contatoEntity) {
+        ContatoDTO contatoDTO = objectMapper.convertValue(contatoEntity, ContatoDTO.class);
+        return contatoDTO;
+    }
 
-        if (contatoExiste(idContato)) {
-            log.info("Passou pelo if");
-            contatoRepository.apagar(idContato);
-            log.info("Foi ao repository e voltou");
-        } else {
-            throw new RegraDeNegocioException("O contato solicitado nao foi encontrado.");
-        }
+    //    METODO DE BUSCAR PELO ID
+    public ContatoEntity buscarContatoPorId(Integer id) throws RegraDeNegocioException {
+        return contatoRepository.findById(id)
+                .orElseThrow(() -> new RegraDeNegocioException("Contato nao encontrado."));
     }
 }

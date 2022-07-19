@@ -2,13 +2,11 @@ package br.com.vemser.pessoaapi.service;
 
 import br.com.vemser.pessoaapi.dto.EnderecoDTO;
 import br.com.vemser.pessoaapi.dto.PessoaDTO;
-import br.com.vemser.pessoaapi.entity.MessageType;
-import br.com.vemser.pessoaapi.entity.Pessoa;
-import br.com.vemser.pessoaapi.repository.PessoaRepository;
+import br.com.vemser.pessoaapi.enums.MessageType;
+import br.com.vemser.pessoaapi.entity.PessoaEntity;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
 import lombok.RequiredArgsConstructor;
-import lombok.experimental.Accessors;
 import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,16 +32,16 @@ public class EmailService {
     @Autowired
     private JavaMailSender emailSender;
     @Autowired
-    private PessoaRepository pessoaRepository;
+    private PessoaService pessoaService;
 
     private final freemarker.template.Configuration fmConfiguration;
 
     @NotNull
-    private Pessoa encontrarPessoaPeloEndereco(EnderecoDTO endereco) {
-        Pessoa pessoa = pessoaRepository.listar().stream()
-                .filter(pp -> pp.getIdPessoa().equals(endereco.getIdPessoa()))
-                .findFirst().get();
-        return pessoa;
+    private PessoaEntity encontrarPessoaPeloEndereco(EnderecoDTO endereco) {
+        PessoaEntity pessoaEntity = pessoaService.convertToPessoaEntity(pessoaService.list().stream()
+                .filter(p -> p.equals(endereco.getIdPessoa()))
+                .findFirst().get());
+        return pessoaEntity;
     }
 
     public void sendPessoaCriada(PessoaDTO pessoa) {
@@ -100,7 +98,7 @@ public class EmailService {
 /*
     public void sendEnderecoCriado(EnderecoDTO endereco) {
         SimpleMailMessage mensagem = new SimpleMailMessage();
-        Pessoa pessoa = encontrarPessoaPeloEndereco(endereco);
+        PessoaEntity pessoa = encontrarPessoaPeloEndereco(endereco);
 
         mensagem.setFrom(meuEmail);
         mensagem.setTo(pessoa.getEmail());
@@ -118,7 +116,7 @@ public class EmailService {
 
 //    public String templateEnderecoCriado(EnderecoDTO enderecoDTO) throws IOException, TemplateException {
 //        Map<String, Object> dados = new HashMap<>();
-//        dados.put("Endereco", enderecoDTO.toString());
+//        dados.put("EnderecoEntity", enderecoDTO.toString());
 //
 //        Template template = fmConfiguration.getTemplate("templateBasico.html");
 //        String html = FreeMarkerTemplateUtils.processTemplateIntoString(template, dados);
@@ -127,7 +125,7 @@ public class EmailService {
 
     public void sendEnderecoAlterado(EnderecoDTO endereco) {
         SimpleMailMessage mensagem = new SimpleMailMessage();
-        Pessoa pessoa = encontrarPessoaPeloEndereco(endereco);
+        PessoaEntity pessoa = encontrarPessoaPeloEndereco(endereco);
 
         mensagem.setFrom(meuEmail);
         mensagem.setTo(pessoa.getEmail());
@@ -145,7 +143,7 @@ public class EmailService {
 
     public void sendEnderecoDeletado(EnderecoDTO endereco) {
         SimpleMailMessage mensagem = new SimpleMailMessage();
-        Pessoa pessoa = encontrarPessoaPeloEndereco(endereco);
+        PessoaEntity pessoa = encontrarPessoaPeloEndereco(endereco);
 
         mensagem.setFrom(meuEmail);
         mensagem.setTo(pessoa.getEmail());
@@ -162,7 +160,7 @@ public class EmailService {
     }
 */
 
-//    ************************ RELATIVO AO ENVIO COM TEMPLATE ***********************
+    //    ************************ RELATIVO AO ENVIO COM TEMPLATE ***********************
     public void sendEmail(EnderecoDTO enderecoDTO, String tipoMensagem) {
         MimeMessage mimeMessage = emailSender.createMimeMessage();
         try {
@@ -170,22 +168,22 @@ public class EmailService {
             MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage, true);
 
             String emailTo = encontrarPessoaPeloEndereco(enderecoDTO).getEmail();
-            log.info("variavel emailTo = "+emailTo);
+            log.info("variavel emailTo = " + emailTo);
 
             mimeMessageHelper.setFrom(meuEmail);
             mimeMessageHelper.setTo(emailTo);
-            if(tipoMensagem.equals(MessageType.CREATE.getTipoDeMensagem())){
+            if (tipoMensagem.equals(MessageType.CREATE.getTipoDeMensagem())) {
 
                 mimeMessageHelper.setSubject("Cadastro realizado");
 
-            }else if (tipoMensagem.equals(MessageType.UPDATE.getTipoDeMensagem())){
+            } else if (tipoMensagem.equals(MessageType.UPDATE.getTipoDeMensagem())) {
 
                 mimeMessageHelper.setSubject("Cadastro atualizado");
 
-            }else{
+            } else {
                 mimeMessageHelper.setSubject("Cadastro deletado");
             }
-            mimeMessageHelper.setText(geContentFromTemplate(enderecoDTO,tipoMensagem), true);
+            mimeMessageHelper.setText(geContentFromTemplate(enderecoDTO, tipoMensagem), true);
 
             emailSender.send(mimeMessageHelper.getMimeMessage());
         } catch (MessagingException | IOException | TemplateException e) {
@@ -193,7 +191,7 @@ public class EmailService {
         }
 
     }
-//todo Ajustes nos templates
+
     public String geContentFromTemplate(EnderecoDTO enderecoDTO, String tipoMensagem) throws IOException, TemplateException {
         Map<String, Object> dados = new HashMap<>();
         String nome = encontrarPessoaPeloEndereco(enderecoDTO).getNome();
@@ -205,11 +203,11 @@ public class EmailService {
         dados.put("email", meuEmail);
 
         Template template;
-        if(tipoMensagem.equals(MessageType.CREATE.getTipoDeMensagem())){
+        if (tipoMensagem.equals(MessageType.CREATE.getTipoDeMensagem())) {
             template = fmConfiguration.getTemplate("email_create_endereco_template.ftl");
-        }else if (tipoMensagem.equals(MessageType.UPDATE.getTipoDeMensagem())){
+        } else if (tipoMensagem.equals(MessageType.UPDATE.getTipoDeMensagem())) {
             template = fmConfiguration.getTemplate("email_update_endereco_template.ftl");
-        }else{
+        } else {
             template = fmConfiguration.getTemplate("email_delete_endereco_template.ftl");
         }
 
