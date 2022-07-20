@@ -47,6 +47,7 @@ public class ContatoController {
     public List<ContatoDTO> listContatoPorIdPessoa(@PathVariable("idPessoa") Integer idPessoa) throws RegraDeNegocioException {
         return contatoService.listContatoPorIdPessoa(idPessoa);
     }
+
     //*********************************************************************************************************************************
     @Operation(summary = "Cria um contato para uma pessoa e envia um email de confirmação.", description = "Cria um novo contato, atribui a uma pessoa especificada e envia um email de confirmação.")
     @ApiResponses(
@@ -60,6 +61,7 @@ public class ContatoController {
     public ContatoDTO create(@PathVariable("idPessoa") Integer idPessoa, @Valid @RequestBody ContatoCreateDTO contato) throws RegraDeNegocioException {
         return contatoService.create(idPessoa, contato);
     }
+
     //*********************************************************************************************************************************
     @Operation(summary = "Atualiza um contato especifico e envia um email de confirmação.", description = "Atualiza um contato especificado pelo seu id e envia um email de confirmação.")
     @ApiResponses(
@@ -74,6 +76,7 @@ public class ContatoController {
 
         return contatoService.update(id, contatoNovo);
     }
+
     //*********************************************************************************************************************************
     @Operation(summary = "Apaga um contato especifico e envia um email de confirmação.", description = "Apaga um contato especificado pelo seu id e envia um email de confirmação.")
     @ApiResponses(

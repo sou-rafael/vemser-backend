@@ -71,4 +71,8 @@ public class PessoaService {
         return pessoaRepository.findById(id)
                 .orElseThrow(() -> new RegraDeNegocioException("Pessoa nao encontrada."));
     }
+    public PessoaDTO buscarPessoaDTOPorId(Integer id) throws RegraDeNegocioException {
+        return convertToPessoaDTO(pessoaRepository.findById(id)
+                .orElseThrow(() -> new RegraDeNegocioException("Pessoa nao encontrada.")));
+    }
 }

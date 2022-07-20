@@ -4,12 +4,18 @@ import br.com.vemser.pessoaapi.dto.PessoaCreateDTO;
 import br.com.vemser.pessoaapi.dto.PessoaDTO;
 import br.com.vemser.pessoaapi.exceptions.RegraDeNegocioException;
 import br.com.vemser.pessoaapi.properties.PropertieReader;
+import br.com.vemser.pessoaapi.repository.PessoaRepository;
+import br.com.vemser.pessoaapi.service.ContatoService;
+import br.com.vemser.pessoaapi.service.EnderecoService;
 import br.com.vemser.pessoaapi.service.PessoaService;
+import br.com.vemser.pessoaapi.service.PetService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,6 +31,13 @@ public class PessoaController {
     public PropertieReader propertieReader;
     @Autowired
     private PessoaService pessoaService;
+
+    @Autowired
+    private EnderecoService enderecoService;
+    @Autowired
+    private ContatoService contatoService;
+    @Autowired
+    private PetService petService;
 
 
     @Operation(summary = "Listar pessoa", description = "Lista todas as pessoas")
@@ -88,5 +101,33 @@ public class PessoaController {
     @DeleteMapping("/{idPessoa}")
     public void delete(@PathVariable("idPessoa") Integer id) throws RegraDeNegocioException {
         pessoaService.delete(id);
+    }
+
+    @GetMapping("/listar-com-enderecos")
+    public ResponseEntity listarComEnderecos(@RequestParam(required = false) Integer idPessoa) throws RegraDeNegocioException {
+        if (idPessoa == null) {
+            return new ResponseEntity(enderecoService.list(), HttpStatus.OK);
+        } else {
+            //todo
+            return new ResponseEntity(enderecoService.listEnderecoPorIdPessoa(idPessoa), HttpStatus.OK);
+        }
+    }
+    @GetMapping("/listar-com-contatos")
+    public ResponseEntity listarComContatos(@RequestParam(required = false) Integer idPessoa) throws RegraDeNegocioException {
+
+        if (idPessoa == null) {
+            return new ResponseEntity(contatoService.list(), HttpStatus.OK);
+        } else {
+            return new ResponseEntity(contatoService.listContatoPorIdPessoa(idPessoa), HttpStatus.OK);
+        }
+    }
+    @GetMapping("/listar-com-pets")
+    public ResponseEntity listarComPets(@RequestParam(required = false) Integer idPessoa) throws RegraDeNegocioException {
+
+        if (idPessoa == null) {
+            return new ResponseEntity(petService.list(), HttpStatus.OK);
+        } else {
+            return new ResponseEntity(petService.listPetPorIdPessoa(idPessoa), HttpStatus.OK);
+        }
     }
 }

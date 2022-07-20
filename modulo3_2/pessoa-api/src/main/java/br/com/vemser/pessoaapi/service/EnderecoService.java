@@ -31,6 +31,8 @@ public class EnderecoService {
     @Autowired
     private PessoaEnderecoService pessoaEnderecoService;
 
+
+
     @Autowired
     private ObjectMapper objectMapper;
 
@@ -60,7 +62,6 @@ public class EnderecoService {
                 .collect(Collectors.toList());
     }
 
-    //TODO verificar se esta funcionando
     public List<EnderecoDTO> listEnderecoPorIdPessoa(Integer idPessoa) throws RegraDeNegocioException {
         List<EnderecoDTO> lista = new ArrayList<>();
 

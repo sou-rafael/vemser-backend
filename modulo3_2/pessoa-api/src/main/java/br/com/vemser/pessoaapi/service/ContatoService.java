@@ -20,11 +20,6 @@ public class ContatoService {
     @Autowired
     private ObjectMapper objectMapper;
 
-    public ContatoDTO create(Integer idPessoa, ContatoCreateDTO contatoCreateDTO) throws RegraDeNegocioException {
-        ContatoEntity contatoEntity = convertToContatoEntity(contatoCreateDTO);
-        return convertToContatoDTO(contatoRepository.save(contatoEntity));
-    }
-
     public List<ContatoDTO> list() {
         return contatoRepository.findAll().stream()
                 .map(this::convertToContatoDTO)
@@ -39,14 +34,17 @@ public class ContatoService {
                 .collect(Collectors.toList());
     }
 
-    //TODO verificar se esta funcionando
     public List<ContatoDTO> listContatoPorIdPessoa(Integer idPessoa) throws RegraDeNegocioException {
         List<ContatoDTO> lista = contatoRepository.findAll().stream()
                 .filter(contatoEntity -> contatoEntity.getIdPessoa().equals(idPessoa))
                 .map(this::convertToContatoDTO)
                 .collect(Collectors.toList());
-
         return lista;
+    }
+
+    public ContatoDTO create(Integer idPessoa, ContatoCreateDTO contatoCreateDTO) throws RegraDeNegocioException {
+        ContatoEntity contatoEntity = convertToContatoEntity(contatoCreateDTO);
+        return convertToContatoDTO(contatoRepository.save(contatoEntity));
     }
 
     public ContatoDTO update(Integer idContato, ContatoCreateDTO contatoCreateDTO) throws RegraDeNegocioException {
@@ -76,7 +74,6 @@ public class ContatoService {
             throw new RegraDeNegocioException("Contato invalido");
         }
     }
-
 
     //    METODOS DE CONVERSAO
     public ContatoEntity convertToContatoEntity(ContatoCreateDTO contatoCreateDTO) {
