@@ -21,6 +21,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -31,6 +32,9 @@ public class EnderecoService {
     @Autowired
     private PessoaEnderecoService pessoaEnderecoService;
 
+    @Autowired
+    private PessoaService pessoaService;
+
 
 
     @Autowired
@@ -38,9 +42,16 @@ public class EnderecoService {
 
     public EnderecoDTO create(Integer idPessoa, EnderecoCreateDTO enderecoCreateDTO) throws RegraDeNegocioException {
         EnderecoEntity enderecoEntity = convertToEnderecoEntity(enderecoCreateDTO);
-        pessoaEnderecoService.associarEnderecoPessoa(idPessoa, enderecoEntity.getIdEndereco());
-        return convertToEnderecoDTO(enderecoRepository.save(enderecoEntity));
-    }   // envia idPessoa  e idEndereco p tabela PESSOA_X_PESSOA_ENDERECO
+        PessoaEntity pessoaEntityValida = pessoaService.buscarPessoaPorId(idPessoa);
+
+        enderecoEntity.setPessoasEnderecos(Set.of(pessoaEntityValida));
+        PessoaDTO pessoaValidaDTO = pessoaService.convertToPessoaDTO(pessoaEntityValida);
+
+        EnderecoEntity enderecoEntity1 = enderecoRepository.save(enderecoEntity);
+        EnderecoDTO enderecoCriadoDTO1 = convertToEnderecoDTO(enderecoEntity1);
+
+        return enderecoCriadoDTO1;
+    }
 
     public List<EnderecoDTO> list() {
         return enderecoRepository.findAll().stream()
@@ -73,7 +84,7 @@ public class EnderecoService {
         }
         return lista;
     }
-
+//TODO -- verificar este metodo
     public EnderecoDTO update(Integer idEndereco, EnderecoCreateDTO enderecoCreateDTO) throws RegraDeNegocioException {
         try {
             EnderecoEntity enderecoEntityRecuperada = buscarEnderecoPorId(idEndereco);
