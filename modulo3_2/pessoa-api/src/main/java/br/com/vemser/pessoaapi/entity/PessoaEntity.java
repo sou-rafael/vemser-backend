@@ -40,19 +40,19 @@ public class PessoaEntity {
             joinColumns = @JoinColumn(name = "ID_PESSOA"),
             inverseJoinColumns = @JoinColumn(name = "ID_ENDERECO")
     )
-    private Set<EnderecoEntity> enderecos;
+    private Set<EnderecoEntity> enderecosPessoa;
 
     @JsonIgnore
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ID_PET", referencedColumnName = "ID_PET")
-    private PetEntity pet;
+    private PetEntity petPessoa;
 
-//    @JsonIgnore
-//    @OneToMany(fetch = FetchType.LAZY,
-//            mappedBy = "PESSOA",
-//            cascade = CascadeType.ALL,
-//            orphanRemoval = true)
-//    private Set<ContatoEntity> contatos;
+
+    @JsonIgnore
+    @OneToMany(fetch = FetchType.LAZY,
+            mappedBy = "pessoa",
+            cascade = CascadeType.ALL)
+    private Set<ContatoEntity> contatosPessoa;
 
 }
 

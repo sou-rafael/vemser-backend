@@ -22,6 +22,9 @@ public class PetService {
     private PetRepository petRepository;
 
     @Autowired
+    private PessoaService pessoaService;
+
+    @Autowired
     private ObjectMapper objectMapper;
 
     public List<PetDTO> list() {
@@ -56,6 +59,7 @@ public class PetService {
 
     public PetDTO update(Integer idPet, PetCreateDTO petCreateDTO) throws RegraDeNegocioException {
         PetEntity petEntity = convertToPetEntity(petCreateDTO);
+
         petEntity.setIdPet(idPet);
 
         return convertToPetDTO(petRepository.save(petEntity));

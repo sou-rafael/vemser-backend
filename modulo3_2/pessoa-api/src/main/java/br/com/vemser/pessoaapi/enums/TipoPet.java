@@ -5,7 +5,7 @@ import java.util.Arrays;
 public enum TipoPet {
     CACHORRO(0),
     GATO(1),
-    CALOPSITA(2);
+    GUAXINIM(2);
 
     private Integer tipo;
 

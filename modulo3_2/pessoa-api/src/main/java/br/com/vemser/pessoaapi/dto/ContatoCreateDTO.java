@@ -8,10 +8,8 @@ import org.jetbrains.annotations.NotNull;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
-@ToString
 public class ContatoCreateDTO {
     @Schema(description = "id da PessoaEntity responsavel pelo ContatoEntity")
     private Integer idPessoa;

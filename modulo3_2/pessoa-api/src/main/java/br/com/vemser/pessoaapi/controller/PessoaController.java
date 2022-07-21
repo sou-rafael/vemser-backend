@@ -1,7 +1,9 @@
 package br.com.vemser.pessoaapi.controller;
 
+import br.com.vemser.pessoaapi.documentations.PessoaDocs;
 import br.com.vemser.pessoaapi.dto.PessoaCreateDTO;
 import br.com.vemser.pessoaapi.dto.PessoaDTO;
+import br.com.vemser.pessoaapi.entity.PessoaEntity;
 import br.com.vemser.pessoaapi.exceptions.RegraDeNegocioException;
 import br.com.vemser.pessoaapi.properties.PropertieReader;
 import br.com.vemser.pessoaapi.repository.PessoaRepository;
@@ -20,13 +22,14 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
 @RequestMapping("/pessoa") // localhost:8080/pessoa
 @Validated
 @Slf4j
-public class PessoaController {
+public class PessoaController implements PessoaDocs {
     @Autowired
     public PropertieReader propertieReader;
     @Autowired
@@ -40,94 +43,55 @@ public class PessoaController {
     private PetService petService;
 
 
-    @Operation(summary = "Listar pessoa", description = "Lista todas as pessoas")
-    @ApiResponses(
-            value = {
-                    @ApiResponse(responseCode = "200", description = "Retorna a lista de pessoas."),
-                    @ApiResponse(responseCode = "500", description = "Erro de Servidor, foi gerada uma Exception."),
-            }
-    )
     @GetMapping
     public List<PessoaDTO> list() throws RegraDeNegocioException {
         return pessoaService.list();
     }
 
-    @Operation(summary = "Listar pessoas por nome", description = "Lista pessoas por nome ou trechos de nome")
-    @ApiResponses(
-            value = {
-                    @ApiResponse(responseCode = "200", description = "Retorna as pessoas que possuem o nome ou trecho informado."),
-                    @ApiResponse(responseCode = "500", description = "Erro de Servidor, foi gerada uma Exception."),
-            }
-    )
     @GetMapping("/byname") // localhost:8080/pessoa/byname?nome=Rafa
-    public List<PessoaDTO> listByName(@RequestParam("nome")String nome) throws RegraDeNegocioException {
+    public List<PessoaDTO> listByName(@RequestParam("nome") String nome) throws RegraDeNegocioException {
         return pessoaService.listByName(nome);
     }
-    //*********************************************************************************************************************************
-    @Operation(summary = "Atualizar dados da pessoa e envia um email de confirmação", description = "Atualiza todos os dados da pessoa e envia um email de confirmação")
-    @ApiResponses(
-            value = {
-                    @ApiResponse(responseCode = "200", description = "Atualizado com sucesso."),
-                    @ApiResponse(responseCode = "400", description = "Erro de Cliente, verificar os argumentos."),
-                    @ApiResponse(responseCode = "500", description = "Erro de Servidor, foi gerada uma Exception."),
-            }
-    )
+
     @PutMapping("/{idPessoa}")
     public PessoaDTO update(@PathVariable("idPessoa") Integer id,
                             @Valid @RequestBody PessoaCreateDTO pessoaAtualizar) throws RegraDeNegocioException {
         return pessoaService.update(id, pessoaAtualizar);
     }
-    //*********************************************************************************************************************************
-    @Operation(summary = "Cria uma nova pessoa e envia um email de confirmação", description = "Insere uma nova pessoa e envia um email de confirmação")
-    @ApiResponses(
-            value = {
-                    @ApiResponse(responseCode = "200", description = "PessoaEntity criada com sucesso."),
-                    @ApiResponse(responseCode = "400", description = "Erro de Cliente, verificar os argumentos."),
-                    @ApiResponse(responseCode = "500", description = "Erro de Servidor, foi gerada uma Exception."),
-            }
-    )
-    @PostMapping
+
+    @PostMapping // obs.: como estou criando uma pessoa nova, nao preciso tratar
     public PessoaDTO create(@RequestBody PessoaCreateDTO pessoa) throws RegraDeNegocioException {
         return pessoaService.create(pessoa);
     }
-    //*********************************************************************************************************************************
-    @Operation(summary = "Apagar uma pessoa e envia um email de confirmação", description = "Apaga uma pessoa especificada por id e envia um email de confirmação")
-    @ApiResponses(
-            value = {
-                    @ApiResponse(responseCode = "200", description = "PessoaEntity apagada com sucesso."),
-                    @ApiResponse(responseCode = "500", description = "Erro de Servidor, foi gerada uma Exception."),
-            }
-    )
+
     @DeleteMapping("/{idPessoa}")
     public void delete(@PathVariable("idPessoa") Integer id) throws RegraDeNegocioException {
         pessoaService.delete(id);
     }
 
+    //TODO --verificação deve ser feita na somente service
+    //*******************************************
     @GetMapping("/listar-com-enderecos")
-    public ResponseEntity listarComEnderecos(@RequestParam(required = false) Integer idPessoa) throws RegraDeNegocioException {
-        if (idPessoa == null) {
-            return new ResponseEntity(enderecoService.list(), HttpStatus.OK);
-        } else {
-            //todo
-            return new ResponseEntity(enderecoService.listEnderecoPorIdPessoa(idPessoa), HttpStatus.OK);
-        }
+    public List<PessoaDTO> listarPessoaEEndereco(@RequestParam(required = false) Integer idPessoa) throws RegraDeNegocioException {
+            return pessoaService.listarComEnderecos(idPessoa);
     }
+
     @GetMapping("/listar-com-contatos")
-    public ResponseEntity listarComContatos(@RequestParam(required = false) Integer idPessoa) throws RegraDeNegocioException {
-
-        if (idPessoa == null) {
-            return new ResponseEntity(contatoService.list(), HttpStatus.OK);
-        } else {
-            return new ResponseEntity(contatoService.listContatoPorIdPessoa(idPessoa), HttpStatus.OK);
-        }
+    public List<PessoaDTO> listarComContatos(@RequestParam(required = false) Integer idPessoa) throws RegraDeNegocioException {
+            return pessoaService.listarComContatos(idPessoa);
     }
+
     @GetMapping("/listar-com-pets")
-    public ResponseEntity listarComPets(@RequestParam(required = false) Integer idPessoa) throws RegraDeNegocioException {
-
-        if (idPessoa == null) {
-            return new ResponseEntity(petService.list(), HttpStatus.OK);
-        } else {
-            return new ResponseEntity(petService.listPetPorIdPessoa(idPessoa), HttpStatus.OK);
-        }
+    public List<PessoaDTO> listarComPets(@RequestParam(required = false) Integer idPessoa) throws RegraDeNegocioException {
+            return pessoaService.listarComPets(idPessoa);
     }
+
+//    //    ******************EXERCICIO**************************
+//    @Autowired
+//    private PessoaRepository pessoaRepository;
+//
+//    @GetMapping("/pordataNascimento")
+//    public List<PessoaEntity> listarPorIntervDataNascimento(@RequestParam LocalDate dtIni, @RequestParam LocalDate dtFim) {
+//        return pessoaRepository.findAllByDataNascimentoBetween(dtIni, dtFim);
+//    }
 }

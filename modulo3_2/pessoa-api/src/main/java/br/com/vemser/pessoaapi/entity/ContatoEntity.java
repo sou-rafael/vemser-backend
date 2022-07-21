@@ -16,7 +16,7 @@ public class ContatoEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "CON_SEQ")
     @SequenceGenerator(name = "CON_SEQ", sequenceName = "SEQ_CONTATO", allocationSize = 1)
-    @Column(name = "ID_CONTATO", insertable = false, updatable = false)
+    @Column(name = "ID_CONTATO")
     private Integer idContato;
 
     @Column(name = "ID_PESSOA", insertable = false, updatable = false)
@@ -31,9 +31,9 @@ public class ContatoEntity {
     @Column(name = "DESCRICAO")
     private String descricao;
 
-//    @JsonIgnore
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "ID_PESSOA", referencedColumnName = "ID_PESSOA")
-//    private PessoaEntity pessoa;
+    @JsonIgnore
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "ID_PESSOA", referencedColumnName = "ID_PESSOA")
+    private PessoaEntity pessoa;
 
 }
