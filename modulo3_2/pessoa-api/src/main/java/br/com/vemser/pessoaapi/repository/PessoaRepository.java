@@ -1,8 +1,11 @@
 package br.com.vemser.pessoaapi.repository;
 
 import br.com.vemser.pessoaapi.dto.PessoaDTO;
+import br.com.vemser.pessoaapi.dto.RelatorioPersonalizadoDTO;
 import br.com.vemser.pessoaapi.entity.PessoaEntity;
 import br.com.vemser.pessoaapi.entity.ProfessorEntity;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -23,7 +26,7 @@ public interface PessoaRepository extends JpaRepository<PessoaEntity, Integer> {
     List<PessoaEntity> findAllByDataNascimentoBetween(LocalDate dtIni, LocalDate dtFin);
 
     //LISTAR PESSOA COMPLETA - HOMEWORK
-/*    @Query(value = " select new br.com.vemser.pessoaapi.dto.RelatorioPersonalizadoDTO(" +
+    @Query(value = " select new br.com.vemser.pessoaapi.dto.RelatorioPersonalizadoDTO(" +
             " p.idPessoa," +
             " p.nome," +
             " p.email," +
@@ -32,16 +35,15 @@ public interface PessoaRepository extends JpaRepository<PessoaEntity, Integer> {
             " e.cidade," +
             " e.estado," +
             " e.pais," +
-            " petz.nome" +
+            " petty.nome)" +
 
-            ")" +
             "  from PESSOA p " +
-            "  left join p.enderecos e " +
-            "  left join p.contatos c " +
-            "  left join p.pet petz " +
+            "  left join p.enderecosPessoa e " +
+            "  left join p.contatosPessoa c " +
+            "  left join p.petPessoa petty " +
 
             " where (:idPessoa is null OR p.idPessoa = :idPessoa )")
-    List<RelatorioPersonalizadoDTO> relatorioPersonalizadoDTO(@Param("idPessoa") Integer idPessoa);*/
+    Page<RelatorioPersonalizadoDTO> relatorioPersonalizadoDTO(@Param("idPessoa") Integer idPessoa, Pageable pageable);
 
 
 

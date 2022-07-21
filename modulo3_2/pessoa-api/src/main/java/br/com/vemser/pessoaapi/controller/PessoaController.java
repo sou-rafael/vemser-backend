@@ -3,6 +3,7 @@ package br.com.vemser.pessoaapi.controller;
 import br.com.vemser.pessoaapi.documentations.PessoaDocs;
 import br.com.vemser.pessoaapi.dto.PessoaCreateDTO;
 import br.com.vemser.pessoaapi.dto.PessoaDTO;
+import br.com.vemser.pessoaapi.dto.RelatorioPersonalizadoDTO;
 import br.com.vemser.pessoaapi.entity.PessoaEntity;
 import br.com.vemser.pessoaapi.exceptions.RegraDeNegocioException;
 import br.com.vemser.pessoaapi.properties.PropertieReader;
@@ -16,6 +17,8 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -85,6 +88,13 @@ public class PessoaController implements PessoaDocs {
     public List<PessoaDTO> listarComPets(@RequestParam(required = false) Integer idPessoa) throws RegraDeNegocioException {
             return pessoaService.listarComPets(idPessoa);
     }
+    //*******************************************
+    @GetMapping("/pessoa-completo")
+    public Page<RelatorioPersonalizadoDTO> listarPessoaCompleto(@RequestParam(required = false) Integer idPessoa, Pageable pageable){
+        return pessoaService.listarPessoaCompleto(idPessoa,pageable);
+    }
+
+
 
 //    //    ******************EXERCICIO**************************
 //    @Autowired

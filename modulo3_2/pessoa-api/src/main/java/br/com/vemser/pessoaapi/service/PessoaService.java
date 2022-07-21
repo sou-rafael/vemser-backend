@@ -10,6 +10,8 @@ import br.com.vemser.pessoaapi.exceptions.RegraDeNegocioException;
 import br.com.vemser.pessoaapi.repository.PessoaRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -21,9 +23,6 @@ import java.util.stream.Collectors;
 public class PessoaService {
     @Autowired
     private PessoaRepository pessoaRepository;
-
-    @Autowired
-    private EnderecoService enderecoService;
 
     @Autowired
     private ObjectMapper objectMapper;
@@ -103,6 +102,11 @@ public class PessoaService {
                     }).toList();
         }
     }
+//------ HOMEWORK AULA3 ------------------------------------------------------------------------------------------------------------------
+    public Page<RelatorioPersonalizadoDTO> listarPessoaCompleto(@RequestParam(required = false) Integer idPessoa, Pageable pageable){
+        return pessoaRepository.relatorioPersonalizadoDTO(idPessoa, pageable);
+    }
+
 
 //----------------------------------------------------------------------------------------------------------------------------------
 
