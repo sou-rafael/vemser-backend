@@ -4,6 +4,7 @@ import br.com.vemser.pessoaapi.dto.PetCreateDTO;
 import br.com.vemser.pessoaapi.dto.PetDTO;
 import br.com.vemser.pessoaapi.exceptions.RegraDeNegocioException;
 import br.com.vemser.pessoaapi.service.PetService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -13,6 +14,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/pet") // localhost:8080/pessoa
 @Validated
+@RequiredArgsConstructor
 public class PetController {
     @Autowired
     private PetService petService;
@@ -26,6 +28,7 @@ public class PetController {
         return petService.create(idPessoa, petCreateDTO);
     }
 
+    //TODO - verificar a questao de fazer trocar o pet de dono (apagando a ligação com o antigo para poder fazer a com novo)
     @PutMapping("/{idPet}")
     public PetDTO update(@PathVariable("idPet") Integer idPessoa, @RequestBody PetCreateDTO petCreateDTO) throws RegraDeNegocioException{
         return petService.update(idPessoa, petCreateDTO);

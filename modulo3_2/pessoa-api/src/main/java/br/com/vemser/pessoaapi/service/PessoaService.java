@@ -11,7 +11,9 @@ import br.com.vemser.pessoaapi.repository.PessoaRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -44,6 +46,7 @@ public class PessoaService {
                 .map(this::convertToPessoaDTO)
                 .collect(Collectors.toList());
     }
+
     //----------------------------------------------------------------------------------------------------------------------------------
     public List<PessoaDTO> listarComEnderecos(Integer idPessoa) throws RegraDeNegocioException {
         if (idPessoa != null) {
@@ -52,7 +55,7 @@ public class PessoaService {
                         PessoaDTO pessoaDTO = convertToPessoaDTO(pessoaEntity);
                         pessoaDTO.setEnderecosDTO(pessoaEntity.getEnderecosPessoa().stream().toList());
                         return pessoaDTO;
-                            })
+                    })
                     .toList();
         } else {
             return pessoaRepository.findAll().stream()
@@ -64,7 +67,7 @@ public class PessoaService {
         }
     }
 
-//todo
+    //todo
     public List<PessoaDTO> listarComContatos(Integer idPessoa) throws RegraDeNegocioException {
         if (idPessoa != null) {
             return pessoaRepository.findById(idPessoa).stream()
@@ -83,6 +86,7 @@ public class PessoaService {
                     }).toList();
         }
     }
+
     //todo
     public List<PessoaDTO> listarComPets(Integer idPessoa) throws RegraDeNegocioException {
         if (idPessoa != null) {
@@ -102,8 +106,10 @@ public class PessoaService {
                     }).toList();
         }
     }
-//------ HOMEWORK AULA3 ------------------------------------------------------------------------------------------------------------------
-    public Page<RelatorioPersonalizadoDTO> listarPessoaCompleto(@RequestParam(required = false) Integer idPessoa, Pageable pageable){
+
+    //------ HOMEWORK AULA3 ------------------------------------------------------------------------------------------------------------------
+    public Page<RelatorioPersonalizadoDTO> listarPessoaCompleto(@RequestParam(required = false) Integer idPessoa, Pageable pageable) {
+        pageable = PageRequest.of(0, 3, Sort.by("idPessoa"));
         return pessoaRepository.relatorioPersonalizadoDTO(idPessoa, pageable);
     }
 
@@ -155,6 +161,7 @@ public class PessoaService {
         return pessoaRepository.findById(id)
                 .orElseThrow(() -> new RegraDeNegocioException("Pessoa nao encontrada."));
     }
+
     public PessoaDTO buscarPessoaDTOPorId(Integer id) throws RegraDeNegocioException {
         return convertToPessoaDTO(pessoaRepository.findById(id)
                 .orElseThrow(() -> new RegraDeNegocioException("Pessoa nao encontrada.")));

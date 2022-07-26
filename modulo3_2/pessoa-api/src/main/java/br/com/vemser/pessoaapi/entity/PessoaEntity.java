@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.Set;
 
 @Getter
@@ -22,7 +23,7 @@ public class PessoaEntity {
     private String nome;
 
     @Column(name = "DATA_NASCIMENTO")
-    private String dataNascimento;
+    private LocalDate dataNascimento;
 
     @Column(name = "CPF")
     private String cpf;

@@ -36,7 +36,6 @@ public class EnderecoService {
     private PessoaService pessoaService;
 
 
-
     @Autowired
     private ObjectMapper objectMapper;
 
@@ -84,7 +83,8 @@ public class EnderecoService {
         }
         return lista;
     }
-//TODO -- verificar este metodo
+
+    //TODO -- verificar este metodo
     public EnderecoDTO update(Integer idEndereco, EnderecoCreateDTO enderecoCreateDTO) throws RegraDeNegocioException {
         try {
             EnderecoEntity enderecoEntityRecuperada = buscarEnderecoPorId(idEndereco);

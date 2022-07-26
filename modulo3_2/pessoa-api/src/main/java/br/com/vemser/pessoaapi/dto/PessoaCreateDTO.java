@@ -5,6 +5,7 @@ import lombok.*;
 import org.jetbrains.annotations.NotNull;
 
 import javax.validation.constraints.*;
+import java.time.LocalDate;
 
 @Data
 @NoArgsConstructor
@@ -16,7 +17,7 @@ public class PessoaCreateDTO {
 
     @NotNull
     @Schema(description = "data de nascimento da PessoaEntity")
-    private String dataNascimento;
+    private LocalDate dataNascimento;
 
     @Size(min = 11, max = 11)
     @Schema(description = "cpf da PessoaEntity")

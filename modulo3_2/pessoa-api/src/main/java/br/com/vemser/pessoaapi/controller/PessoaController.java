@@ -15,6 +15,7 @@ import br.com.vemser.pessoaapi.service.PetService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -31,7 +32,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/pessoa") // localhost:8080/pessoa
 @Validated
-@Slf4j
+@RequiredArgsConstructor
 public class PessoaController implements PessoaDocs {
     @Autowired
     public PropertieReader propertieReader;
@@ -91,17 +92,17 @@ public class PessoaController implements PessoaDocs {
     //*******************************************
     @GetMapping("/pessoa-completo")
     public Page<RelatorioPersonalizadoDTO> listarPessoaCompleto(@RequestParam(required = false) Integer idPessoa, Pageable pageable){
-        return pessoaService.listarPessoaCompleto(idPessoa,pageable);
+        return pessoaService.listarPessoaCompleto(idPessoa, pageable);
     }
 
 
 
-//    //    ******************EXERCICIO**************************
-//    @Autowired
-//    private PessoaRepository pessoaRepository;
-//
-//    @GetMapping("/pordataNascimento")
-//    public List<PessoaEntity> listarPorIntervDataNascimento(@RequestParam LocalDate dtIni, @RequestParam LocalDate dtFim) {
-//        return pessoaRepository.findAllByDataNascimentoBetween(dtIni, dtFim);
-//    }
+    //    ******************EXERCICIO**************************
+    @Autowired
+    private PessoaRepository pessoaRepository;
+
+    @GetMapping("/pordataNascimento")
+    public List<PessoaEntity> listarPorIntervDataNascimento(@RequestParam LocalDate dtIni, @RequestParam LocalDate dtFim) {
+        return pessoaRepository.findAllByDataNascimentoBetween(dtIni, dtFim);
+    }
 }
