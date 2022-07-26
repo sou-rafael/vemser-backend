@@ -1,6 +1,7 @@
 package br.com.vemser.pessoaapi.controller;
 
 import br.com.vemser.pessoaapi.documentations.PessoaDocs;
+import br.com.vemser.pessoaapi.dto.PessoaCompletoDTO;
 import br.com.vemser.pessoaapi.dto.PessoaCreateDTO;
 import br.com.vemser.pessoaapi.dto.PessoaDTO;
 import br.com.vemser.pessoaapi.dto.RelatorioPersonalizadoDTO;
@@ -73,7 +74,6 @@ public class PessoaController implements PessoaDocs {
         pessoaService.delete(id);
     }
 
-    //TODO --verificação deve ser feita na somente service
     //*******************************************
     @GetMapping("/listar-com-enderecos")
     public List<PessoaDTO> listarPessoaEEndereco(@RequestParam(required = false) Integer idPessoa) throws RegraDeNegocioException {
@@ -90,19 +90,18 @@ public class PessoaController implements PessoaDocs {
             return pessoaService.listarComPets(idPessoa);
     }
     //*******************************************
+    @GetMapping("/relatorio-pessoa")
+    public Page<RelatorioPersonalizadoDTO> listarRelatorioPessoa(@RequestParam(required = false) Integer idPessoa,
+                                                                 @RequestParam Integer pagina,
+                                                                 @RequestParam Integer quantRegistros){
+        return pessoaService.listarRelatorioPessoa(idPessoa,pagina,quantRegistros);
+    }
+
     @GetMapping("/pessoa-completo")
-    public Page<RelatorioPersonalizadoDTO> listarPessoaCompleto(@RequestParam(required = false) Integer idPessoa, Pageable pageable){
-        return pessoaService.listarPessoaCompleto(idPessoa, pageable);
+    public List<PessoaDTO> listarPessoaCompleto(@RequestParam(required = false) Integer idPessoa){
+        return pessoaService.listarPessoaCompleto(idPessoa);
     }
 
 
 
-    //    ******************EXERCICIO**************************
-    @Autowired
-    private PessoaRepository pessoaRepository;
-
-    @GetMapping("/pordataNascimento")
-    public List<PessoaEntity> listarPorIntervDataNascimento(@RequestParam LocalDate dtIni, @RequestParam LocalDate dtFim) {
-        return pessoaRepository.findAllByDataNascimentoBetween(dtIni, dtFim);
-    }
 }

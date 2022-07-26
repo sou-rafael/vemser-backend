@@ -5,7 +5,6 @@ import br.com.vemser.pessoaapi.dto.EnderecoDTO;
 import br.com.vemser.pessoaapi.dto.PessoaCreateDTO;
 import br.com.vemser.pessoaapi.dto.PessoaDTO;
 import br.com.vemser.pessoaapi.entity.EnderecoEntity;
-import br.com.vemser.pessoaapi.entity.PessoaEnderecoEntity;
 import br.com.vemser.pessoaapi.entity.PessoaEntity;
 import br.com.vemser.pessoaapi.enums.MessageType;
 import br.com.vemser.pessoaapi.exceptions.RegraDeNegocioException;
@@ -30,10 +29,7 @@ public class EnderecoService {
     private EnderecoRepository enderecoRepository;
 
     @Autowired
-    private PessoaEnderecoService pessoaEnderecoService;
-
-    @Autowired
-    private PessoaService pessoaService;
+    private PessoaRepository pessoaRepository;
 
 
     @Autowired
@@ -41,10 +37,9 @@ public class EnderecoService {
 
     public EnderecoDTO create(Integer idPessoa, EnderecoCreateDTO enderecoCreateDTO) throws RegraDeNegocioException {
         EnderecoEntity enderecoEntity = convertToEnderecoEntity(enderecoCreateDTO);
-        PessoaEntity pessoaEntityValida = pessoaService.buscarPessoaPorId(idPessoa);
+        PessoaEntity pessoaEntityValida = objectMapper.convertValue(pessoaRepository.findById(idPessoa), PessoaEntity.class);
 
         enderecoEntity.setPessoasEnderecos(Set.of(pessoaEntityValida));
-        PessoaDTO pessoaValidaDTO = pessoaService.convertToPessoaDTO(pessoaEntityValida);
 
         EnderecoEntity enderecoEntity1 = enderecoRepository.save(enderecoEntity);
         EnderecoDTO enderecoCriadoDTO1 = convertToEnderecoDTO(enderecoEntity1);
@@ -73,15 +68,11 @@ public class EnderecoService {
     }
 
     public List<EnderecoDTO> listEnderecoPorIdPessoa(Integer idPessoa) throws RegraDeNegocioException {
-        List<EnderecoDTO> lista = new ArrayList<>();
+        PessoaEntity pessoa = objectMapper.convertValue(pessoaRepository.findById(idPessoa), PessoaEntity.class);
 
-        List<PessoaEnderecoEntity> enderecos = pessoaEnderecoService.buscarEnderecoPorPessoa(idPessoa);
+        List<EnderecoDTO> enderecos = (List) pessoa.getEnderecosPessoa();
 
-        for (PessoaEnderecoEntity e : enderecos) {
-            lista.add((EnderecoDTO) enderecoRepository.findAll().stream()
-                    .filter(end -> end.getIdEndereco().equals(e.getIdEndereco())));
-        }
-        return lista;
+        return enderecos;
     }
 
     //TODO -- verificar este metodo

@@ -13,9 +13,9 @@ public class PessoaDTO extends PessoaCreateDTO {
     @Schema(description = "id da PessoaEntity")
     private Integer idPessoa;
 
-    private PetEntity petDTO;
+    private PetDTO petDTO;
 
-    private List<EnderecoEntity> enderecosDTO;
+    private List<EnderecoDTO> enderecosDTO;
 
-    private List<ContatoEntity> contatosDTO;
+    private List<ContatoDTO> contatosDTO;
 }

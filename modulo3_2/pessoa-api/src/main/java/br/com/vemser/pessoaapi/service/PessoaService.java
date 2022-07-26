@@ -9,6 +9,7 @@ import br.com.vemser.pessoaapi.entity.PetEntity;
 import br.com.vemser.pessoaapi.exceptions.RegraDeNegocioException;
 import br.com.vemser.pessoaapi.repository.PessoaRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -18,7 +19,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -52,64 +56,105 @@ public class PessoaService {
         if (idPessoa != null) {
             return pessoaRepository.findById(idPessoa).stream()
                     .map(pessoaEntity -> {
-                        PessoaDTO pessoaDTO = convertToPessoaDTO(pessoaEntity);
-                        pessoaDTO.setEnderecosDTO(pessoaEntity.getEnderecosPessoa().stream().toList());
-                        return pessoaDTO;
+                        return mapEnderecosPessoa(pessoaEntity);
                     })
                     .toList();
         } else {
             return pessoaRepository.findAll().stream()
                     .map(pessoaEntity -> {
-                        PessoaDTO pessoaDTO = convertToPessoaDTO(pessoaEntity);
-                        pessoaDTO.setEnderecosDTO(pessoaEntity.getEnderecosPessoa().stream().toList());
-                        return pessoaDTO;
+                        return mapEnderecosPessoa(pessoaEntity);
                     }).toList();
         }
     }
 
-    //todo
+    @NotNull
+    private PessoaDTO mapEnderecosPessoa(PessoaEntity pessoaEntity) {
+        PessoaDTO pessoaDTO = convertToPessoaDTO(pessoaEntity);
+        pessoaDTO.setEnderecosDTO(pessoaEntity.getEnderecosPessoa().stream()
+                .map(this::convertToEnderecoDTO)
+                .toList());
+        return pessoaDTO;
+    }
+
+    //    ===========================================================================================
     public List<PessoaDTO> listarComContatos(Integer idPessoa) throws RegraDeNegocioException {
         if (idPessoa != null) {
             return pessoaRepository.findById(idPessoa).stream()
                     .map(pessoaEntity -> {
-                        PessoaDTO pessoaDTO = convertToPessoaDTO(pessoaEntity);
-                        pessoaDTO.setContatosDTO(pessoaEntity.getContatosPessoa().stream().toList());
-                        return pessoaDTO;
+                        return mapContatosPessoa(pessoaEntity);
                     })
                     .toList();
         } else {
             return pessoaRepository.findAll().stream()
                     .map(pessoaEntity -> {
-                        PessoaDTO pessoaDTO = convertToPessoaDTO(pessoaEntity);
-                        pessoaDTO.setContatosDTO(pessoaEntity.getContatosPessoa().stream().toList());
-                        return pessoaDTO;
+                        return mapContatosPessoa(pessoaEntity);
                     }).toList();
         }
     }
 
-    //todo
+    @NotNull
+    private PessoaDTO mapContatosPessoa(PessoaEntity pessoaEntity) {
+        PessoaDTO pessoaDTO = convertToPessoaDTO(pessoaEntity);
+        pessoaDTO.setContatosDTO(pessoaEntity.getContatosPessoa().stream()
+                .map(this::convertToContatoDTO)
+                .toList());
+        return pessoaDTO;
+    }
+
+    //    ===========================================================================================
     public List<PessoaDTO> listarComPets(Integer idPessoa) throws RegraDeNegocioException {
         if (idPessoa != null) {
             return pessoaRepository.findById(idPessoa).stream()
-                    .map(pessoaEntity -> {
-                        PessoaDTO pessoaDTO = convertToPessoaDTO(pessoaEntity);
-                        pessoaDTO.setPetDTO(pessoaEntity.getPetPessoa());
-                        return pessoaDTO;
-                    })
+                    .map(this::mapPetPessoa)
                     .toList();
         } else {
             return pessoaRepository.findAll().stream()
-                    .map(pessoaEntity -> {
-                        PessoaDTO pessoaDTO = convertToPessoaDTO(pessoaEntity);
-                        pessoaDTO.setPetDTO(pessoaEntity.getPetPessoa());
-                        return pessoaDTO;
-                    }).toList();
+                    .map(this::mapPetPessoa)
+                    .toList();
         }
     }
 
+    public PessoaDTO mapPetPessoa(PessoaEntity pessoaEntity) {
+        PessoaDTO pessoaDTO = convertToPessoaDTO(pessoaEntity);
+        pessoaDTO.setPetDTO(convertToPetDTO(pessoaEntity.getPetPessoa()));
+        return pessoaDTO;
+    }
+
     //------ HOMEWORK AULA3 ------------------------------------------------------------------------------------------------------------------
-    public Page<RelatorioPersonalizadoDTO> listarPessoaCompleto(@RequestParam(required = false) Integer idPessoa, Pageable pageable) {
-        pageable = PageRequest.of(0, 3, Sort.by("idPessoa"));
+    //--------------- correção Pessoa Completo: generalizar mapeamento de entity para dto  ---------------------------------------------------
+
+    public List<PessoaDTO> listarPessoaCompleto(Integer idPessoa) {
+        if (idPessoa != null) {
+            return pessoaRepository.findById(idPessoa)
+                    .map(this::mapPessoaCompleta)
+                    .stream()
+                    .toList();
+        } else {
+            return pessoaRepository.findAll()
+                    .stream().map(this::mapPessoaCompleta)
+                    .toList();
+        }
+
+    }
+
+    public PessoaDTO mapPessoaCompleta(PessoaEntity pessoaEntity) {
+
+        PessoaDTO pessoaDTO = convertToPessoaDTO(pessoaEntity);
+
+        pessoaDTO.setEnderecosDTO(pessoaEntity.getEnderecosPessoa().stream()
+                .map(this::convertToEnderecoDTO)
+                .toList());
+        pessoaDTO.setContatosDTO(pessoaEntity.getContatosPessoa().stream()
+                .map(this::convertToContatoDTO).toList());
+        pessoaDTO.setPetDTO(convertToPetDTO(pessoaEntity.getPetPessoa()));
+        return pessoaDTO;
+    }
+    //----------------------------------------------------------------------------------------------------------------------------------
+
+    public Page<RelatorioPersonalizadoDTO> listarRelatorioPessoa(@RequestParam(required = false) Integer idPessoa,
+                                                                 @RequestParam Integer pagina,
+                                                                 @RequestParam Integer quantRegistros) {
+        Pageable pageable = PageRequest.of(pagina, quantRegistros, Sort.by("idPessoa"));
         return pessoaRepository.relatorioPersonalizadoDTO(idPessoa, pageable);
     }
 
@@ -117,21 +162,22 @@ public class PessoaService {
 //----------------------------------------------------------------------------------------------------------------------------------
 
     public PessoaDTO update(Integer idPessoa, PessoaCreateDTO pessoaCreateDTO) throws RegraDeNegocioException {
-        PessoaEntity pessoaEntityRecuperada = buscarPessoaPorId(idPessoa);
-        pessoaEntityRecuperada.setNome(pessoaCreateDTO.getNome());
-        pessoaEntityRecuperada.setCpf(pessoaCreateDTO.getCpf());
-        pessoaEntityRecuperada.setEmail(pessoaCreateDTO.getEmail());
-        pessoaEntityRecuperada.setDataNascimento(pessoaCreateDTO.getDataNascimento());
+        PessoaEntity pessoaEntity = convertOptionalToPessoaEntity(pessoaRepository.findById(idPessoa));
 
-        return convertToPessoaDTO(pessoaRepository.save(pessoaEntityRecuperada));
+        pessoaEntity.setNome(pessoaCreateDTO.getNome());
+        pessoaEntity.setCpf(pessoaCreateDTO.getCpf());
+        pessoaEntity.setEmail(pessoaCreateDTO.getEmail());
+        pessoaEntity.setDataNascimento(pessoaCreateDTO.getDataNascimento());
+
+        return convertToPessoaDTO(pessoaRepository.save(pessoaEntity));
     }
 
     public void delete(Integer idPessoa) throws RegraDeNegocioException {
-        PessoaEntity pessoaEntity = buscarPessoaPorId(idPessoa);
+        PessoaEntity pessoaEntity = convertOptionalToPessoaEntity(pessoaRepository.findById(idPessoa));
         pessoaRepository.delete(pessoaEntity);
     }
 
-
+    //    ===========================================================================================
     //    METODOS DE CONVERSAO
     public PessoaEntity convertToPessoaEntity(PessoaCreateDTO pessoaCreateDTO) {
         PessoaEntity pessoaEntity = objectMapper.convertValue(pessoaCreateDTO, PessoaEntity.class);
@@ -141,6 +187,10 @@ public class PessoaService {
     public PessoaDTO convertToPessoaDTO(PessoaEntity pessoaEntity) {
         PessoaDTO pessoaDTO = objectMapper.convertValue(pessoaEntity, PessoaDTO.class);
         return pessoaDTO;
+    }
+
+    public PessoaEntity convertOptionalToPessoaEntity(Optional optional) {
+        return objectMapper.convertValue(optional, PessoaEntity.class);
     }
 
     public ContatoDTO convertToContatoDTO(ContatoEntity contatoEntity) {
@@ -155,15 +205,4 @@ public class PessoaService {
         return objectMapper.convertValue(petEntity, PetDTO.class);
     }
 
-
-    //    METODO DE BUSCAR PELO ID
-    public PessoaEntity buscarPessoaPorId(Integer id) throws RegraDeNegocioException {
-        return pessoaRepository.findById(id)
-                .orElseThrow(() -> new RegraDeNegocioException("Pessoa nao encontrada."));
-    }
-
-    public PessoaDTO buscarPessoaDTOPorId(Integer id) throws RegraDeNegocioException {
-        return convertToPessoaDTO(pessoaRepository.findById(id)
-                .orElseThrow(() -> new RegraDeNegocioException("Pessoa nao encontrada.")));
-    }
 }
