@@ -19,8 +19,6 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class AuthenticationService implements UserDetailsService {
     private final UsuarioService usuarioService;
-    private final UsuarioRepository usuarioRepository;
-    private final ObjectMapper objectMapper;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -29,14 +27,5 @@ public class AuthenticationService implements UserDetailsService {
         return usuarioOptional.orElseThrow(() -> new UsernameNotFoundException("Usuario invalido"));
     }
 
-    public LoginDTO cadastrar(LoginDTO loginDTO) {
 
-        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
-
-        loginDTO.setSenha(bCryptPasswordEncoder.encode(loginDTO.getSenha())); // cria senha cripto e seta
-
-        UsuarioEntity usuarioEntity = objectMapper.convertValue(loginDTO, UsuarioEntity.class);
-
-        return objectMapper.convertValue(usuarioRepository.save(usuarioEntity), LoginDTO.class);
-    }
 }

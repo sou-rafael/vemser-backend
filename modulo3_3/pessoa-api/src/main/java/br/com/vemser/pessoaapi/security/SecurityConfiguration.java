@@ -29,7 +29,7 @@ public class SecurityConfiguration {
                 .cors().and()
                 .csrf().disable()
                 .authorizeHttpRequests((aut) ->
-                        aut.antMatchers("/", "/auth", "/auth/cadastrar").permitAll()
+                        aut.antMatchers("/", "/auth", "/auth/cadastrar", "/auth/recuperarLogin").permitAll()
                                 .anyRequest().authenticated());
 
         http.addFilterBefore(new TokenAuthenticationFilter(tokenService), UsernamePasswordAuthenticationFilter.class);
