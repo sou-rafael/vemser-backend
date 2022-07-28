@@ -28,7 +28,6 @@ public class PetController {
         return petService.create(idPessoa, petCreateDTO);
     }
 
-    //TODO - verificar a questao de fazer trocar o pet de dono (apagando a ligação com o antigo para poder fazer a com novo)
     @PutMapping("/{idPet}")
     public PetDTO update(@PathVariable("idPet") Integer idPessoa, @RequestBody PetCreateDTO petCreateDTO) throws RegraDeNegocioException{
         return petService.update(idPessoa, petCreateDTO);

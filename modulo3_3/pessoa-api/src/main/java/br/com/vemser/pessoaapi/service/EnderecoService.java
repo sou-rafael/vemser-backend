@@ -75,7 +75,6 @@ public class EnderecoService {
         return enderecos;
     }
 
-    //TODO -- verificar este metodo
     public EnderecoDTO update(Integer idEndereco, EnderecoCreateDTO enderecoCreateDTO) throws RegraDeNegocioException {
         try {
             EnderecoEntity enderecoEntityRecuperada = buscarEnderecoPorId(idEndereco);

@@ -5,7 +5,9 @@ import br.com.vemser.pessoaapi.entity.UsuarioEntity;
 import br.com.vemser.pessoaapi.exceptions.RegraDeNegocioException;
 import br.com.vemser.pessoaapi.security.TokenService;
 import br.com.vemser.pessoaapi.service.UsuarioService;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -20,13 +22,12 @@ import java.util.Optional;
 @Validated
 @RequiredArgsConstructor
 public class AuthController {
-    private final UsuarioService usuarioService;
-
+    @Autowired
+    private UsuarioService usuarioService;
     private final TokenService tokenService;
 
     @PostMapping
     public String auth(@RequestBody @Valid LoginDTO loginDTO) throws RegraDeNegocioException {
-        // FIXME adicionar mecanismo de autenticação para verificar se o usuário é válido e retornar o token
         Optional<UsuarioEntity> usuarioOptional = usuarioService.findByLoginAndSenha(loginDTO.getLogin(), loginDTO.getSenha());
         if(usuarioOptional.isPresent()){
             return tokenService.getToken(usuarioOptional.get());

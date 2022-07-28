@@ -16,5 +16,4 @@ public class UsuarioService {
     public Optional<UsuarioEntity> findByLoginAndSenha(String login, String senha) {
         return usuarioRepository.findByLoginAndSenha(login, senha);
     }
-    // FIXME construir métodoss necessários para o usuário
 }
