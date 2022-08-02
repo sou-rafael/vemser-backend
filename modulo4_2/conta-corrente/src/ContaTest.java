@@ -8,7 +8,7 @@ public class ContaTest {
         ContaCorrente contaCorrente = new ContaCorrente();
         contaCorrente.setSaldo(1000);
         contaCorrente.setChequeEspecial(1000);
-        Integer saque = 1500;
+        int saque = 1500;
 
         //act
         boolean conseguiuSacar = contaCorrente.sacar(saque);
@@ -24,7 +24,7 @@ public class ContaTest {
         ContaCorrente contaCorrente = new ContaCorrente();
         contaCorrente.setSaldo(1000);
         contaCorrente.setChequeEspecial(1000);
-        Integer saque = 2500;
+        int saque = 2500;
         //act
         boolean conseguiuSacar = contaCorrente.sacar(saque);
 
@@ -38,14 +38,16 @@ public class ContaTest {
         //variaveis
         ContaPoupanca contaPoupanca = new ContaPoupanca();
         contaPoupanca.setSaldo(1000);
-        Integer saque = 800;
+        contaPoupanca.creditarTaxa(); //taxa creditada
+
+        int saque = 800;
 
         //act
         boolean conseguiuSacar = contaPoupanca.sacar(saque);
 
         //asserts
         Assertions.assertTrue(conseguiuSacar);
-        Assertions.assertEquals(200, contaPoupanca.getSaldo());
+        Assertions.assertEquals(210, contaPoupanca.getSaldo());
     }
 
     @Test
@@ -53,14 +55,15 @@ public class ContaTest {
         //variaveis
         ContaPoupanca contaPoupanca = new ContaPoupanca();
         contaPoupanca.setSaldo(1000);
-        Integer saque = 1200;
+        contaPoupanca.creditarTaxa();
+        int saque = 1200;
 
         //act
         boolean conseguiuSacar = contaPoupanca.sacar(saque);
 
         //asserts
         Assertions.assertFalse(conseguiuSacar);
-        Assertions.assertEquals(1000, contaPoupanca.getSaldo());
+        Assertions.assertEquals(1010, contaPoupanca.getSaldo());
     }
 
     @Test
@@ -68,7 +71,7 @@ public class ContaTest {
         // variaveis
         ContaPagamento contaPagamento = new ContaPagamento();
         contaPagamento.setSaldo(1000.0);
-        Double saque = 500.0;
+        double saque = 500.0;
         //act
         boolean conseguiuSacar = contaPagamento.sacar(saque);
 
@@ -82,7 +85,7 @@ public class ContaTest {
         //variaveis
         ContaPagamento contaPagamento = new ContaPagamento();
         contaPagamento.setSaldo(1000);
-        Integer saque = 1000;
+        int saque = 1000;
 
         //act
         boolean conseguiuSacar = contaPagamento.sacar(saque);
@@ -107,7 +110,7 @@ public class ContaTest {
         contaCorrenteB.setSaldo(500.0);
         contaCorrenteB.setChequeEspecial(200.0);
 
-        Double transferencia = 500.0;
+        double transferencia = 500.0;
 
         //act
         boolean conseguiuTransferir = contaCorrenteA.transferir(contaCorrenteB, transferencia);
@@ -130,7 +133,7 @@ public class ContaTest {
         contaCorrenteB.setSaldo(800.0);
         contaCorrenteB.setChequeEspecial(200.0);
 
-        Double transferencia = 1100.0;
+        double transferencia = 1100.0;
 
         //act
         boolean conseguiuTransferir = contaCorrenteA.transferir(contaCorrenteB, transferencia);
@@ -147,7 +150,7 @@ public class ContaTest {
         ContaCorrente contaCorrenteA = new ContaCorrente();
         contaCorrenteA.setSaldo(500);
         contaCorrenteA.setChequeEspecial(200);
-        Integer deposito = 100;
+        int deposito = 100;
 
         //act
         boolean conseguiuTransferir = contaCorrenteA.depositar(deposito);
@@ -163,7 +166,7 @@ public class ContaTest {
         ContaCorrente contaCorrenteA = new ContaCorrente();
         contaCorrenteA.setSaldo(500);
         contaCorrenteA.setChequeEspecial(200);
-        Integer deposito = -100;
+        int deposito = -100;
 
         //act
         boolean conseguiuTransferir = contaCorrenteA.depositar(deposito);
@@ -185,7 +188,7 @@ public class ContaTest {
         contaPoupancaA.setSaldo(500.0);
         contaPoupancaB.setSaldo(500.0);
 
-        Double transferencia = 200.0;
+        double transferencia = 200.0;
 
         //act
         boolean conseguiuTransferir = contaPoupancaA.transferir(contaPoupancaB, transferencia);
@@ -206,7 +209,7 @@ public class ContaTest {
 
         contaPoupancaB.setSaldo(800.0);
 
-        Double transferencia = 1100.0;
+        double transferencia = 1100.0;
 
         //act
         boolean conseguiuTransferir = contaPoupancaA.transferir(contaPoupancaB, transferencia);
@@ -222,7 +225,7 @@ public class ContaTest {
         //variaveis
         ContaPoupanca contaPoupancaA = new ContaPoupanca();
         contaPoupancaA.setSaldo(500);
-        Integer deposito = 100;
+        int deposito = 100;
 
         //act
         boolean conseguiuTransferir = contaPoupancaA.depositar(deposito);
@@ -237,7 +240,7 @@ public class ContaTest {
         //variaveis
         ContaPoupanca contaPoupancaA = new ContaPoupanca();
         contaPoupancaA.setSaldo(500);
-        Integer deposito = -100;
+        int deposito = -100;
 
         //act
         boolean conseguiuTransferir = contaPoupancaA.depositar(deposito);
@@ -259,7 +262,7 @@ public class ContaTest {
         contaPagamentoA.setSaldo(500.0);
         contaPagamentoB.setSaldo(500.0);
 
-        Double transferencia = 200.0;
+        double transferencia = 200.0;
 
         //act
         boolean conseguiuTransferir = contaPagamentoA.transferir(contaPagamentoB, transferencia);
@@ -280,7 +283,7 @@ public class ContaTest {
 
         contaPagamentoB.setSaldo(800.0);
 
-        Double transferencia = 1100.0;
+        double transferencia = 1100.0;
 
         //act
         boolean conseguiuTransferir = contaPagamentoA.transferir(contaPagamentoB, transferencia);
@@ -296,7 +299,7 @@ public class ContaTest {
         //variaveis
         ContaPagamento contaPagamentoA = new ContaPagamento();
         contaPagamentoA.setSaldo(500);
-        Integer deposito = 100;
+        int deposito = 100;
 
         //act
         boolean conseguiuTransferir = contaPagamentoA.depositar(deposito);
@@ -311,7 +314,7 @@ public class ContaTest {
         //variaveis
         ContaPagamento contaPagamentoA = new ContaPagamento();
         contaPagamentoA.setSaldo(500);
-        Integer deposito = -100;
+        int deposito = -100;
 
         //act
         boolean conseguiuTransferir = contaPagamentoA.depositar(deposito);
