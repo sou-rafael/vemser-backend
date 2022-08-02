@@ -20,21 +20,22 @@ public class PetController {
     private PetService petService;
 
     @GetMapping
-    public List<PetDTO> list()throws RegraDeNegocioException{
+    public List<PetDTO> list() throws RegraDeNegocioException {
         return petService.list();
     }
+
     @PostMapping("/{idPessoa}")
-    public PetDTO create(@PathVariable("idPessoa") Integer idPessoa, @RequestBody PetCreateDTO petCreateDTO)throws RegraDeNegocioException{
+    public PetDTO create(@PathVariable("idPessoa") Integer idPessoa, @RequestBody PetCreateDTO petCreateDTO) throws RegraDeNegocioException {
         return petService.create(idPessoa, petCreateDTO);
     }
 
     @PutMapping("/{idPet}")
-    public PetDTO update(@PathVariable("idPet") Integer idPessoa, @RequestBody PetCreateDTO petCreateDTO) throws RegraDeNegocioException{
+    public PetDTO update(@PathVariable("idPet") Integer idPessoa, @RequestBody PetCreateDTO petCreateDTO) throws RegraDeNegocioException {
         return petService.update(idPessoa, petCreateDTO);
     }
 
     @DeleteMapping("/{idPet}")
-    public void delete(@PathVariable("idPet") Integer idPessoa)throws RegraDeNegocioException{
+    public void delete(@PathVariable("idPet") Integer idPessoa) throws RegraDeNegocioException {
         petService.delete(idPessoa);
     }
 

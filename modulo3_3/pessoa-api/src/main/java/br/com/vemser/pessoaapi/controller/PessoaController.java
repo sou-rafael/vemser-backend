@@ -1,33 +1,22 @@
 package br.com.vemser.pessoaapi.controller;
 
 import br.com.vemser.pessoaapi.documentations.PessoaDocs;
-import br.com.vemser.pessoaapi.dto.PessoaCompletoDTO;
 import br.com.vemser.pessoaapi.dto.PessoaCreateDTO;
 import br.com.vemser.pessoaapi.dto.PessoaDTO;
 import br.com.vemser.pessoaapi.dto.RelatorioPersonalizadoDTO;
-import br.com.vemser.pessoaapi.entity.PessoaEntity;
 import br.com.vemser.pessoaapi.exceptions.RegraDeNegocioException;
 import br.com.vemser.pessoaapi.properties.PropertieReader;
-import br.com.vemser.pessoaapi.repository.PessoaRepository;
 import br.com.vemser.pessoaapi.service.ContatoService;
 import br.com.vemser.pessoaapi.service.EnderecoService;
 import br.com.vemser.pessoaapi.service.PessoaService;
 import br.com.vemser.pessoaapi.service.PetService;
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -77,31 +66,31 @@ public class PessoaController implements PessoaDocs {
     //*******************************************
     @GetMapping("/listar-com-enderecos")
     public List<PessoaDTO> listarPessoaEEndereco(@RequestParam(required = false) Integer idPessoa) throws RegraDeNegocioException {
-            return pessoaService.listarComEnderecos(idPessoa);
+        return pessoaService.listarComEnderecos(idPessoa);
     }
 
     @GetMapping("/listar-com-contatos")
     public List<PessoaDTO> listarComContatos(@RequestParam(required = false) Integer idPessoa) throws RegraDeNegocioException {
-            return pessoaService.listarComContatos(idPessoa);
+        return pessoaService.listarComContatos(idPessoa);
     }
 
     @GetMapping("/listar-com-pets")
     public List<PessoaDTO> listarComPets(@RequestParam(required = false) Integer idPessoa) throws RegraDeNegocioException {
-            return pessoaService.listarComPets(idPessoa);
+        return pessoaService.listarComPets(idPessoa);
     }
+
     //*******************************************
     @GetMapping("/relatorio-pessoa")
     public Page<RelatorioPersonalizadoDTO> listarRelatorioPessoa(@RequestParam(required = false) Integer idPessoa,
                                                                  @RequestParam Integer pagina,
-                                                                 @RequestParam Integer quantRegistros){
-        return pessoaService.listarRelatorioPessoa(idPessoa,pagina,quantRegistros);
+                                                                 @RequestParam Integer quantRegistros) {
+        return pessoaService.listarRelatorioPessoa(idPessoa, pagina, quantRegistros);
     }
 
     @GetMapping("/pessoa-completo")
-    public List<PessoaDTO> listarPessoaCompleto(@RequestParam(required = false) Integer idPessoa){
+    public List<PessoaDTO> listarPessoaCompleto(@RequestParam(required = false) Integer idPessoa) {
         return pessoaService.listarPessoaCompleto(idPessoa);
     }
-
 
 
 }

@@ -11,7 +11,7 @@ public class CriadorDeSenha {
         // $2a$10$HnGGTMoLucvM7LeQKw9wSOtWelUKIqM9OVZXzWYjb4IrJE4F.2TWO
 //        =============================================
 
-        String senhaCript = "$2a$10$hFVjgQER7DkakTHpGLimdu.7uam7Coa0xOenT77Xx5nkMs4bKYA9C";
+        String senhaCript = "$2a$10$fP3fNbhDrkixHZHOqW4zKu9QdYiIWkhxH8NIXWcq7AQiUXAHivZEO";
         boolean matches = bCryptPasswordEncoder.matches("123", senhaCript);
         System.out.println(matches);
     }

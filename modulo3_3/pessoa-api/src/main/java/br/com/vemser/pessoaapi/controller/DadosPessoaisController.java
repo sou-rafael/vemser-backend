@@ -9,6 +9,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+
 @RestController
 @RequestMapping("/dados-pessoais")
 @Validated
@@ -16,6 +17,7 @@ import java.util.List;
 public class DadosPessoaisController implements DadosPessoaisClient {
     @Autowired
     private DadosPessoaisService dadosPessoaisService;
+
     @Override
     @GetMapping
     public List<DadosPessoaisDTO> getAll() {
@@ -30,7 +32,7 @@ public class DadosPessoaisController implements DadosPessoaisClient {
 
     @Override
     @PutMapping("/{cpf}")
-    public DadosPessoaisDTO put(@PathVariable("cpf") String cpf,@RequestBody DadosPessoaisDTO dadosPessoaisDTO) {
+    public DadosPessoaisDTO put(@PathVariable("cpf") String cpf, @RequestBody DadosPessoaisDTO dadosPessoaisDTO) {
         return dadosPessoaisService.put(cpf, dadosPessoaisDTO);
     }
 

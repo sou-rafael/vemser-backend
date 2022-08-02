@@ -10,10 +10,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Service;
 
-import java.util.Base64;
 import java.util.Collections;
 import java.util.Date;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor

@@ -1,13 +1,9 @@
 package br.com.vemser.pessoaapi.service;
 
-import br.com.vemser.pessoaapi.dto.ContatoCreateDTO;
-import br.com.vemser.pessoaapi.dto.ContatoDTO;
 import br.com.vemser.pessoaapi.dto.PetCreateDTO;
 import br.com.vemser.pessoaapi.dto.PetDTO;
-import br.com.vemser.pessoaapi.entity.ContatoEntity;
 import br.com.vemser.pessoaapi.entity.PetEntity;
 import br.com.vemser.pessoaapi.exceptions.RegraDeNegocioException;
-import br.com.vemser.pessoaapi.repository.ContatoRepository;
 import br.com.vemser.pessoaapi.repository.PetRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,21 +29,12 @@ public class PetService {
                 .collect(Collectors.toList());
     }
 
-    public List<PetDTO> listPetPorIdPessoa(Integer idPessoa){
+    public List<PetDTO> listPetPorIdPessoa(Integer idPessoa) {
         return petRepository.findAll().stream()
-                .filter(p->p.getIdPessoa().equals(idPessoa))
+                .filter(p -> p.getIdPessoa().equals(idPessoa))
                 .map(this::convertToPetDTO)
                 .collect(Collectors.toList());
     }
-
-
-//    public List<PetDTO> listPetPorIdPessoa(Integer idPessoa) throws RegraDeNegocioException {
-//        List<PetDTO> lista = petRepository.findAll().stream()
-//                .filter(petEntity -> petEntity.getIdPessoa().equals(idPessoa))
-//                .map(this::convertToPetDTO)
-//                .collect(Collectors.toList());
-//        return lista;
-//    }
 
     public PetDTO create(Integer idPessoa, PetCreateDTO petCreateDTO) throws RegraDeNegocioException {
         petCreateDTO.setIdPessoa(idPessoa);

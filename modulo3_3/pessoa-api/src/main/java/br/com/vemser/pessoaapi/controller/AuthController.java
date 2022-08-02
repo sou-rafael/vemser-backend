@@ -3,12 +3,9 @@ package br.com.vemser.pessoaapi.controller;
 import br.com.vemser.pessoaapi.dto.LoginDTO;
 import br.com.vemser.pessoaapi.entity.UsuarioEntity;
 import br.com.vemser.pessoaapi.exceptions.RegraDeNegocioException;
-import br.com.vemser.pessoaapi.security.AuthenticationService;
 import br.com.vemser.pessoaapi.security.TokenService;
 import br.com.vemser.pessoaapi.service.UsuarioService;
-import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -16,7 +13,6 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/auth")
@@ -45,8 +41,7 @@ public class AuthController {
 
     @PostMapping("/cadastrar")
     public String cadastrar(@RequestBody LoginDTO loginDTO) {
-        usuarioService.cadastrar(loginDTO);
-        return "Usuario Cadastrado com Sucesso!";
+        return usuarioService.cadastrar(loginDTO);
     }
 
     @GetMapping("/recuperarLogin")
