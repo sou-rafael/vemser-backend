@@ -21,7 +21,8 @@ db.postagem.insertMany(
             "foto":"http...",
             "curtidas":10,
             "data": new Date.now()
-        }])
+        }
+    ])
 
 db.postagem.find({})
 
@@ -30,3 +31,5 @@ db.postagem.find({}).pretty()
 db.postagem.find({
     "tipoPostagem":"PENSAMENTOS"
 }).pretty()
+
+db.postagem.find({}).pretty()

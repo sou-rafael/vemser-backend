@@ -32,6 +32,7 @@ public class q1 {
             System.out.println((cont+1)+" x R$ "+elem+" = R$ "+(elem*(cont+1)));
             cont++;
         }
+        System.out.println("--------------------------------------------------------------------------------");
 
     }
 }
