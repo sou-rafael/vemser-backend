@@ -1,4 +1,4 @@
-package com.kafka.produtorconsumidor.config;
+package com.dbc.chatkafka.config;
 
 import io.swagger.v3.oas.annotations.Hidden;
 import io.swagger.v3.oas.models.Components;
@@ -11,7 +11,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -29,8 +28,8 @@ public class OpenApiConfig {
     public OpenAPI springShopOpenAPI() {
         String securitySchemeName = "bearerAuth";
         return new OpenAPI()
-                .info(new Info().title("Produtor e Consumidor Kafka API")
-                        .description("Produtor e Consumidor Kafka documentação")
+                .info(new Info().title("CHAT - Produtor e Consumidor Kafka API")
+                        .description("CHAT com Kafka documentação")
                         .version("v1.0.0")
                         .license(new License().name("Apache 2.0").url("http://springdoc.org")))
                 .addSecurityItem(new SecurityRequirement().addList(securitySchemeName))
