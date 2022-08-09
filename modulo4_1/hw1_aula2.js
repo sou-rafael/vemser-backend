@@ -54,11 +54,62 @@ db.comentario.insertOne([
     }
 ])
 
+db.postagem.insertMany(
+    [
+        {
+            "idPostagem":1,
+            "idUsuario":2,
+            "tipoPostagem":"VAGAS",
+            "titulo":"Oportunidade de trabalho remoto",
+            "descricao":"Vaga em aberto para trabalhar remoto.",
+            "foto":"http...",
+            "curtidas":0,
+            "data": new Date.now()
+        },
+        {
+            "idPostagem":2,
+            "idUsuario":4,
+            "tipoPostagem":"PENSAMENTOS",
+            "titulo":"Pensamentos positivos",
+            "descricao":"Por vezes sentimos que aquilo que fazemos não é senão uma gota de água no mar. Mas o mar seria menor se lhe faltasse uma gota.",
+            "foto":"http...",
+            "curtidas":10,
+            "data": new Date.now()
+        }
+    ])
+
+db.postagem.insertOne(
+    {
+        "idPostagem":3,
+        "idUsuario":1,
+        "tipoPostagem":"PENSAMENTOS",
+        "titulo":"Continuação de pensamentos positivos",
+        "descricao":"Se a sua vida for a melhor coisa que já te aconteceu, acredite, você tem mais sorte do que pode imaginar.",
+        "foto":"http...",
+        "curtidas":150,
+        "data": new Date.now()
+    }
+)
+//FIND
+db.comentario.find({}).sort({curtidas:-1})
+
+db.postagem.find({
+tipoPostagem: "PENSAMENTOS",
+data:{$gte: new Date(2010,1,1)}
+})
+
+//UPDATE
 db.comentario.updateOne(
     { "descricao": { $regex: /demais/ } },
     { $set: { "descricao": "Absurdo!!" } }
 );
 
+db.postagem.updateMany(
+    { tipoPostagem: "PENSAMENTOS" },
+    { $set: { foto:"nenhuma foto"}}
+)
+
+//PROJECTION
 db.comentario.find({ idPostagem: 1 },
     {
         descricao: true,
@@ -76,7 +127,17 @@ db.comentario.find({
     }
 })
 
+//AGGREGATE
+db.postagem.aggregate([
+    {$group: {_id: "$tipoPostagem", countQuantity: {$count:{}}}}
+])
 
+db.postagem.aggregate([
+    {$match: {titulo: { $regex: /positivo/ }}},
+    {$group: {_id: "$tipoPostagem", countQuantity: {$count:{}}}}
+])
+
+//DELETE
 db.comentario.deleteOne(
     { "descricao": { $regex: /vou/ } },
 )
