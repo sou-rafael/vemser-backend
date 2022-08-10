@@ -2,6 +2,7 @@ package com.dbc.chatkafka.service;
 
 import com.dbc.chatkafka.dto.MensagemCreateDTO;
 import com.dbc.chatkafka.dto.MensagemDTO;
+import com.dbc.chatkafka.enums.TopicoUsuario;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
@@ -17,6 +18,7 @@ import org.springframework.util.concurrent.ListenableFuture;
 import org.springframework.util.concurrent.ListenableFutureCallback;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -46,7 +48,24 @@ public class ProdutorService {
         mensagemDTO.setDataCriacao(LocalDateTime.now());
         enviarMensagem(mensagemDTO, topicoRafael);
     }
-    //TODO - colocar os privados em um enum
+
+    public void enviarMensagemPrivadoEspecifico(MensagemCreateDTO mensagemCreateDTO, TopicoUsuario usuario) throws JsonProcessingException {
+        MensagemDTO mensagemDTO = objectMapper.convertValue(mensagemCreateDTO, MensagemDTO.class);
+        mensagemDTO.setUsuario("Rafael");
+        mensagemDTO.setDataCriacao(LocalDateTime.now());
+        enviarMensagem(mensagemDTO, usuario.getUsuario());
+    }
+
+    public void enviarMensagemPrivadoLista(MensagemCreateDTO mensagemCreateDTO, List<TopicoUsuario> listaEnumUsuario) throws JsonProcessingException {
+        MensagemDTO mensagemDTO = objectMapper.convertValue(mensagemCreateDTO, MensagemDTO.class);
+        mensagemDTO.setUsuario("Rafael");
+        mensagemDTO.setDataCriacao(LocalDateTime.now());
+        for (TopicoUsuario usuario:
+             listaEnumUsuario) {
+            enviarMensagem(mensagemDTO, usuario.getUsuario());
+        }
+
+    }
 
     private void enviarMensagem(MensagemDTO mensagemDTO, String topico) throws JsonProcessingException {
         String mensagemString = objectMapper.writeValueAsString(mensagemDTO);

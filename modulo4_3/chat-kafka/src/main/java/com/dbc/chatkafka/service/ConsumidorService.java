@@ -23,7 +23,7 @@ public class ConsumidorService {
 
 
     @KafkaListener(
-            topics = "${kafka.topic}", // meu-primeiro-topico
+            topics = "${kafka.topic}", // chat-geral
             groupId = "${kafka.group-id}", // rafael
             containerFactory = "listenerContainerFactory",
             clientIdPrefix = "geral")
@@ -38,7 +38,7 @@ public class ConsumidorService {
     }
 
     @KafkaListener(
-            topics = "${kafka.topic-rafael}", // sensor-veiculo-topico
+            topics = "${kafka.topic-rafael}", // chat-rafael
             groupId = "${kafka.group-id}",
             containerFactory = "listenerContainerFactory",
             clientIdPrefix = "rafael")

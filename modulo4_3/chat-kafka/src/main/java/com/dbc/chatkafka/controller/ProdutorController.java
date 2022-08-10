@@ -3,16 +3,16 @@ package com.dbc.chatkafka.controller;
 
 import com.dbc.chatkafka.dto.MensagemCreateDTO;
 import com.dbc.chatkafka.dto.MensagemDTO;
+import com.dbc.chatkafka.enums.TopicoUsuario;
 import com.dbc.chatkafka.service.ProdutorService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.net.http.HttpResponse;
+import java.util.List;
 
 @RestController
 @RequestMapping("/chat-kafka")
@@ -30,5 +30,14 @@ public class ProdutorController {
     public void enviarMensagemPrivado(MensagemCreateDTO mensagemCreateDTO) throws JsonProcessingException {
         produtorService.enviarMensagemPrivado(mensagemCreateDTO);
     }
-    //TODO - passar o enum como @RequestParam
+
+    @PostMapping("/enviar/{usuario}")
+    public void enviarMensagemEspecifico(@PathVariable("usuario") TopicoUsuario usuario, MensagemCreateDTO mensagemCreateDTO) throws JsonProcessingException {
+        produtorService.enviarMensagemPrivadoEspecifico(mensagemCreateDTO, usuario);
+    }
+
+    @PostMapping("/enviar-lista")
+    public void enviarMensagemPrivadoLista(MensagemCreateDTO mensagemCreateDTO, @RequestParam List<TopicoUsuario> listaEnumUsuarios) throws JsonProcessingException {
+        produtorService.enviarMensagemPrivadoLista(mensagemCreateDTO, listaEnumUsuarios);
+    }
 }
