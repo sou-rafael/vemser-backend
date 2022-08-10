@@ -28,8 +28,8 @@ public class OpenApiConfig {
     public OpenAPI springShopOpenAPI() {
         String securitySchemeName = "bearerAuth";
         return new OpenAPI()
-                .info(new Info().title("CHAT - Produtor e Consumidor Kafka API")
-                        .description("CHAT com Kafka documentação")
+                .info(new Info().title("VEM_SER 9 CHAT - Produtor e Consumidor Apache Kafka API")
+                        .description("Documentação do Serviço de Chat com Apache Kafka")
                         .version("v1.0.0")
                         .license(new License().name("Apache 2.0").url("http://springdoc.org")))
                 .addSecurityItem(new SecurityRequirement().addList(securitySchemeName))

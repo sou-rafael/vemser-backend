@@ -17,7 +17,7 @@ public class KafkaProducerConfig {
     private String server;
 
     @Bean
-    public KafkaTemplate<String, String> configKafka(){
+    public KafkaTemplate<String, String> configKafka() {
         Map<String, Object> configs = new HashMap<>();
         configs.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, server);
         configs.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class); // chave

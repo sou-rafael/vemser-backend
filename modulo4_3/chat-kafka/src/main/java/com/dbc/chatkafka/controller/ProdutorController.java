@@ -1,23 +1,20 @@
 package com.dbc.chatkafka.controller;
 
 
+import com.dbc.chatkafka.documentations.ProdutorDocs;
 import com.dbc.chatkafka.dto.MensagemCreateDTO;
-import com.dbc.chatkafka.dto.MensagemDTO;
 import com.dbc.chatkafka.enums.TopicoUsuario;
 import com.dbc.chatkafka.service.ProdutorService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.net.http.HttpResponse;
 import java.util.List;
 
 @RestController
 @RequestMapping("/chat-kafka")
 @RequiredArgsConstructor
-public class ProdutorController {
+public class ProdutorController implements ProdutorDocs {
 
     private final ProdutorService produtorService;
 

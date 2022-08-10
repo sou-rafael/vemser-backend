@@ -13,6 +13,8 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @Slf4j
@@ -21,6 +23,8 @@ public class ConsumidorService {
 
     private final ObjectMapper objectMapper;
 
+    public List<String> novidadesGeral = new ArrayList<>();
+    public List<String> novidadesRafael = new ArrayList<>();
 
     @KafkaListener(
             topics = "${kafka.topic}", // chat-geral
@@ -28,13 +32,16 @@ public class ConsumidorService {
             containerFactory = "listenerContainerFactory",
             clientIdPrefix = "geral")
     public void consumirChatGeral(@Payload String mensagem,
-                         @Header(KafkaHeaders.RECEIVED_MESSAGE_KEY) String key,
-                         @Header(KafkaHeaders.OFFSET) Long offset) throws JsonProcessingException {
+                                  @Header(KafkaHeaders.RECEIVED_MESSAGE_KEY) String key,
+                                  @Header(KafkaHeaders.OFFSET) Long offset) throws JsonProcessingException {
 
         MensagemDTO mensagemDTO = objectMapper.readValue(mensagem, MensagemDTO.class);
-//        log.info("####{consume} offset -> '{}' key -> '{}' -> Consumed Object message -> '{}'  ", offset, key, mensagemDTO);
 
-        System.out.println(formatarData(mensagemDTO.getDataCriacao())+" ["+mensagemDTO.getUsuario().toUpperCase()+"]: "+mensagemDTO.getMensagem());
+        String msgFormatada = formatarData(mensagemDTO.getDataCriacao()) + " [" + mensagemDTO.getUsuario().toUpperCase() + "]: " + mensagemDTO.getMensagem();
+
+        novidadesGeral.add(msgFormatada);
+
+        System.out.println(formatarData(mensagemDTO.getDataCriacao()) + " [" + mensagemDTO.getUsuario().toUpperCase() + "]: " + mensagemDTO.getMensagem());
     }
 
     @KafkaListener(
@@ -43,18 +50,21 @@ public class ConsumidorService {
             containerFactory = "listenerContainerFactory",
             clientIdPrefix = "rafael")
     public void consumirChatRafael(@Payload String mensagem,
-                              @Header(KafkaHeaders.RECEIVED_MESSAGE_KEY) String key,
-                              @Header(KafkaHeaders.OFFSET) Long offset) throws JsonProcessingException {
+                                   @Header(KafkaHeaders.RECEIVED_MESSAGE_KEY) String key,
+                                   @Header(KafkaHeaders.OFFSET) Long offset) throws JsonProcessingException {
 
         MensagemDTO mensagemDTO = objectMapper.readValue(mensagem, MensagemDTO.class);
-//        log.info("####{consume} offset -> '{}' key -> '{}' -> Consumed Object message -> '{}'  ", offset, key, mensagemDTO);
 
-        System.out.println(formatarData(mensagemDTO.getDataCriacao())+" ["+mensagemDTO.getUsuario().toUpperCase()+"]: "+mensagemDTO.getMensagem());
+        String msgFormatada = formatarData(mensagemDTO.getDataCriacao()) + " [" + mensagemDTO.getUsuario().toUpperCase() + "] (privada): " + mensagemDTO.getMensagem();
+
+        novidadesRafael.add(msgFormatada); //ponto de enviar p MongoDB
+
+        System.out.println(msgFormatada);
 
     }
 
-    private String formatarData(LocalDateTime data){
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+    private String formatarData(LocalDateTime data) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
         return data.format(formatter);
     }
 }

@@ -12,13 +12,14 @@ public enum TopicoUsuario {
     BRUNO("chat-bruno"),
     MATEUS_MACHADO("chat-machado"),
     WILLIAN("chat-willian"),
-    RODRIGO("chat-rodrigo")
-    ;
+    RODRIGO("chat-rodrigo");
 
     private String usuario;
+
     TopicoUsuario(String usuario) {
         this.usuario = usuario;
     }
+
     public String getUsuario() {
         return usuario;
     }

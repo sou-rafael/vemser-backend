@@ -39,7 +39,7 @@ public class ProdutorService {
         MensagemDTO mensagemDTO = objectMapper.convertValue(mensagemCreateDTO, MensagemDTO.class);
         mensagemDTO.setUsuario("Rafael");
         mensagemDTO.setDataCriacao(LocalDateTime.now());
-        enviarMensagem(mensagemDTO,topicoGeral);
+        enviarMensagem(mensagemDTO, topicoGeral);
     }
 
     public void enviarMensagemPrivado(MensagemCreateDTO mensagemCreateDTO) throws JsonProcessingException {
@@ -60,8 +60,8 @@ public class ProdutorService {
         MensagemDTO mensagemDTO = objectMapper.convertValue(mensagemCreateDTO, MensagemDTO.class);
         mensagemDTO.setUsuario("Rafael");
         mensagemDTO.setDataCriacao(LocalDateTime.now());
-        for (TopicoUsuario usuario:
-             listaEnumUsuario) {
+        for (TopicoUsuario usuario :
+                listaEnumUsuario) {
             enviarMensagem(mensagemDTO, usuario.getUsuario());
         }
 
