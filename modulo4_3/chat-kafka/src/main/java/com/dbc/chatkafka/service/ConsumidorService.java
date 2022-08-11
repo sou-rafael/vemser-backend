@@ -36,7 +36,7 @@ public class ConsumidorService {
 
         String msgFormatada = formatarData(mensagemDTO.getDataCriacao()) + " [" + mensagemDTO.getUsuario().toUpperCase() + "]: " + mensagemDTO.getMensagem();
 
-        System.out.println(formatarData(mensagemDTO.getDataCriacao()) + " [" + mensagemDTO.getUsuario().toUpperCase() + "]: " + mensagemDTO.getMensagem());
+        System.out.println(msgFormatada);
     }
 
     @KafkaListener(
