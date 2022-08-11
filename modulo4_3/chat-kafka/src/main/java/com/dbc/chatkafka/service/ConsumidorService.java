@@ -23,9 +23,6 @@ public class ConsumidorService {
 
     private final ObjectMapper objectMapper;
 
-    public List<String> novidadesGeral = new ArrayList<>();
-    public List<String> novidadesRafael = new ArrayList<>();
-
     @KafkaListener(
             topics = "${kafka.topic}", // chat-geral
             groupId = "${kafka.group-id}", // rafael
@@ -39,8 +36,6 @@ public class ConsumidorService {
 
         String msgFormatada = formatarData(mensagemDTO.getDataCriacao()) + " [" + mensagemDTO.getUsuario().toUpperCase() + "]: " + mensagemDTO.getMensagem();
 
-        novidadesGeral.add(msgFormatada);
-
         System.out.println(formatarData(mensagemDTO.getDataCriacao()) + " [" + mensagemDTO.getUsuario().toUpperCase() + "]: " + mensagemDTO.getMensagem());
     }
 
@@ -48,16 +43,14 @@ public class ConsumidorService {
             topics = "${kafka.topic-rafael}", // chat-rafael
             groupId = "${kafka.group-id}",
             containerFactory = "listenerContainerFactory",
-            clientIdPrefix = "rafael")
+            clientIdPrefix = "privado")
     public void consumirChatRafael(@Payload String mensagem,
                                    @Header(KafkaHeaders.RECEIVED_MESSAGE_KEY) String key,
                                    @Header(KafkaHeaders.OFFSET) Long offset) throws JsonProcessingException {
 
         MensagemDTO mensagemDTO = objectMapper.readValue(mensagem, MensagemDTO.class);
 
-        String msgFormatada = formatarData(mensagemDTO.getDataCriacao()) + " [" + mensagemDTO.getUsuario().toUpperCase() + "] (privada): " + mensagemDTO.getMensagem();
-
-        novidadesRafael.add(msgFormatada); //ponto de enviar p MongoDB
+        String msgFormatada = formatarData(mensagemDTO.getDataCriacao()) + " [" + mensagemDTO.getUsuario().toUpperCase() + "] (privado): " + mensagemDTO.getMensagem();
 
         System.out.println(msgFormatada);
 

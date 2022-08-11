@@ -32,33 +32,35 @@ public class ProdutorService {
     @Value("${kafka.topic}")
     private String topicoGeral;
 
+    @Value("${kafka.user}")
+    private String usuario;
     @Value("${kafka.topic-rafael}")
     private String topicoRafael;
 
     public void enviarMensagemGeral(MensagemCreateDTO mensagemCreateDTO) throws JsonProcessingException {
         MensagemDTO mensagemDTO = objectMapper.convertValue(mensagemCreateDTO, MensagemDTO.class);
-        mensagemDTO.setUsuario("Rafael");
+        mensagemDTO.setUsuario(usuario);
         mensagemDTO.setDataCriacao(LocalDateTime.now());
         enviarMensagem(mensagemDTO, topicoGeral);
     }
 
     public void enviarMensagemPrivado(MensagemCreateDTO mensagemCreateDTO) throws JsonProcessingException {
         MensagemDTO mensagemDTO = objectMapper.convertValue(mensagemCreateDTO, MensagemDTO.class);
-        mensagemDTO.setUsuario("Rafael");
+        mensagemDTO.setUsuario(usuario);
         mensagemDTO.setDataCriacao(LocalDateTime.now());
         enviarMensagem(mensagemDTO, topicoRafael);
     }
 
-    public void enviarMensagemPrivadoEspecifico(MensagemCreateDTO mensagemCreateDTO, TopicoUsuario usuario) throws JsonProcessingException {
+    public void enviarMensagemPrivadoEspecifico(MensagemCreateDTO mensagemCreateDTO, TopicoUsuario usuarioTopico) throws JsonProcessingException {
         MensagemDTO mensagemDTO = objectMapper.convertValue(mensagemCreateDTO, MensagemDTO.class);
-        mensagemDTO.setUsuario("Rafael");
+        mensagemDTO.setUsuario(usuario);
         mensagemDTO.setDataCriacao(LocalDateTime.now());
-        enviarMensagem(mensagemDTO, usuario.getUsuario());
+        enviarMensagem(mensagemDTO, usuarioTopico.getUsuario());
     }
 
     public void enviarMensagemPrivadoLista(MensagemCreateDTO mensagemCreateDTO, List<TopicoUsuario> listaEnumUsuario) throws JsonProcessingException {
         MensagemDTO mensagemDTO = objectMapper.convertValue(mensagemCreateDTO, MensagemDTO.class);
-        mensagemDTO.setUsuario("Rafael");
+        mensagemDTO.setUsuario(usuario);
         mensagemDTO.setDataCriacao(LocalDateTime.now());
         for (TopicoUsuario usuario :
                 listaEnumUsuario) {

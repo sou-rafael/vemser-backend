@@ -19,22 +19,22 @@ public class ProdutorController implements ProdutorDocs {
     private final ProdutorService produtorService;
 
     @PostMapping("/enviar-geral")
-    public void enviarMensagemGeral(MensagemCreateDTO mensagemCreateDTO) throws JsonProcessingException {
+    public void enviarMensagemGeral(@RequestBody MensagemCreateDTO mensagemCreateDTO) throws JsonProcessingException {
         produtorService.enviarMensagemGeral(mensagemCreateDTO);
     }
 
     @PostMapping("/enviar-rafael")
-    public void enviarMensagemPrivado(MensagemCreateDTO mensagemCreateDTO) throws JsonProcessingException {
+    public void enviarMensagemPrivado(@RequestBody MensagemCreateDTO mensagemCreateDTO) throws JsonProcessingException {
         produtorService.enviarMensagemPrivado(mensagemCreateDTO);
     }
 
     @PostMapping("/enviar/{usuario}")
-    public void enviarMensagemEspecifico(@PathVariable("usuario") TopicoUsuario usuario, MensagemCreateDTO mensagemCreateDTO) throws JsonProcessingException {
+    public void enviarMensagemEspecifico(@PathVariable("usuario") TopicoUsuario usuario, @RequestBody MensagemCreateDTO mensagemCreateDTO) throws JsonProcessingException {
         produtorService.enviarMensagemPrivadoEspecifico(mensagemCreateDTO, usuario);
     }
 
     @PostMapping("/enviar-lista")
-    public void enviarMensagemPrivadoLista(MensagemCreateDTO mensagemCreateDTO, @RequestParam List<TopicoUsuario> listaEnumUsuarios) throws JsonProcessingException {
+    public void enviarMensagemPrivadoLista(@RequestBody MensagemCreateDTO mensagemCreateDTO, @RequestParam List<TopicoUsuario> listaEnumUsuarios) throws JsonProcessingException {
         produtorService.enviarMensagemPrivadoLista(mensagemCreateDTO, listaEnumUsuarios);
     }
 }
