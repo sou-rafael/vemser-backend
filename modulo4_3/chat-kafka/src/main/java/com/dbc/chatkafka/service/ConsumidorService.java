@@ -36,7 +36,7 @@ public class ConsumidorService {
 
         String msgFormatada = formatarData(mensagemDTO.getDataCriacao()) + " [" + mensagemDTO.getUsuario().toUpperCase() + "]: " + mensagemDTO.getMensagem();
 
-        System.out.println(msgFormatada);
+        log.info(msgFormatada);
     }
 
     @KafkaListener(
@@ -52,8 +52,7 @@ public class ConsumidorService {
 
         String msgFormatada = formatarData(mensagemDTO.getDataCriacao()) + " [" + mensagemDTO.getUsuario().toUpperCase() + "] (privado): " + mensagemDTO.getMensagem();
 
-        System.out.println(msgFormatada);
-
+        log.info(msgFormatada);
     }
 
     private String formatarData(LocalDateTime data) {
